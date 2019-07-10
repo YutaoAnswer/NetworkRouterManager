@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lb_tv_white"
+    android:orientation="horizontal">
+
+    <!--实现背景用背景图片,最先呈现到用户面前，
+        之后logo和相应的登录按钮　浮现（渐现效果动画）　
+        作为launcher页和登录页的整体实现-->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/lb_grey">
+
+        <!--左边可以实现ｂanner效果，切换背景图片以展示效果-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="左边logo"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="右边登录－用户名"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:text="右边登录－密码"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
