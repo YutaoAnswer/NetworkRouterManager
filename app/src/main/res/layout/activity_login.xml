@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lb_tv_white"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
     <!--实现背景用背景图片,最先呈现到用户面前，
         之后logo和相应的登录按钮　浮现（渐现效果动画）　
@@ -29,24 +30,37 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/tv_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="右边登录－用户名"
-            android:textSize="30sp" />
+            android:text="登录"
+            android:textColor="@color/lb_playback_controls_background_light"
+            android:textSize="25sp" />
 
-        <TextView
+        <EditText
+            android:id="@+id/et_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/name"
+            android:layout_below="@id/tv_login"
             android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
-            android:text="右边登录－密码"
-            android:textSize="30sp" />
+            android:hint="手机/邮箱"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_name"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:text="密码"
+            android:textSize="25sp" />
 
     </RelativeLayout>
 
