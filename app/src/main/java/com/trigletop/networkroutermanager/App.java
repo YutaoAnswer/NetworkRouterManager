@@ -1,12 +1,10 @@
 package com.trigletop.networkroutermanager;
 
 import android.app.Application;
-
 import com.trigletop.networkroutermanager.Bean.Data;
-
 import sirouter.sdk.siflower.com.remotelibrary.SiWiFiManager;
 
-public class NetworkRouterApplication extends Application {
+public class App extends Application {
 
     @Override
     public void onCreate() {
@@ -15,9 +13,9 @@ public class NetworkRouterApplication extends Application {
     }
 
     /**
-     * 初始化矽昌Android 路由管理SDK
+     * 矽昌SDK 初始化
      */
-    private void initSiRouterSDK() {
-        SiWiFiManager.init(this, Data.appKey, Data.appSecret);
+    private void initSiRouterSDK(){
+        SiWiFiManager.init(this, Data.appKey,Data.appSecret);
     }
 }

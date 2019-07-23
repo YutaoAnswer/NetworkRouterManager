@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="tabLayout_router">0</integer>
+    <integer name="tabLayout_setting">1</integer>
+    <integer name="tabLayout_account">2</integer>
+</resources>

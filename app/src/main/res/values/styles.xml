@@ -3,4 +3,11 @@
 
     <style name="AppTheme" parent="@style/Theme.Leanback" />
 
+    <style name="changeBackgroundTheme" parent="android:Theme.Wallpaper.NoTitleBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+
+
 </resources>
