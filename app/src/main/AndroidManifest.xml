@@ -36,7 +36,6 @@
         </activity>
 
         <activity android:name=".view.activity.LoginActivity" />
-        <activity android:name=".view.DeviceDetailActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

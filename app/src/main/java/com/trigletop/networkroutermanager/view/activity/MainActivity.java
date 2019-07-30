@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -13,10 +12,9 @@ import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.utils.SiUtil;
-import com.trigletop.networkroutermanager.view.fragment.AccountFragment;
-import com.trigletop.networkroutermanager.view.fragment.RouterFragment;
-import com.trigletop.networkroutermanager.view.fragment.SettingFragment;
+import com.trigletop.networkroutermanager.view.fragment.main.AccountManagermentFragment;
+import com.trigletop.networkroutermanager.view.fragment.main.AdvancedSettingFragment;
+import com.trigletop.networkroutermanager.view.fragment.main.CommonSettingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WiFiInfo;
 import sirouter.sdk.siflower.com.remotelibrary.SFClass.Routers;
+import sirouter.sdk.siflower.com.remotelibrary.SFUser;
 
 /**
  * 主页
@@ -33,14 +32,12 @@ public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    //    @BindView(R.id.tv_recycler_view)
-//    TvRecyclerView mTvRecyclerView;
     @BindView(R.id.tabLayout)
     SegmentTabLayout mTabLayout;
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
-    @BindView(R.id.ll_content)
-    LinearLayout llContent;
+    @BindView(R.id.sidebar)
+    LinearLayout sidebar;
 
     private int mPosition;
     private static final int tabLayout_router = 0;
@@ -53,9 +50,11 @@ public class MainActivity extends Activity {
     private List<Fragment> fragmentList;
 
     private FragmentManager fragmentManager;
-    private RouterFragment routerFragment;
-    private SettingFragment settingFragment;
-    private AccountFragment accountFragment;
+    private CommonSettingFragment commonSettingFragment;
+    private AdvancedSettingFragment advancedSettingFragment;
+    private AccountManagermentFragment accountFragment;
+    private long exitTime;
+    private SFUser sfUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,30 +62,77 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
+        initData();
         initView();
     }
+
+    //todo 回退栈
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        if ((System.currentTimeMillis() - exitTime) > 2000) {
+//            Toast.makeText(MainActivity.this, R.string.msg_return, Toast.LENGTH_SHORT).show();
+//            // 计算两次返回键按下的时间差
+//            exitTime = System.currentTimeMillis();
+//        } else {
+//            // 关闭应用程序
+//            finish();
+//            // 返回桌面操作
+//            // Intent home = new Intent(Intent.ACTION_MAIN);
+//            // home.addCategory(Intent.CATEGORY_HOME);
+//            // startActivity(home);
+//        }
+//    }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+//            // 判断间隔时间 大于2秒就退出应用
+//            if ((System.currentTimeMillis() - exitTime) > 2000) {
+//                Toast.makeText(MainActivity.this, R.string.msg_return, Toast.LENGTH_SHORT).show();
+//                // 计算两次返回键按下的时间差
+//                exitTime = System.currentTimeMillis();
+//            } else {
+//                // 关闭应用程序
+//                finish();
+//                // 返回桌面操作
+//                // Intent home = new Intent(Intent.ACTION_MAIN);
+//                // home.addCategory(Intent.CATEGORY_HOME);
+//                // startActivity(home);
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     /**
      * 初始化
      */
     private void init() {
-        SiUtil siUtil = new SiUtil(MainActivity.this);
-        siUtil.login();
-        siUtil.bindRouter();
-        siUtil.getRouters();
-        siUtil.getWifiObserve();
 
-        routers = siUtil.getmRouters();//获取当前要显示信息的显示路由器
-        routersList = siUtil.getRoutersList();//获取绑定的路由器列表
+//        sfUser = siUtil.login();
+//        routers = sfUser.getBinder().get(0);
+//        List<RouterWifi> wifi = routers.getWifi();
+
+//        siUtil.bindRouter();
+//        siUtil.getRouters();
+//        siUtil.getWifiObserve();
+
+//        routers = siUtil.getmRouters();//获取当前要显示信息的显示路由器
+//        routersList = siUtil.getRoutersList();//获取绑定的路由器列表
 
         fragmentManager = getFragmentManager();
-        routerFragment = new RouterFragment();
-        settingFragment = new SettingFragment();
-        accountFragment = new AccountFragment();
+        commonSettingFragment = CommonSettingFragment.newInstance();
+        advancedSettingFragment = AdvancedSettingFragment.newInstance();
+        accountFragment = AccountManagermentFragment.newInstance();
         fragmentList = new ArrayList<>();
-        fragmentList.add(routerFragment);
-        fragmentList.add(settingFragment);
+        fragmentList.add(commonSettingFragment);
+        fragmentList.add(advancedSettingFragment);
         fragmentList.add(accountFragment);
+    }
+
+    private void initData() {
+
     }
 
     /**
@@ -106,17 +152,14 @@ public class MainActivity extends Activity {
             public void onTabSelect(int position) {
                 switch (position) {
                     case tabLayout_router:
-                        Log.d(TAG, "onTabSelect: " + position);
-                        switchFragment(fragmentList.get(mPosition), routerFragment);
+                        switchFragment(fragmentList.get(mPosition), commonSettingFragment);
                         mPosition = position;
                         break;
                     case tabLayout_setting:
-                        Log.d(TAG, "onTabSelect: " + position);
-                        switchFragment(fragmentList.get(mPosition), settingFragment);
+                        switchFragment(fragmentList.get(mPosition), advancedSettingFragment);
                         mPosition = position;
                         break;
                     case tabLayout_account:
-                        Log.d(TAG, "onTabSelect: " + position);
                         switchFragment(fragmentList.get(mPosition), accountFragment);
                         mPosition = position;
                         break;
@@ -132,6 +175,9 @@ public class MainActivity extends Activity {
         });
         mTabLayout.setCurrentTab(0);
     }
+
+    //todo 首页替换Fragment内容需要优化，已发现bug,router　Fragment 点进去后的详情页  初步判断和回退栈有关,和要实现的另一个功能onBackPress　onKeyDown这两个方法有关 回退栈
+    //todo 然后就是和顶部的切换会有冲突，需要优化
 
     /**
      * 切换Fragment

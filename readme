@@ -34,3 +34,58 @@ WAN口连接设置
 关闭WDS
 开启WDS
 获取访客网络信息
+
+
+Ｑ:GT-King连接宽带网后不能连接矽路由的WIFI
+
+2019-07-27 10:12:20.128 15081-15122/com.trigletop.networkroutermanager D/LocalApi: 发送 POST 请求出现异常！java.net.SocketTimeoutException: SSL handshake timed out
+2019-07-27 10:12:20.129 15081-15122/com.trigletop.networkroutermanager W/System.err: java.net.SocketTimeoutException: SSL handshake timed out
+2019-07-27 10:12:20.129 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.org.conscrypt.NativeCrypto.SSL_do_handshake(Native Method)
+2019-07-27 10:12:20.129 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.org.conscrypt.NativeSsl.doHandshake(NativeSsl.java:375)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(ConscryptFileDescriptorSocket.java:224)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.io.RealConnection.connectTls(RealConnection.java:192)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.io.RealConnection.connectSocket(RealConnection.java:149)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.io.RealConnection.connect(RealConnection.java:112)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.http.StreamAllocation.findConnection(StreamAllocation.java:184)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.http.StreamAllocation.findHealthyConnection(StreamAllocation.java:126)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.http.StreamAllocation.newStream(StreamAllocation.java:95)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.http.HttpEngine.connect(HttpEngine.java:281)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.http.HttpEngine.sendRequest(HttpEngine.java:224)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.huc.HttpURLConnectionImpl.execute(HttpURLConnectionImpl.java:461)
+2019-07-27 10:12:20.130 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.huc.HttpURLConnectionImpl.connect(HttpURLConnectionImpl.java:127)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.huc.HttpURLConnectionImpl.getOutputStream(HttpURLConnectionImpl.java:258)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.huc.DelegatingHttpsURLConnection.getOutputStream(DelegatingHttpsURLConnection.java:218)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at com.android.okhttp.internal.huc.HttpsURLConnectionImpl.getOutputStream(HttpsURLConnectionImpl.java:26)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi.a(SourceFile:327)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi.a(SourceFile:399)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi.a(SourceFile:60)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi$1.subscribe(SourceFile:553)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at io.reactivex.internal.operators.single.SingleCreate.subscribeActual(SingleCreate.java:39)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at io.reactivex.Single.subscribe(Single.java:3603)
+2019-07-27 10:12:20.131 15081-15122/com.trigletop.networkroutermanager W/System.err:     at io.reactivex.internal.operators.single.SingleSubscribeOn$SubscribeOnObserver.run(SingleSubscribeOn.java:89)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at io.reactivex.Scheduler$DisposeTask.run(Scheduler.java:578)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at io.reactivex.internal.schedulers.ScheduledRunnable.run(ScheduledRunnable.java:66)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at io.reactivex.internal.schedulers.ScheduledRunnable.call(ScheduledRunnable.java:57)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:301)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+2019-07-27 10:12:20.132 15081-15122/com.trigletop.networkroutermanager W/System.err:     at java.lang.Thread.run(Thread.java:764)
+2019-07-27 10:12:20.139 15081-15081/com.trigletop.networkroutermanager D/SiUtil: onError: 
+
+
+2019-07-27 11:40 握手成功,获取到了WIFI信息列表　
+
+2019-07-27 11.55 java.lang.IndexOutOfBoundsException: Index: 5, Size: 5 数组下标越界
+2019-07-27 12:30　已经解决,方块数多余WIFI数量,后续需要优化
+
+hdpi mdpi xhdpi xxhdpi　图片适配
+
+设备管理网速实时监控　todo
+
+bug SettingFragment切换其他Fragment没有隐藏选中的方块
+
+AppKey：
+c20ad4d76fe97759aa27a0c99bff6710
+AppSecret：
+864850023f299568b353d21e55c6c892

@@ -18,5 +18,14 @@
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>
     <string name="add_router">添加路由器</string>
+    <string name="icon">icon</string>
+
+    <string name="msg_return">再按一次返回键退出</string>
+
+    <string name="recommend">Recommend</string>
+    <string name="hot">Hot</string>
+    <string name="favorite">Favorite</string>
+
+    <string name="more">more</string>
 
 </resources>

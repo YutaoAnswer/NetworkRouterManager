@@ -12,4 +12,6 @@ public class WIFISettingFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
+
+
 }

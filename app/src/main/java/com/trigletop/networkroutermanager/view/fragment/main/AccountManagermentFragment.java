@@ -1,4 +1,4 @@
-package com.trigletop.networkroutermanager.view.fragment;
+package com.trigletop.networkroutermanager.view.fragment.main;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -22,11 +22,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class AccountFragment extends Fragment {
+public class AccountManagermentFragment extends Fragment {
+
+    private static final String TAG = AccountManagermentFragment.class.getSimpleName();
 
     @BindView(R.id.rcy_account)
     TvRecyclerView rcyAccount;
     Unbinder unbinder;
+
+    public static AccountManagermentFragment newInstance() {
+        AccountManagermentFragment accountFragment = new AccountManagermentFragment();
+        Bundle args = new Bundle();
+        accountFragment.setArguments(args);
+        return accountFragment;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,7 +50,7 @@ public class AccountFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_account, null);
+        View view = inflater.inflate(R.layout.fragment_account, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -82,7 +91,7 @@ public class AccountFragment extends Fragment {
 
         int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
         rcyAccount.addItemDecoration(new SpaceItemDecoration(itemSpace));
-        NormalAdapter mAdapter = new NormalAdapter(getActivity());
+        NormalAdapter mAdapter = new NormalAdapter(getActivity(), TAG);
         rcyAccount.setAdapter(mAdapter);
 
         rcyAccount.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {

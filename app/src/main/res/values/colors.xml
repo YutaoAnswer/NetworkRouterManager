@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="pink">#e91e63</color>
     <color name="teal">#009688</color>
     <color name="lime">#cddc39</color>
@@ -17,5 +18,8 @@
     <color name="fastlane_background">#0096a6</color>
     <color name="search_opaque">#ffaa3f</color>
     <color name="selected_background">#ffaa3f</color>
-    <color name="default_background">#3d3d3d</color>
+    <!--<color name="default_background">#3d3d3d</color>-->
+    <color name="default_background">#40FFFFFF</color>
+
+
 </resources>

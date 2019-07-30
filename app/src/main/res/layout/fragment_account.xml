@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@color/default_background"
     android:orientation="vertical">
-
 
     <app.com.tvrecyclerview.TvRecyclerView
         android:id="@+id/rcy_account"
