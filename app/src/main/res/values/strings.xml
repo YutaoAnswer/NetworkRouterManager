@@ -22,10 +22,87 @@
 
     <string name="msg_return">再按一次返回键退出</string>
 
-    <string name="recommend">Recommend</string>
-    <string name="hot">Hot</string>
-    <string name="favorite">Favorite</string>
+    <string name="connected">已连设备</string>
+    <string name="forbidden">已禁设备</string>
+
+    <string name="PPOE">宽带拨号上网</string>
+    <string name="static_ip">固定IP地址</string>
+    <string name="IP_address_auto">固定IP地址</string>
 
     <string name="more">more</string>
+
+    <string name="devices_managment">连接设备管理</string>
+    <string name="network_managment">上网管理</string>
+    <string name="wireless_setting">无线设置</string>
+
+    <string name="setup_wizard">设置向导</string>
+    <string name="exit_safe">安全退出</string>
+
+    <string name="network_param_wan">WAN口设置</string>
+    <string name="network_param_lan">LAN口设置</string>
+    <string name="network_param_mac">Mac地址</string>
+    <string name="network_param_dhcp">DHCP服务器</string>
+    <string name="network_param_bind">IP与MAC绑定设置</string>
+
+    <string name="wireless_setting_host">主人网络</string>
+    <string name="network_param_guest">访客网络</string>
+    <string name="network_param_wds">WDS</string>
+
+    <string name="advanced_account_virtual_server">虚拟服务器</string>
+    <string name="advanced_account_dmz">DMZ主机</string>
+    <string name="advanced_account_UPnP">UPnP设置</string>
+    <string name="advanced_account_router">路由功能</string>
+    <string name="advanced_account_ddns">DDNS</string>
+
+    <string name="advanced_account_time_language">时间和语言</string>
+    <string name="advanced_account_update">软件升级</string>
+    <string name="advanced_account_reset">恢复出厂设置</string>
+    <string name="advanced_account_backup">备份</string>
+    <string name="advanced_account_restart">重启路由器</string>
+    <string name="advanced_account_change">修改登录密码</string>
+    <string name="advanced_account_diagnostic">诊断工具</string>
+    <string name="advanced_account_syslog">系统日志</string>
+
+    <string name="wireless_name">无线名称</string>
+    <string name="wireless_psw">无线密码</string>
+    <string name="default_psw">12345678</string>
+
+    <string name="broadband_psw">宽带密码</string>
+    <string name="broadband_account">宽带账号</string>
+
+    <string name="ip_address">    IP 地址</string>
+    <string name="mac_address">    MAC 地址</string>
+    <string name="subnet_mask">    子网掩码</string>
+    <string name="gateway">       网关</string>
+    <string name="preferred_dns_server">首选DNS服务器</string>
+    <string name="spare_dns_server">备用DNS服务器</string>
+
+    <string name="data_pack_mtu_byte">数据包MTU字节</string>
+    <string name="host_name">主机名</string>
+    <string name="wan_port_setting">WAN口速率设置</string>
+
+    <string name="dns_server">DNS服务器</string>
+
+    <string name="save">保存</string>
+    <string name="default_wireless_name">SiWiFi-db5c-2.4G</string>
+    <string name="anonymous_host">匿名主机</string>
+    <string name="dns_server_setting_manual">手动设置DNS服务器</string>
+    <string name="unicast_mode">单薄方式获取IP一般情况下请勿选择</string>
+
+    <string name="lan_prot_setting">LAN口设置</string>
+    <string name="upload_download_limit">上传下载限制</string>
+    <string name="no_psw">不加密</string>
+
+    <string name="wireless_one">2.4G</string>
+    <string name="wireless_two">5G</string>
+
+    <string name="interview_intranet_resource">访问内网资源</string>
+    <string name="maximum_upload_speed">访客网络最大上传速度</string>
+    <string name="maximum_download_speed">访客网络最大下载速度</string>
+    <string name="opening_hours">是否设置访客网络开放时间</string>
+
+    <string name="reset">恢复出厂设置</string>
+    <string name="restart">重启路由器</string>
+    <string name="hint_reset">单击此按钮将使路由器所有设置恢复到出厂时的默认状态</string>
 
 </resources>

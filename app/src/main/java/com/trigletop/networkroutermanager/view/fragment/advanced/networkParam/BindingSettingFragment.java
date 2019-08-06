@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.networkParam;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.trigletop.networkroutermanager.R;
 
 public class BindingSettingFragment extends Fragment {
+
+    public static BindingSettingFragment newInstance() {
+        BindingSettingFragment bindingSettingFragment = new BindingSettingFragment();
+        Bundle args = new Bundle();
+        bindingSettingFragment.setArguments(args);
+        return bindingSettingFragment;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -26,7 +35,7 @@ public class BindingSettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.fragment_binding_setting, container, false);
     }
 
     @Override
@@ -43,6 +52,12 @@ public class BindingSettingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
     }
 }

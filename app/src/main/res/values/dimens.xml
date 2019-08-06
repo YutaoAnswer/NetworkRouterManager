@@ -4,6 +4,7 @@
     <dimen name="recyclerView_item_radius">7dp</dimen>
     <dimen name="recyclerview_item_width">225dp</dimen>
     <dimen name="recyclerview_item_height">110dp</dimen>
+    <dimen name="recyclerview_item_container_height">80dp</dimen>
     <dimen name="recyclerView_item_space1">8dp</dimen>
     <dimen name="recyclerview_item_width1">335dp</dimen>
 </resources>

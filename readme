@@ -85,6 +85,26 @@ hdpi mdpi xhdpi xxhdpi　图片适配
 
 bug SettingFragment切换其他Fragment没有隐藏选中的方块
 
+背景设置
+
+设置Activity全屏幕显示
+
+ssid AC　AP
+
+侧边栏　focus　选中效果
+
+主页获取到的设备用hostname显示，暂时用ip地址
+
+顶部切换按钮需要添加选中状态
+
+右上角添加图标
+
+保存那个button需要设置背景样式
+
+界面调优
+
+主页按钮选中切换
+
 AppKey：
 c20ad4d76fe97759aa27a0c99bff6710
 AppSecret：

@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/default_background"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <include
+        android:id="@+id/sidebar"
+        layout="@layout/sidebar_account"
+        android:layout_width="250dp"
+        android:layout_height="match_parent" />
 
     <app.com.tvrecyclerview.TvRecyclerView
         android:id="@+id/rcy_account"

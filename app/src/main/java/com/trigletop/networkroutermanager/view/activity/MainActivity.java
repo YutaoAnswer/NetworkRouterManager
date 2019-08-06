@@ -1,12 +1,11 @@
 package com.trigletop.networkroutermanager.view.activity;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -28,16 +27,12 @@ import sirouter.sdk.siflower.com.remotelibrary.SFUser;
 /**
  * 主页
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.tabLayout)
     SegmentTabLayout mTabLayout;
-    @BindView(R.id.frameLayout)
-    FrameLayout frameLayout;
-    @BindView(R.id.sidebar)
-    LinearLayout sidebar;
 
     private int mPosition;
     private static final int tabLayout_router = 0;
@@ -62,7 +57,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
-        initData();
         initView();
     }
 
@@ -121,7 +115,8 @@ public class MainActivity extends Activity {
 //        routers = siUtil.getmRouters();//获取当前要显示信息的显示路由器
 //        routersList = siUtil.getRoutersList();//获取绑定的路由器列表
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
+
         commonSettingFragment = CommonSettingFragment.newInstance();
         advancedSettingFragment = AdvancedSettingFragment.newInstance();
         accountFragment = AccountManagermentFragment.newInstance();
@@ -131,9 +126,6 @@ public class MainActivity extends Activity {
         fragmentList.add(accountFragment);
     }
 
-    private void initData() {
-
-    }
 
     /**
      * 初始化View
@@ -146,7 +138,7 @@ public class MainActivity extends Activity {
                 .commit();
 
         //TabLayout
-        mTabLayout.setTabData(Data.data);
+        mTabLayout.setTabData(Data.title_data);
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {

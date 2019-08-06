@@ -42,31 +42,15 @@
         android:layout_height="match_parent"
         android:layout_below="@id/tabLayout"
         android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/sidebar"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:background="@color/default_background"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="这是侧边栏"
-                android:textColor="@color/lb_speech_orb_recording" />
-
-        </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="30dp" />
+            android:layout_marginStart="30dp"
+            android:visibility="gone" />
 
         <!--<app.com.tvrecyclerview.TvRecyclerView-->
         <!--android:id="@+id/tv_recycler_view"-->
@@ -76,5 +60,11 @@
         <!--app:focusDrawable="@drawable/default_focus" />-->
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout" />
 
 </RelativeLayout>

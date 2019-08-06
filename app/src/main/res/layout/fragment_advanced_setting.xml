@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_background"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <include
+        android:id="@+id/sidebar"
+        layout="@layout/sidebar_advanced"
+        android:layout_width="250dp"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout_advanced_setting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout><!--<app.com.tvrecyclerview.TvRecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/rcy_setting"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/default_background"--><!--app:focusDrawable="@drawable/default_focus" />-->

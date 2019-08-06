@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.main;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -10,12 +9,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.adapter.NormalAdapter;
+import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
 
 import app.com.tvrecyclerview.TvRecyclerView;
 import butterknife.BindView;
@@ -40,11 +40,13 @@ public class AccountManagermentFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -91,7 +93,7 @@ public class AccountManagermentFragment extends Fragment {
 
         int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
         rcyAccount.addItemDecoration(new SpaceItemDecoration(itemSpace));
-        NormalAdapter mAdapter = new NormalAdapter(getActivity(), TAG);
+        DevicesAdapter mAdapter = new DevicesAdapter(getActivity(), TAG);
         rcyAccount.setAdapter(mAdapter);
 
         rcyAccount.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {

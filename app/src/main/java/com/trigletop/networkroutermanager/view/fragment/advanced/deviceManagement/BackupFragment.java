@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class BackupFragment extends Fragment {
+
+    public static BackupFragment newInstance() {
+        BackupFragment backupFragment = new BackupFragment();
+        Bundle args = new Bundle();
+        backupFragment.setArguments(args);
+        return backupFragment;
+    }
 
     @Override
     public void onAttach(Context context) {

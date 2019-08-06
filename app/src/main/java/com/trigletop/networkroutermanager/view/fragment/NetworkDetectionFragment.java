@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class NetworkDetectionFragment extends Fragment {
+
+    public static NetworkDetectionFragment newInstance() {
+        NetworkDetectionFragment networkDetectionFragment = new NetworkDetectionFragment();
+        Bundle args = new Bundle();
+        networkDetectionFragment.setArguments(args);
+        return networkDetectionFragment;
+    }
 
     @Override
     public void onAttach(Context context) {

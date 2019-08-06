@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class FloodControlNetworkFragment extends Fragment {
+
+    public static FloodControlNetworkFragment newInstance() {
+        FloodControlNetworkFragment floodControlNetworkFragment = new FloodControlNetworkFragment();
+        Bundle args = new Bundle();
+        floodControlNetworkFragment.setArguments(args);
+        return floodControlNetworkFragment;
+    }
 
     @Override
     public void onAttach(Context context) {

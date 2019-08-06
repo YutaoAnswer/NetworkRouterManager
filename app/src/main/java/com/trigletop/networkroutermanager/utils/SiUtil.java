@@ -1,17 +1,23 @@
 package com.trigletop.networkroutermanager.utils;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.Gson;
+import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.adapter.NormalAdapter;
-import com.trigletop.networkroutermanager.view.fragment.DeviceDetailFragment;
+import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,42 +33,90 @@ import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WDSScanInfo;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WiFiAdvanceInfo;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WiFiInfo;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.SFException;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.ACOtaCheckParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.BindParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.CheckNetParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.CommandParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.DeleteDeviceParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetBindInfoParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetClientMacParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceDataUsageParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceRestrictParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetFreqIntergrationParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetLeaseNetParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetQosParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetRouterApiVersionParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetStokLocalParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWDSInfoParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWDSScanParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWanTypeParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWdsStaIsConnectParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWiFiAdvanceParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWiFiDetailParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetCustomWiFiParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetDeviceDataUsageParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetDeviceParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetDeviceRestrictParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetLeaseNetParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetPasswordParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetSpeedParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetWanTypeParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetWiFiAdvanceInfo;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetWiFiDetailParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.UnbindParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSConnectWiFiParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSDidableParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSEnableParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSGetWanIpParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WifiParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.ACOtaCheckRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.ACOtaUpgradeRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.APGroupsRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.BindRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.CheckNetRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.CommandRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.DataUsage;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.DeleteDeviceRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.Device;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetBindInfoRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetClientMacRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetCustomWiFiRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceDataUsageRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceRestrictRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetFreqIntergrationRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetLeaseNetRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetQosRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetRouterApiVersionRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetStokLocalRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetStokRemoteRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWDSInfoRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWDSScanInfoRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWanTypeRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWdsStaIsConnectRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWiFiAdvanceRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWiFiDetailRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWifiFilterRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.ScanWiFiRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetCustomWiFiRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetDeviceDataUsageRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetDeviceRestrictRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetDeviceRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetLeaseNetRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetPasswordRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetSpeedRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWanTypeRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWiFiAdvanceRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWiFiDetailRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWifiFilterRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.UnbindRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.UpLoadRouterLogRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSConnectWiFiRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSDisableRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSEnableRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSGetRelIpRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSGetWanIpRet;
 import sirouter.sdk.siflower.com.remotelibrary.Listener.RemoteConnectionListener;
 import sirouter.sdk.siflower.com.remotelibrary.Listener.SFObjectResponseListener;
 import sirouter.sdk.siflower.com.remotelibrary.Listener.SiWiFiListListener;
@@ -365,6 +419,7 @@ public class SiUtil {
             public void onError(Throwable e) {
                 progressDialog.dismiss();
                 Log.d(TAG, "devices: " + e.getMessage());
+
             }
         });
     }
@@ -1229,7 +1284,7 @@ public class SiUtil {
         }
 
         //todo 设置单个设备  SetDeviceParam对象　内容了解
-//        SiWiFiManager.getInstance().setSiRouterDeviceDetail(mRouters, mUser, )
+        Single<SetDeviceRet> setDeviceRetSingle = SiWiFiManager.getInstance().setSiRouterDeviceDetail(mRouters, mUser, new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mUser.getBinder().get(0).getMac()));
 
     }
 
@@ -1432,6 +1487,19 @@ public class SiUtil {
         return localApi;
     }
 
+    // TODO: 19-7-31 封装抽象　local
+    public void executeApiWithSingleResponse(String param) {
+        Single<?> getRetSingle;
+        switch (param) {
+            case "BindInfo":
+                getRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetBindInfoRet.class);
+
+                break;
+            default:
+                break;
+        }
+
+    }
 
     /**
      *
@@ -1459,31 +1527,33 @@ public class SiUtil {
      */
     public void isSiwifi(String mac, LocalApi localApi) {
         boolean siwifi = localApi.isSiwifi(mac);
+
     }
 
     /**
-     * 获取Wifi
+     * 获取Wifi列列表信息
      *
-     * @param tvRecyclerView 接收返回值的View
-     * @param localApi       LocalApi实例
+     * @param localApi LocalApi实例
      */
-    public void getWiFiDetail(TvRecyclerView tvRecyclerView, LocalApi localApi) {
-        GetWiFiDetailParam getWiFiDetailParam = new GetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION);
-        Single<GetWiFiDetailRet> getWifi = localApi.executeApiWithSingleResponse(getWiFiDetailParam, GetWiFiDetailRet.class);
+    public void getWiFiDetail(LocalApi localApi) {
+        Single<GetWiFiDetailRet> getWifi = localApi.executeApiWithSingleResponse(new GetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION), GetWiFiDetailRet.class);
         getWifi.subscribe(new SingleObserver<GetWiFiDetailRet>() {
             @Override
             public void onSubscribe(Disposable d) {
                 Log.d(TAG, "onSubscribe: ");
+
             }
 
             @Override
             public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
                 Log.d(TAG, "onSuccess: " + getWiFiDetailRet.toString());
+
             }
 
             @Override
             public void onError(Throwable e) {
                 Log.d(TAG, "onError: ");
+
             }
         });
     }
@@ -1493,8 +1563,93 @@ public class SiUtil {
      *
      * @param tvRecyclerView 　接收返回值的View
      * @param localApi       LocaleApi实例
+     * @param activity       当前Activity
      */
-    public void getDeviceRet(TvRecyclerView tvRecyclerView, LocalApi localApi, Activity activity) {
+    public void getDeviceRet(TvRecyclerView tvRecyclerView, LocalApi localApi, Activity activity, SiUtil siUtil, Handler handler) {
+        Single<GetDeviceRet> getDeviceRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceRet.class);
+        getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "onSubscribe: ");
+            }
+
+            @Override
+            public void onSuccess(GetDeviceRet getDeviceRet) {
+                Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
+                Log.d(TAG, "onSuccess: " + activity.toString());
+                DevicesAdapter devicesAdapter = new DevicesAdapter(mContext, activity.toString(), localApi);
+                switch (activity.toString()) {
+                    case "ConnectedFragment":
+                        devicesAdapter.setDeviceList(getDeviceRet.getList());
+                        tvRecyclerView.setAdapter(devicesAdapter);
+                        tvRecyclerView.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
+                            @Override
+                            public void onItemViewClick(View view, int position) {
+                                // TODO: 19-8-2 功能一：弹出框限制上传下载的数据  功能二：禁用按钮实现设备禁用
+                                NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(activity);
+                                dialogBuilder
+                                        .withTitle(activity.getString(R.string.upload_download_limit))
+                                        .withDuration(700)
+                                        .show();
+                            }
+
+                            @Override
+                            public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
+                                // TODO: 19-8-2 添加内容
+
+                            }
+                        });
+                        break;
+                    case "ForbiddenFragment":
+                        devicesAdapter.setDeviceList(getDeviceRet.getList());
+                        tvRecyclerView.setAdapter(devicesAdapter);
+                        tvRecyclerView.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
+                            @Override
+                            public void onItemViewClick(View view, int position) {
+                                // TODO: 19-8-2 功能一：解除禁用按钮实现设备禁用
+                                List<Device> deviceList = devicesAdapter.getDeviceList();
+                                siUtil.setDevice(localApi, deviceList.get(position).getAuthority().getLan() + "", handler);
+                            }
+
+                            @Override
+                            public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
+                                // TODO: 19-8-2 添加内容
+
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+                tvRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                    @Override
+                    public void onChildViewAttachedToWindow(@NonNull View view) {
+
+                    }
+
+                    @Override
+                    public void onChildViewDetachedFromWindow(@NonNull View view) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+
+            }
+        });
+    }
+
+    /**
+     * 获取设备信息
+     *
+     * @param tvRecyclerView 　接收返回值的View
+     * @param localApi       LocaleApi实例
+     * @param activity       当前Activity
+     */
+    public void getDeviceRet(TvRecyclerView tvRecyclerView, LocalApi localApi, Activity activity, SiUtil siUtil) {
         Single<GetDeviceRet> getDeviceRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceRet.class);
         getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
             @Override
@@ -1506,39 +1661,35 @@ public class SiUtil {
             @Override
             public void onSuccess(GetDeviceRet getDeviceRet) {
                 Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
-                NormalAdapter normalAdapter = new NormalAdapter(mContext);
-                normalAdapter.setDeviceList(getDeviceRet.getList());
-                tvRecyclerView.setAdapter(normalAdapter);
+                Log.d(TAG, "onSuccess: " + activity.toString());
+                DevicesAdapter devicesAdapter = new DevicesAdapter(mContext, activity.toString(), localApi);
+                devicesAdapter.setDeviceList(getDeviceRet.getList());
+                tvRecyclerView.setAdapter(devicesAdapter);
                 tvRecyclerView.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
                     @Override
                     public void onItemViewClick(View view, int position) {
-                        FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
-                        com.trigletop.networkroutermanager.Bean.Device device = new com.trigletop.networkroutermanager.Bean.Device();
-                        // TODO: 19-7-29 device
-                        device.setWarn(getDeviceRet.getList().get(position).getWarn());
-                        device.setAuthority(getDeviceRet.getList().get(position).getAuthority());
-                        device.setCount(getDeviceRet.getList().get(position).getCount());
-                        device.setDev(getDeviceRet.getList().get(position).getDev());
-                        device.setHostname(getDeviceRet.getList().get(position).getHostname());
-                        device.setIcon(getDeviceRet.getList().get(position).getIcon());
-                        device.setIp(getDeviceRet.getList().get(position).getIp());
-                        device.setIs_ap(getDeviceRet.getList().get(position).getIs_ap());
-                        device.setLease_start(getDeviceRet.getList().get(position).getLease_start());
-                        device.setLease_time(getDeviceRet.getList().get(position).getLease_time());
-                        device.setMac(getDeviceRet.getList().get(position).getMac());
-                        device.setSpeed(getDeviceRet.getList().get(position).getSpeed());
-                        device.setNickname(getDeviceRet.getList().get(position).getNickname());
-                        device.setPort(getDeviceRet.getList().get(position).getPort());
-                        device.setTimelist(getDeviceRet.getList().get(position).getTimelist());
-                        device.setRestrictenable(getDeviceRet.getList().get(position).getRestrictenable());
-                        device.setUsageenable(getDeviceRet.getList().get(position).getUsageenable());
-                        device.setOnline(getDeviceRet.getList().get(position).getOnline());
-                        DeviceDetailFragment deviceDetailFragment = DeviceDetailFragment.newInstance(device);
-                        fragmentTransaction.addToBackStack(null).add(R.id.frameLayout, deviceDetailFragment).replace(R.id.frameLayout, deviceDetailFragment).commit();
+                        // TODO: 19-8-2 功能一：弹出框限制上传下载的数据  功能二：禁用按钮实现设备禁用
+                        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(activity);
+                        dialogBuilder
+                                .withTitle(activity.getString(R.string.upload_download_limit))
+                                .withDuration(700)
+                                .show();
                     }
 
                     @Override
                     public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
+                        // TODO: 19-8-2 添加内容
+
+                    }
+                });
+                tvRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                    @Override
+                    public void onChildViewAttachedToWindow(@NonNull View view) {
+
+                    }
+
+                    @Override
+                    public void onChildViewDetachedFromWindow(@NonNull View view) {
 
                     }
                 });
@@ -1559,7 +1710,7 @@ public class SiUtil {
      * @param localApi       LocaleApi实例
      * @param activity       当前活动类
      */
-    public void GetDeviceRestrictRet(TvRecyclerView tvRecyclerView, LocalApi localApi, Activity activity) {
+    public void getDeviceRestrictRet(TvRecyclerView tvRecyclerView, LocalApi localApi, Activity activity) {
         Single<GetDeviceRestrictRet> getDeviceRestrictRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceRestrictRet.class);
         getDeviceRestrictRetSingle.subscribe(new SingleObserver<GetDeviceRestrictRet>() {
             @Override
@@ -1615,7 +1766,7 @@ public class SiUtil {
      * 获取路由器API版本号
      */
     public void getRouterApiVersionRet() {
-        Single<GetRouterApiVersionRet> getRouterApiVersionRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetRouterApiVersionRet.class);
+        Single<GetRouterApiVersionRet> getRouterApiVersionRetSingle = localApi.executeApiWithSingleResponse(new GetRouterApiVersionParam(LocalApi.DEFAULT_APP_API_VERSION), GetRouterApiVersionRet.class);
         getRouterApiVersionRetSingle.subscribe(new SingleObserver<GetRouterApiVersionRet>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -1638,21 +1789,736 @@ public class SiUtil {
     }
 
     /**
-     *
+     * @param localApi
      */
-    public void apbandwidthlimit() {
-        Single<GetRouterApiVersionRet> getRouterApiVersionRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetRouterApiVersionRet.class);
-        getRouterApiVersionRetSingle.subscribe(new SingleObserver<GetRouterApiVersionRet>() {
+    public void getBindInfoRetSingle(LocalApi localApi) {
+        Single<GetBindInfoRet> getBindInfoRetSingle = localApi.executeApiWithSingleResponse(new GetBindInfoParam(LocalApi.DEFAULT_APP_API_VERSION), GetBindInfoRet.class);
+        getBindInfoRetSingle.subscribe(new SingleObserver<GetBindInfoRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe: ");
+
+            }
+
+            @Override
+            public void onSuccess(GetBindInfoRet getBindInfoRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi
+     */
+    public void getClientMacRet(LocalApi localApi) {
+        Single<GetClientMacRet> getClientMacRetSingle = localApi.executeApiWithSingleResponse(new GetClientMacParam(LocalApi.DEFAULT_APP_API_VERSION), GetClientMacRet.class);
+        getClientMacRetSingle.subscribe(new SingleObserver<GetClientMacRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetClientMacRet getClientMacRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void getDeviceDataUsageRet(LocalApi localApi) {
+        Single<GetDeviceDataUsageRet> getDeviceDataUsageRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceDataUsageParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceDataUsageRet.class);
+        getDeviceDataUsageRetSingle.subscribe(new SingleObserver<GetDeviceDataUsageRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetDeviceDataUsageRet getDeviceDataUsageRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void getFreqIntergrationRet(LocalApi localApi) {
+        Single<GetFreqIntergrationRet> getFreqIntergrationRetSingle = localApi.executeApiWithSingleResponse(new GetFreqIntergrationParam(LocalApi.DEFAULT_APP_API_VERSION), GetFreqIntergrationRet.class);
+        getFreqIntergrationRetSingle.subscribe(new SingleObserver<GetFreqIntergrationRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetFreqIntergrationRet getFreqIntergrationRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void getLeaseNetRet(LocalApi localApi) {
+        Single<GetLeaseNetRet> getLeaseNetRetSingle = localApi.executeApiWithSingleResponse(new GetLeaseNetParam(LocalApi.DEFAULT_APP_API_VERSION), GetLeaseNetRet.class);
+        getLeaseNetRetSingle.subscribe(new SingleObserver<GetLeaseNetRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetLeaseNetRet getFreqIntergrationRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void getQosRet(LocalApi localApi) {
+        Single<GetQosRet> getQosRetSingle = localApi.executeApiWithSingleResponse(new GetQosParam(LocalApi.DEFAULT_APP_API_VERSION), GetQosRet.class);
+        getQosRetSingle.subscribe(new SingleObserver<GetQosRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetQosRet getQosRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void getRouterApiVersionRet(LocalApi localApi) {
+        Single<GetRouterApiVersionRet> getQosRetSingle = localApi.executeApiWithSingleResponse(new GetRouterApiVersionParam(LocalApi.DEFAULT_APP_API_VERSION), GetRouterApiVersionRet.class);
+        getQosRetSingle.subscribe(new SingleObserver<GetRouterApiVersionRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
             }
 
             @Override
             public void onSuccess(GetRouterApiVersionRet getRouterApiVersionRet) {
-                Log.d(TAG, "onSuccess: " + getRouterApiVersionRet.toString());
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void getStokLocalRet(LocalApi localApi) {
+        Single<GetStokLocalRet> getQosRetSingle = localApi.executeApiWithSingleResponse(new GetStokLocalParam(LocalApi.DEFAULT_APP_API_VERSION), GetStokLocalRet.class);
+        getQosRetSingle.subscribe(new SingleObserver<GetStokLocalRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetStokLocalRet getStokLocalRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi localApi实例
+     */
+    public void getStokRemoteRet(LocalApi localApi) {
+        Single<GetStokRemoteRet> getStokRemoteRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetStokRemoteRet.class);
+        getStokRemoteRetSingle.subscribe(new SingleObserver<GetStokRemoteRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetStokRemoteRet getStokLocalRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi localApi实例
+     */
+    public void getWanTypeRet(LocalApi localApi) {
+        Single<GetWanTypeRet> getQosRetSingle = localApi.executeApiWithSingleResponse(new GetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION), GetWanTypeRet.class);
+        getQosRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWanTypeRet getStokLocalRet) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi 　localApi实例
+     */
+    public void getWDSInfoRet(LocalApi localApi) {
+        Single<GetWDSInfoRet> getWDSInfoRetSingle = localApi.executeApiWithSingleResponse(new GetWDSInfoParam(LocalApi.DEFAULT_APP_API_VERSION), GetWDSInfoRet.class);
+        getWDSInfoRetSingle.subscribe(new SingleObserver<GetWDSInfoRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWDSInfoRet getWDSInfoRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi 　localApi实例
+     */
+    public void getWDSScanInfoRet(LocalApi localApi) {
+        Single<GetWDSScanInfoRet> wdsScanInfoRetSingle = localApi.executeApiWithSingleResponse(new GetWDSScanParam(LocalApi.DEFAULT_APP_API_VERSION), GetWDSScanInfoRet.class);
+        wdsScanInfoRetSingle.subscribe(new SingleObserver<GetWDSScanInfoRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWDSScanInfoRet getWDSScanInfoRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi 　localApi实例
+     */
+    public void getWdsStaIsConnectRet(LocalApi localApi) {
+        Single<GetWdsStaIsConnectRet> getWdsStaIsConnectRetSingle = localApi.executeApiWithSingleResponse(new GetWdsStaIsConnectParam(LocalApi.DEFAULT_APP_API_VERSION), GetWdsStaIsConnectRet.class);
+        getWdsStaIsConnectRetSingle.subscribe(new SingleObserver<GetWdsStaIsConnectRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWdsStaIsConnectRet getWdsStaIsConnectRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi 　localApi实例
+     */
+    public void getWiFiAdvanceRet(LocalApi localApi) {
+        Single<GetWiFiAdvanceRet> getWiFiAdvanceRetSingle = localApi.executeApiWithSingleResponse(new GetWiFiAdvanceParam(LocalApi.DEFAULT_APP_API_VERSION), GetWiFiAdvanceRet.class);
+        getWiFiAdvanceRetSingle.subscribe(new SingleObserver<GetWiFiAdvanceRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWiFiAdvanceRet getWiFiAdvanceRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi 　localApi实例
+     */
+    public void gtWiFiDetailRet(LocalApi localApi) {
+        Single<GetWiFiDetailRet> getWiFiDetailRetSingle = localApi.executeApiWithSingleResponse(new GetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION), GetWiFiDetailRet.class);
+        getWiFiDetailRetSingle.subscribe(new SingleObserver<GetWiFiDetailRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi 　localApi实例
+     */
+    public void getWifiFilterRet(LocalApi localApi) {
+        Single<GetWifiFilterRet> getWifiFilterRetSingle = localApi.executeApiWithSingleResponse(new GetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION), GetWifiFilterRet.class);
+        getWifiFilterRetSingle.subscribe(new SingleObserver<GetWifiFilterRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWifiFilterRet getWifiFilterRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * 解绑
+     *
+     * @param localApi 　localApi实例
+     */
+    public void unbind(LocalApi localApi) {
+        Single<UnbindRet> unbindRetSingle = localApi.executeApiWithSingleResponse(new UnbindParam(LocalApi.DEFAULT_APP_API_VERSION), UnbindRet.class);
+        unbindRetSingle.subscribe(new SingleObserver<UnbindRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(UnbindRet unbindRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * AC控制器Ota信息查询参数
+     *
+     * @param localApi LocaleApi实例
+     */
+    public void aCOtaCheck(LocalApi localApi) {
+        Single<ACOtaCheckRet> acOtaCheckRetSingle = localApi.executeApiWithSingleResponse(new ACOtaCheckParam(LocalApi.DEFAULT_APP_API_VERSION), ACOtaCheckRet.class);
+        acOtaCheckRetSingle.subscribe(new SingleObserver<ACOtaCheckRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(ACOtaCheckRet acOtaCheckRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * AC控制器Ota升级参数
+     *
+     * @param localApi LocaleApi实例
+     */
+    public void aCOtaUpgrade(LocalApi localApi) {
+        Single<ACOtaUpgradeRet> acOtaUpgradeRetSingle = localApi.executeApiWithSingleResponse(new ACOtaCheckParam(LocalApi.DEFAULT_APP_API_VERSION), ACOtaUpgradeRet.class);
+        acOtaUpgradeRetSingle.subscribe(new SingleObserver<ACOtaUpgradeRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(ACOtaUpgradeRet acOtaUpgradeRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * 绑定
+     *
+     * @param localApi 　LocaleApi实例
+     */
+    public void bind(LocalApi localApi) {
+        Single<BindRet> bindRetSingle = localApi.executeApiWithSingleResponse(new BindParam(LocalApi.DEFAULT_APP_API_VERSION), BindRet.class);
+        bindRetSingle.subscribe(new SingleObserver<BindRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(BindRet bindRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * 检查路由器WAN口状态
+     *
+     * @param localApi LocaleApi实例
+     */
+    public void checkNet(LocalApi localApi) {
+        Single<CheckNetRet> bindRetSingle = localApi.executeApiWithSingleResponse(new CheckNetParam(LocalApi.DEFAULT_APP_API_VERSION), CheckNetRet.class);
+        bindRetSingle.subscribe(new SingleObserver<CheckNetRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(CheckNetRet checkNetRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * 重启及恢复出厂设置参数
+     *
+     * @param localApi LocaleApi实例
+     */
+    public void command(LocalApi localApi) {
+        Single<CheckNetRet> bindRetSingle = localApi.executeApiWithSingleResponse(new CheckNetParam(LocalApi.DEFAULT_APP_API_VERSION), CheckNetRet.class);
+        bindRetSingle.subscribe(new SingleObserver<CheckNetRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(CheckNetRet checkNetRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void deleteDevice(LocalApi localApi) {
+        Single<DeleteDeviceRet> deleteDeviceRetSingle = localApi.executeApiWithSingleResponse(new DeleteDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), DeleteDeviceRet.class);
+        deleteDeviceRetSingle.subscribe(new SingleObserver<DeleteDeviceRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(DeleteDeviceRet deleteDeviceRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void getDeviceDataUsage(LocalApi localApi) {
+        Single<GetDeviceDataUsageRet> deleteDeviceRetSingle = localApi.executeApiWithSingleResponse(new GetDeviceDataUsageParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceDataUsageRet.class);
+        deleteDeviceRetSingle.subscribe(new SingleObserver<GetDeviceDataUsageRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetDeviceDataUsageRet getDeviceDataUsageRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void wDSConnectWiFi(LocalApi localApi) {
+        Single<WDSConnectWiFiRet> wdsConnectWiFiRetSingle = localApi.executeApiWithSingleResponse(new WDSConnectWiFiParam(LocalApi.DEFAULT_APP_API_VERSION), WDSConnectWiFiRet.class);
+        wdsConnectWiFiRetSingle.subscribe(new SingleObserver<WDSConnectWiFiRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(WDSConnectWiFiRet wdsConnectWiFiRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void wDSConnectWiFiRet(LocalApi localApi) {
+        Single<WDSConnectWiFiRet> wdsConnectWiFiRetSingle = localApi.executeApiWithSingleResponse(new WDSConnectWiFiParam(LocalApi.DEFAULT_APP_API_VERSION), WDSConnectWiFiRet.class);
+        wdsConnectWiFiRetSingle.subscribe(new SingleObserver<WDSConnectWiFiRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(WDSConnectWiFiRet wdsConnectWiFiRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void wDSDisableRet(LocalApi localApi) {
+        Single<WDSDisableRet> wdsConnectWiFiRetSingle = localApi.executeApiWithSingleResponse(new WDSDidableParam(LocalApi.DEFAULT_APP_API_VERSION), WDSDisableRet.class);
+        wdsConnectWiFiRetSingle.subscribe(new SingleObserver<WDSDisableRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(WDSDisableRet wdsDisableRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void wDSEnableRet(LocalApi localApi) {
+        Single<WDSEnableRet> wdsConnectWiFiRetSingle = localApi.executeApiWithSingleResponse(new WDSEnableParam(LocalApi.DEFAULT_APP_API_VERSION), WDSEnableRet.class);
+        wdsConnectWiFiRetSingle.subscribe(new SingleObserver<WDSEnableRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(WDSEnableRet wdsEnableRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void wDSGetRelIpRet(LocalApi localApi) {
+        Single<WDSGetRelIpRet> wdsGetRelIpRetSingle = localApi.executeApiWithSingleResponse(new WDSEnableParam(LocalApi.DEFAULT_APP_API_VERSION), WDSGetRelIpRet.class);
+        wdsGetRelIpRetSingle.subscribe(new SingleObserver<WDSGetRelIpRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(WDSGetRelIpRet wdsEnableRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi 　LocaleApi实例
+     */
+    public void wDSGetWanIpRet(LocalApi localApi) {
+        Single<WDSGetWanIpRet> wdsGetRelIpRetSingle = localApi.executeApiWithSingleResponse(new WDSGetWanIpParam(LocalApi.DEFAULT_APP_API_VERSION), WDSGetWanIpRet.class);
+        wdsGetRelIpRetSingle.subscribe(new SingleObserver<WDSGetWanIpRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(WDSGetWanIpRet wdsGetWanIpRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * @param localApi LocaleApi实例
+     */
+    public void setSpeed(LocalApi localApi) {
+        Single<SetSpeedRet> wdsGetRelIpRetSingle = localApi.executeApiWithSingleResponse(new SetSpeedParam(LocalApi.DEFAULT_APP_API_VERSION), SetSpeedRet.class);
+        wdsGetRelIpRetSingle.subscribe(new SingleObserver<SetSpeedRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(SetSpeedRet setSpeedRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * 设置上网方式
+     *
+     * @param localApi 　LocaleApi实例
+     * @param account  　帐号
+     * @param password 　密码
+     */
+    public void setWanType(LocalApi localApi, String account, String password, Handler handler) {
+        SetWanTypeParam setWanTypeParam = new SetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION);
+        setWanTypeParam.setPppnanme(account);
+        setWanTypeParam.setPpppwd(password);
+        Single<SetWanTypeRet> setWanTypeRetSingle = localApi.executeApiWithSingleResponse(setWanTypeParam, SetWanTypeRet.class);
+        setWanTypeRetSingle.subscribe(new SingleObserver<SetWanTypeRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "onSubscribe: ");
+            }
+
+            @Override
+            public void onSuccess(SetWanTypeRet setWanTypeRet) {
+                Log.d(TAG, "onSuccess: ");
+                Message message = new Message();
+                message.what = Data.handler_message_setWanType_PPOE;
+                message.obj = "setDevice";
+                handler.sendMessage(message);
             }
 
             @Override
@@ -1663,5 +2529,166 @@ public class SiUtil {
         });
     }
 
+    public void setWiFiDetail(LocalApi localApi) {
+        Single<SetWiFiDetailRet> setWanTypeRetSingle = localApi.executeApiWithSingleResponse(new SetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION), SetWiFiDetailRet.class);
+        setWanTypeRetSingle.subscribe(new SingleObserver<SetWiFiDetailRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(SetWiFiDetailRet setWiFiDetailRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void SetWifiFilter(LocalApi localApi) {
+        Single<SetWifiFilterRet> setWifiFilterRetSingle = localApi.executeApiWithSingleResponse(new SetCustomWiFiParam(LocalApi.DEFAULT_APP_API_VERSION), SetWifiFilterRet.class);
+        setWifiFilterRetSingle.subscribe(new SingleObserver<SetWifiFilterRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(SetWifiFilterRet setWifiFilterRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void upLoadRouterLogRet(LocalApi localApi) {
+        Single<UpLoadRouterLogRet> upLoadRouterLogRetSingle = localApi.executeApiWithSingleResponse(new SetCustomWiFiParam(LocalApi.DEFAULT_APP_API_VERSION), UpLoadRouterLogRet.class);
+        upLoadRouterLogRetSingle.subscribe(new SingleObserver<UpLoadRouterLogRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(UpLoadRouterLogRet loadRouterLogRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void wanSpeed(LocalApi localApi) {
+        Single<UpLoadRouterLogRet> upLoadRouterLogRetSingle = localApi.executeApiWithSingleResponse(new SetCustomWiFiParam(LocalApi.DEFAULT_APP_API_VERSION), UpLoadRouterLogRet.class);
+        upLoadRouterLogRetSingle.subscribe(new SingleObserver<UpLoadRouterLogRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(UpLoadRouterLogRet loadRouterLogRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * WiFi设置
+     *
+     * @param localApi LocaleApi实例
+     */
+    public void wifi(LocalApi localApi) {
+        // TODO: 19-8-3 需要做一些更改
+        Single<UpLoadRouterLogRet> upLoadRouterLogRetSingle = localApi.executeApiWithSingleResponse(new SetCustomWiFiParam(LocalApi.DEFAULT_APP_API_VERSION), UpLoadRouterLogRet.class);
+        upLoadRouterLogRetSingle.subscribe(new SingleObserver<UpLoadRouterLogRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(UpLoadRouterLogRet loadRouterLogRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * 设置管理员密码
+     *
+     * @param localApi LocaleApi实例
+     */
+    public void setPassword(LocalApi localApi) {
+        Single<SetPasswordRet> setPasswordRetSingle = localApi.executeApiWithSingleResponse(new SetPasswordParam(LocalApi.DEFAULT_APP_API_VERSION), SetPasswordRet.class);
+        setPasswordRetSingle.subscribe(new SingleObserver<SetPasswordRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(SetPasswordRet setPasswordRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    /**
+     * 设置设备
+     *
+     * @param localApi LocaleApi实例
+     */
+    public void setDevice(LocalApi localApi, String param, Handler handler) {
+        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, param);
+        setDeviceParam.setLan(1);//禁用设备使用无线网络
+        Single<SetDeviceRet> setDeviceRetSingle = localApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
+        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "onSubscribe: ");
+            }
+
+            @Override
+            public void onSuccess(SetDeviceRet setDeviceRet) {
+                Log.d(TAG, "onSuccess: ");
+                Message message = new Message();
+                message.what = 2;
+                message.obj = "setDevice";
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+            }
+        });
+    }
 
 }

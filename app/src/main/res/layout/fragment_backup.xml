@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--用户管理　侧边栏-->
-    <!--设置向导-->
-    <!--安全退出-->
+
 
 </LinearLayout>
