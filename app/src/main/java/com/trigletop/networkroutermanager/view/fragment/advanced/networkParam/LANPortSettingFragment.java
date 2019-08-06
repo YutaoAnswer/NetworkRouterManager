@@ -11,9 +11,18 @@ import androidx.fragment.app.Fragment;
 
 import com.trigletop.networkroutermanager.R;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+
 public class LANPortSettingFragment extends Fragment {
 
-    public static LANPortSettingFragment newInstance() {
+    Unbinder unbinder;
+
+    private static LocalApi mLocalApi;
+
+    public static LANPortSettingFragment newInstance(LocalApi localApi) {
+        mLocalApi = localApi;
         LANPortSettingFragment lanPortSettingFragment = new LANPortSettingFragment();
         Bundle args = new Bundle();
         lanPortSettingFragment.setArguments(args);
@@ -35,13 +44,19 @@ public class LANPortSettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_lanport_setting, container, false);
+        View view = inflater.inflate(R.layout.fragment_lanport_setting, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        init();
+        initView();
+        initData();
     }
+
 
     @Override
     public void onResume() {
@@ -52,6 +67,24 @@ public class LANPortSettingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
+    private void init() {
+
+    }
+
+    private void initView() {
+
+    }
+
+    private void initData() {
 
     }
 }

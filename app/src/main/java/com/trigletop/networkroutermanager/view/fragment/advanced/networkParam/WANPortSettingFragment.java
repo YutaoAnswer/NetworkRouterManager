@@ -10,15 +10,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.trigletop.networkroutermanager.R;
+import com.trigletop.networkroutermanager.utils.SiUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 
 public class WANPortSettingFragment extends Fragment {
 
     private Unbinder unbinder;
 
-    public static WANPortSettingFragment newInstance() {
+    private SiUtil siUtil;
+    private static LocalApi mLocalApi;
+
+    public static WANPortSettingFragment newInstance(LocalApi localApi) {
+        mLocalApi = localApi;
         WANPortSettingFragment extranetSettingFragment = new WANPortSettingFragment();
         Bundle args = new Bundle();
         extranetSettingFragment.setArguments(args);
@@ -72,7 +78,7 @@ public class WANPortSettingFragment extends Fragment {
     }
 
     private void init() {
-
+        siUtil = new SiUtil(getContext());
     }
 
     private void initView() {
@@ -80,7 +86,7 @@ public class WANPortSettingFragment extends Fragment {
     }
 
     private void initData() {
-
+        siUtil.getWanTypeRet(mLocalApi);
     }
 
 

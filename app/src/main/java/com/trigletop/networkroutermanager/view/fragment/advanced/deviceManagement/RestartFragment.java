@@ -10,7 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.view.fragment.advanced.networkParam.BindingSettingFragment;
+
+import butterknife.OnClick;
 
 public class RestartFragment extends Fragment {
 
@@ -42,6 +43,9 @@ public class RestartFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        init();
+        initView();
+        initData();
     }
 
     @Override
@@ -56,5 +60,20 @@ public class RestartFragment extends Fragment {
 
     }
 
+    private void initData() {
 
+    }
+
+    private void init() {
+
+    }
+
+    private void initView() {
+
+    }
+
+    @OnClick(R.id.btn_reset)
+    public void onViewClicked() {
+
+    }
 }
