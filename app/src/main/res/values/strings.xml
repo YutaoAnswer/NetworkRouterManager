@@ -105,4 +105,16 @@
     <string name="restart">重启路由器</string>
     <string name="hint_reset">单击此按钮将使路由器所有设置恢复到出厂时的默认状态</string>
 
+    <string name="old_password">原登录密码</string>
+    <string name="new_password">新登录密码</string>
+    <string name="confirm_password">确认新登录密码</string>
+
+    <string name="update_hint">请选择升级软件,软件点击升级按钮进行升级</string>
+    <string name="save_config">是否保留配置</string>
+    <string name="current_hardware">当前硬件版本</string>
+    <string name="current_software">当前软件版本</string>
+    <string name="software_update">软件升级</string>
+    <string name="ota_software_update">OTA软件升级</string>
+    <string name="ota_online_update">OTA在线升级</string>
+    <string name="browse">浏览</string>
 </resources>

@@ -12,10 +12,20 @@ import androidx.fragment.app.Fragment;
 import com.trigletop.networkroutermanager.R;
 
 import butterknife.OnClick;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.CommandParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.CommandRet;
 
 public class RestartFragment extends Fragment {
 
-    public static RestartFragment newInstance() {
+    private static LocalApi mLocalApi;
+
+    public static RestartFragment newInstance(LocalApi localApi) {
+        mLocalApi = localApi;
         RestartFragment restartFragment = new RestartFragment();
         Bundle args = new Bundle();
         restartFragment.setArguments(args);
@@ -74,6 +84,27 @@ public class RestartFragment extends Fragment {
 
     @OnClick(R.id.btn_reset)
     public void onViewClicked() {
+        CommandParam commandParam = new CommandParam(LocalApi.DEFAULT_APP_API_VERSION);
+        commandParam.setCmd(0);
 
+        mLocalApi.executeApiWithSingleResponse(commandParam, CommandRet.class)
+                .observeOn(Schedulers.trampoline())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CommandRet>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(CommandRet commandRet) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 }

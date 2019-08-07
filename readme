@@ -105,6 +105,11 @@ ssid AC　AP
 
 主页按钮选中切换
 
+未实现的类：DiagnosticToolsFragment 
+          BackupFragment 
+          DiagnosticToolsFragment
+           
+
 AppKey：
 c20ad4d76fe97759aa27a0c99bff6710
 AppSecret：

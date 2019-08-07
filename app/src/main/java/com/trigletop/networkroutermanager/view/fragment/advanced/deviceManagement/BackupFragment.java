@@ -9,9 +9,14 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+
 public class BackupFragment extends Fragment {
 
-    public static BackupFragment newInstance() {
+    private static LocalApi mLocalApi;
+
+    public static BackupFragment newInstance(LocalApi localApi) {
+        mLocalApi = localApi;
         BackupFragment backupFragment = new BackupFragment();
         Bundle args = new Bundle();
         backupFragment.setArguments(args);

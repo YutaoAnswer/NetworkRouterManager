@@ -11,9 +11,14 @@ import androidx.fragment.app.Fragment;
 
 import com.trigletop.networkroutermanager.R;
 
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+
 public class DiagnosticToolsFragment extends Fragment {
 
-    public static DiagnosticToolsFragment newInstance() {
+    private static LocalApi mLocalApi;
+
+    public static DiagnosticToolsFragment newInstance(LocalApi localApi) {
+        mLocalApi = localApi;
         DiagnosticToolsFragment diagnosticToolsFragment = new DiagnosticToolsFragment();
         Bundle args = new Bundle();
         diagnosticToolsFragment.setArguments(args);

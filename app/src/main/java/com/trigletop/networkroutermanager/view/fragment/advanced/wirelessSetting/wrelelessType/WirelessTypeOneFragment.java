@@ -81,4 +81,5 @@ public class WirelessTypeOneFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
 }

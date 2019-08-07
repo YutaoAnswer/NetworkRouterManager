@@ -19,16 +19,20 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.CommandParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetDeviceParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.CommandRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetDeviceRet;
 
 public class ResetFragment extends Fragment {
 
     Unbinder unbinder;
+
     private static LocalApi mLocalApi;
-    private SiUtil siUtil;
 
     public static ResetFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -86,26 +90,32 @@ public class ResetFragment extends Fragment {
 
     @OnClick(R.id.btn_reset)
     public void onViewClicked() {
-//        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION);
-//        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
-//        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
-//            @Override
-//            public void onSubscribe(Disposable d) {
-//            }
-//
-//            @Override
-//            public void onSuccess(SetDeviceRet setDeviceRet) {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//            }
-//        });
+        CommandParam commandParam = new CommandParam(LocalApi.DEFAULT_APP_API_VERSION);
+        commandParam.setCmd(2);
+
+        mLocalApi.executeApiWithSingleResponse(commandParam, CommandRet.class)
+                .observeOn(Schedulers.trampoline())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CommandRet>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(CommandRet commandRet) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 
     private void init() {
-        siUtil = new SiUtil(getContext());
+
     }
 
     private void initView() {

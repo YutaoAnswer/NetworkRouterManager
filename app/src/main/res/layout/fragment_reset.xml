@@ -11,7 +11,6 @@
         android:textColor="@android:color/black"
         android:textSize="40sp" />
 
-
     <Button
         android:id="@+id/btn_reset"
         android:layout_width="wrap_content"
