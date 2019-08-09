@@ -1,36 +1,43 @@
 package com.trigletop.networkroutermanager.view.fragment.main;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
+import com.trigletop.networkroutermanager.view.fragment.account.SetupWizardFragment;
 
-import app.com.tvrecyclerview.TvRecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 
 public class AccountManagermentFragment extends Fragment {
 
     private static final String TAG = AccountManagermentFragment.class.getSimpleName();
 
-    @BindView(R.id.rcy_account)
-    TvRecyclerView rcyAccount;
+    @BindView(R.id.frameLayout_account)
+    FrameLayout frameLayoutAccount;
     Unbinder unbinder;
 
-    public static AccountManagermentFragment newInstance() {
+    private static LocalApi mLocalApi;
+
+    private Fragment currentFragment;
+    private SetupWizardFragment setupWizardFragment;
+    private FragmentManager fragmentManager;
+
+    public static AccountManagermentFragment newInstance(LocalApi localApi) {
+        mLocalApi = localApi;
         AccountManagermentFragment accountFragment = new AccountManagermentFragment();
         Bundle args = new Bundle();
         accountFragment.setArguments(args);
@@ -60,7 +67,9 @@ public class AccountManagermentFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        init();
         initView();
+        initData();
     }
 
     @Override
@@ -84,44 +93,46 @@ public class AccountManagermentFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void initView() {
-        //RecyclerView
-        TvRecyclerView.openDEBUG();
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rcyAccount.setLayoutManager(manager);
-
-        int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
-        rcyAccount.addItemDecoration(new SpaceItemDecoration(itemSpace));
-        DevicesAdapter mAdapter = new DevicesAdapter(getActivity(), TAG);
-        rcyAccount.setAdapter(mAdapter);
-
-        rcyAccount.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
-            @Override
-            public void onItemViewClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
-
-            }
-        });
+    private void init() {
+        setupWizardFragment = SetupWizardFragment.newInstance(mLocalApi);
+        fragmentManager = getFragmentManager();
     }
 
-    private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+    private void initView() {
+        //初始化界面　首页展示设置向导页面
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction
+                .add(R.id.frameLayout_account, setupWizardFragment)
+                .commit();
+        currentFragment = setupWizardFragment;
+    }
 
-        private int space;
+    private void initData() {
 
-        SpaceItemDecoration(int space) {
-            this.space = space;
+    }
+
+
+    /**
+     * 切换Fragment
+     *
+     * @param fromFragment：需要隐藏的Fragment
+     * @param toFragment：需要显示的Fragment
+     */
+    private void switchFragment(Fragment fromFragment, Fragment toFragment) {
+        if (fromFragment != toFragment) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            if (!toFragment.isAdded()) {
+                // TODO: 19-8-2 是否要用replace
+                fragmentTransaction.hide(fromFragment).add(R.id.frameLayout_common_setting, toFragment).commit();
+            } else {
+                fragmentTransaction.hide(fromFragment).show(toFragment).commit();
+            }
         }
+    }
 
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                   RecyclerView.State state) {
-            outRect.left = space;
-            outRect.top = space;
-        }
+    @OnClick(R.id.ll_setup_wizard)
+    public void onViewClicked() {
+        switchFragment(currentFragment, setupWizardFragment);
+        currentFragment = setupWizardFragment;
     }
 }

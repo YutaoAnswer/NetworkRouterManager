@@ -6,25 +6,39 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.trigletop.networkroutermanager.R;
+import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
 import com.trigletop.networkroutermanager.utils.SiUtil;
+import com.trigletop.networkroutermanager.view.activity.MainActivity;
+
+import java.util.List;
 
 import app.com.tvrecyclerview.TvRecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetDeviceParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.Device;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetDeviceRet;
 
 public class ForbiddenFragment extends Fragment {
 
@@ -36,19 +50,6 @@ public class ForbiddenFragment extends Fragment {
 
     private SiUtil siUtil;
     private LocalApi mLocalApi;
-
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 2) {
-                // TODO: 19-8-5 优化点
-                initData();
-            }
-        }
-    };
-
 
     public static ForbiddenFragment newInstance() {
         ForbiddenFragment forbiddenFragment = new ForbiddenFragment();
@@ -102,7 +103,76 @@ public class ForbiddenFragment extends Fragment {
     }
 
     private void initData() {
-        siUtil.getDeviceRet(rcyConnected, mLocalApi, getActivity(), siUtil, mHandler);
+//        siUtil.getDeviceRet(rcyConnected, mLocalApi, getActivity(), siUtil, mHandler);
+
+        Single<GetDeviceRet> getDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceRet.class);
+        getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "onSubscribe: ");
+
+            }
+
+            @Override
+            public void onSuccess(GetDeviceRet getDeviceRet) {
+                Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
+                DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Forbidden", mLocalApi);
+                // TODO: 19-8-9 循环遍历删除　需要做优化修改
+                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
+                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 0) {
+                        getDeviceRet.getList().remove(i);
+                    }
+                }
+                devicesAdapter.setDeviceList(getDeviceRet.getList());
+                rcyConnected.setAdapter(devicesAdapter);
+                rcyConnected.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
+                    @Override
+                    public void onItemViewClick(View view, int position) {
+                        // TODO: 19-8-2 功能一：解除禁用按钮实现设备禁用
+                        List<Device> deviceList = devicesAdapter.getDeviceList();
+//                        siUtil.setDevice(mLocalApi, deviceList.get(position).getAuthority().getLan() + "", handler);
+
+                        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, deviceList.get(position).getAuthority().getInternet() + "");
+                        setDeviceParam.setLan(1);//禁用设备使用无线网络
+                        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
+                        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                Log.d(TAG, "onSubscribe: ");
+
+                            }
+
+                            @Override
+                            public void onSuccess(SetDeviceRet setDeviceRet) {
+                                Log.d(TAG, "onSuccess: ");
+                                // TODO: 19-8-9 实现页面刷新
+                                rcyConnected.removeViewAt(position);
+                                rcyConnected.notifyAll();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d(TAG, "onError: ");
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
+                        // TODO: 19-8-2 添加内容
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+
+            }
+        });
     }
 
     @Override

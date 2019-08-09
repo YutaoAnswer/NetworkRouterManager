@@ -60,38 +60,62 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        // TODO: 19-7-30 如果deviceList为空怎么办，则不会设置任何值 为空处理
         final RecyclerViewHolder viewHolder = (RecyclerViewHolder) holder;
         Log.d(TAG, "onBindViewHolder: position" + position);
-        // TODO: 19-7-30 如果deviceList为空怎么办，则不会设置任何值 为空处理
+
         if (deviceList != null && deviceList.size() > 0 && position < deviceList.size()) {
             Device device = deviceList.get(position);
-            if ("1".equals(device.getAuthority().getLan())) {
-                if (device.getNickname().equals("")) {
-                    viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
-                } else {
-                    viewHolder.mName.setText(deviceList.get(position).getNickname());
-                }
-                viewHolder.mDownload.setText(String.valueOf(device.getSpeed().getDownspeed()));
-                viewHolder.mUpload.setText(String.valueOf(device.getSpeed().getUpspeed()));
-            } else if ("-1".equals(device.getAuthority().getLan())) {
-                viewHolder.mFrameLayout_Left.setVisibility(View.GONE);
-                if (device.getNickname().equals("")) {
-                    viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
-                } else {
-                    viewHolder.mName.setText(deviceList.get(position).getNickname());
-                }
-//                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) viewHolder.mFrameLayout_Rigth.getLayoutParams();
-//                viewHolder.mFrameLayout_Rigth.setLayoutParams(params);
-//                viewHolder.mForbidden.setLayoutParams(new LinearLayout.LayoutParams());
-                viewHolder.mForbidden.setOnClickListener(v -> {
-                    // TODO: 19-8-5 解除禁用
-//                    SiUtil siUtil = new SiUtil(mContext);
-//                    siUtil.setDevice(mLocalApi, device.getMac());
-                });
+            switch (mParam) {
+                case "Connected":
+                    if (device.getAuthority().getInternet() == 1) {
+                        if (device.getNickname().equals("")) {
+                            viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
+                        } else {
+                            viewHolder.mName.setText(deviceList.get(position).getNickname());
+                        }
+                        viewHolder.mDownload.setText(String.valueOf(device.getSpeed().getDownspeed()));
+                        viewHolder.mUpload.setText(String.valueOf(device.getSpeed().getUpspeed()));
+                        GradientDrawable drawable = (GradientDrawable) viewHolder.mFrameLayout.getBackground();
+                        drawable.setColor(ContextCompat.getColor(mContext, ContantUtil.getRandColor()));
+                    }
+                    break;
+                case "Forbidden":
+                    if (device.getAuthority().getInternet() == 0) {
+                        viewHolder.mFrameLayout_Left.setVisibility(View.GONE);
+                        if (device.getNickname().equals("")) {
+                            viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
+                        } else {
+                            viewHolder.mName.setText(deviceList.get(position).getNickname());
+                        }
+                        GradientDrawable drawable = (GradientDrawable) viewHolder.mFrameLayout.getBackground();
+                        drawable.setColor(ContextCompat.getColor(mContext, ContantUtil.getRandColor()));
+                    }
+                    break;
+                default:
+                    break;
             }
+//            if (device.getAuthority().getLan() == 1) {
+//                if (device.getNickname().equals("")) {
+//                    viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
+//                } else {
+//                    viewHolder.mName.setText(deviceList.get(position).getNickname());
+//                }
+//                viewHolder.mDownload.setText(String.valueOf(device.getSpeed().getDownspeed()));
+//                viewHolder.mUpload.setText(String.valueOf(device.getSpeed().getUpspeed()));
+//            } else if (device.getAuthority().getLan() == -1) {
+//                viewHolder.mFrameLayout_Left.setVisibility(View.GONE);
+//                if (device.getNickname().equals("")) {
+//                    viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
+//                } else {
+//                    viewHolder.mName.setText(deviceList.get(position).getNickname());
+//                }
+////                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) viewHolder.mFrameLayout_Rigth.getLayoutParams();
+////                viewHolder.mFrameLayout_Rigth.setLayoutParams(params);
+////                viewHolder.mForbidden.setLayoutParams(new LinearLayout.LayoutParams());
+//            }
+
         }
-        GradientDrawable drawable = (GradientDrawable) viewHolder.mFrameLayout.getBackground();
-        drawable.setColor(ContextCompat.getColor(mContext, ContantUtil.getRandColor()));
     }
 
     @Override
@@ -110,17 +134,15 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView mName;
         TextView mDownload;
         TextView mUpload;
-        Button mForbidden;
-        FrameLayout mFrameLayout_Left;
+        LinearLayout mFrameLayout_Left;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);
             mName = itemView.findViewById(R.id.tv_item_tip);
             mDownload = itemView.findViewById(R.id.tv_download);
             mUpload = itemView.findViewById(R.id.tv_upload);
-            mForbidden = itemView.findViewById(R.id.btn_forbidden);
             mFrameLayout = itemView.findViewById(R.id.fl_main_layout);
-            mFrameLayout_Left = itemView.findViewById(R.id.frameLayout_left);
+            mFrameLayout_Left = itemView.findViewById(R.id.ll_container);
         }
     }
 }

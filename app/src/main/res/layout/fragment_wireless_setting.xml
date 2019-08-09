@@ -53,8 +53,8 @@
             <EditText
                 android:id="@+id/et_wireless_name"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="@string/default_wireless_name" />
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -80,21 +80,20 @@
             <EditText
                 android:id="@+id/et_wireless_psw"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="@string/default_psw" />
-
-            <CheckBox
-                android:id="@+id/cb_no_psw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_psw"
-                android:background="@null" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
+        <CheckBox
+            android:id="@+id/cb_no_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="@string/no_psw" />
+
         <Button
             android:id="@+id/btn_wireless_setting_save"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@android:color/holo_red_light"

@@ -11,6 +11,7 @@ import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
+import com.trigletop.networkroutermanager.utils.SiUtil;
 import com.trigletop.networkroutermanager.view.fragment.main.AccountManagermentFragment;
 import com.trigletop.networkroutermanager.view.fragment.main.AdvancedSettingFragment;
 import com.trigletop.networkroutermanager.view.fragment.main.CommonSettingFragment;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WiFiInfo;
 import sirouter.sdk.siflower.com.remotelibrary.SFClass.Routers;
 import sirouter.sdk.siflower.com.remotelibrary.SFUser;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private AccountManagermentFragment accountFragment;
     private long exitTime;
     private SFUser sfUser;
+    private LocalApi localApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,29 +106,17 @@ public class MainActivity extends AppCompatActivity {
      * 初始化
      */
     private void init() {
-
-//        sfUser = siUtil.login();
-//        routers = sfUser.getBinder().get(0);
-//        List<RouterWifi> wifi = routers.getWifi();
-
-//        siUtil.bindRouter();
-//        siUtil.getRouters();
-//        siUtil.getWifiObserve();
-
-//        routers = siUtil.getmRouters();//获取当前要显示信息的显示路由器
-//        routersList = siUtil.getRoutersList();//获取绑定的路由器列表
+        localApi = new LocalApi(LocalApi.DEFAULT_APP_API_VERSION);
 
         fragmentManager = getSupportFragmentManager();
-
         commonSettingFragment = CommonSettingFragment.newInstance();
         advancedSettingFragment = AdvancedSettingFragment.newInstance();
-        accountFragment = AccountManagermentFragment.newInstance();
+        accountFragment = AccountManagermentFragment.newInstance(localApi);
         fragmentList = new ArrayList<>();
         fragmentList.add(commonSettingFragment);
         fragmentList.add(advancedSettingFragment);
         fragmentList.add(accountFragment);
     }
-
 
     /**
      * 初始化View
@@ -186,6 +177,13 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.hide(fromFragment).show(toFragment).commit();
             }
         }
+    }
+
+    /**
+     * 重新加载Fragment
+     */
+    public void reLoadFragView() {
+
     }
 
 }

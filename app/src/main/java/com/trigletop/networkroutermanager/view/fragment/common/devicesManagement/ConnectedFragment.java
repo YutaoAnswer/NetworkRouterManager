@@ -3,6 +3,7 @@ package com.trigletop.networkroutermanager.view.fragment.common.devicesManagemen
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +13,26 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
+import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
 import com.trigletop.networkroutermanager.utils.SiUtil;
+
+import java.util.List;
+import java.util.Objects;
 
 import app.com.tvrecyclerview.TvRecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.Device;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceRet;
 
 public class ConnectedFragment extends Fragment {
 
@@ -103,7 +115,50 @@ public class ConnectedFragment extends Fragment {
     }
 
     private void initData() {
-        siUtil.getDeviceRet(rcyConnected, mLocalApi, getActivity(), siUtil);
+        Single<GetDeviceRet> getDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceRet.class);
+        getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "onSubscribe: ");
+            }
+
+            @Override
+            public void onSuccess(GetDeviceRet getDeviceRet) {
+                Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
+                DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Connected", mLocalApi);
+                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
+                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 1) {
+                        // TODO: 19-8-9 循环遍历删除　需要做优化修改
+                        getDeviceRet.getList().remove(i);
+                    }
+                }
+                devicesAdapter.setDeviceList(getDeviceRet.getList());
+                rcyConnected.setAdapter(devicesAdapter);
+                rcyConnected.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
+                    @Override
+                    public void onItemViewClick(View view, int position) {
+                        // TODO: 19-8-2 功能一：弹出框限制上传下载的数据  功能二：禁用按钮实现设备禁用
+                        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+                        dialogBuilder
+                                .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
+                                .withDuration(700)
+                                .show();
+                    }
+
+                    @Override
+                    public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
+                        // TODO: 19-8-2 添加内容
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+
+            }
+        });
     }
 
     private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
@@ -121,4 +176,5 @@ public class ConnectedFragment extends Fragment {
             outRect.top = space;
         }
     }
+
 }

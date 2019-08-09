@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import com.trigletop.networkroutermanager.R;
 
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -23,6 +25,7 @@ import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.CommandRet;
 public class RestartFragment extends Fragment {
 
     private static LocalApi mLocalApi;
+    private Unbinder unbinder;
 
     public static RestartFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -47,7 +50,9 @@ public class RestartFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_restart, container, false);
+        View view = inflater.inflate(R.layout.fragment_restart, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -68,6 +73,12 @@ public class RestartFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void initData() {
@@ -98,6 +109,7 @@ public class RestartFragment extends Fragment {
 
                     @Override
                     public void onSuccess(CommandRet commandRet) {
+                        // TODO: 19-8-8 弹窗
 
                     }
 

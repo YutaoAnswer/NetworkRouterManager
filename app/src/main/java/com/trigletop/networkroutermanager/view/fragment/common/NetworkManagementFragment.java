@@ -119,9 +119,9 @@ public class NetworkManagementFragment extends Fragment {
             super(fm);
             mLocalApi = localApi;
             mTitles = titles;
-            fragmentList.add(PPOEFragment.newInstance());
-            fragmentList.add(StaticIPAddressFragment.newInstance());
-            fragmentList.add(IPAddressAutoFragment.newInstance());
+            fragmentList.add(PPOEFragment.newInstance(mLocalApi));
+            fragmentList.add(StaticIPAddressFragment.newInstance(mLocalApi));
+            fragmentList.add(IPAddressAutoFragment.newInstance(mLocalApi));
         }
 
         @NonNull

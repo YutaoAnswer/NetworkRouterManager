@@ -4,26 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/advanced_account_reset"
-        android:textColor="@android:color/black"
-        android:textSize="40sp" />
-
     <LinearLayout
-        android:id="@+id/ll_old_password"
+        android:id="@+id/ll_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/old_password"
+            android:text="@string/broadband_account"
             android:textColor="@android:color/black" />
 
         <View
@@ -34,24 +26,23 @@
             android:background="@android:color/black" />
 
         <EditText
-            android:id="@+id/et_old_password"
+            android:id="@+id/et_account"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_new_password"
+        android:id="@+id/ll_psw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/new_password"
+            android:text="@string/broadband_psw"
             android:textColor="@android:color/black" />
 
         <View
@@ -62,48 +53,20 @@
             android:background="@android:color/black" />
 
         <EditText
-            android:id="@+id/et_new_password"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/confirm_password"
-            android:textColor="@android:color/black" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@android:color/black" />
-
-        <EditText
-            android:id="@+id/et_confirm_password"
+            android:id="@+id/et_psw"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_change_psw_save"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_ppoe_save"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:background="@android:color/holo_red_light"
-        android:padding="5dp"
-        android:text="@string/save" />
+        android:text="@string/save"
+        android:textSize="20sp" />
 
 </LinearLayout>

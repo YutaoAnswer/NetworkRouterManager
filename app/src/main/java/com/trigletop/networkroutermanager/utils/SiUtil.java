@@ -1576,7 +1576,6 @@ public class SiUtil {
             @Override
             public void onSuccess(GetDeviceRet getDeviceRet) {
                 Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
-                Log.d(TAG, "onSuccess: " + activity.toString());
                 DevicesAdapter devicesAdapter = new DevicesAdapter(mContext, activity.toString(), localApi);
                 switch (activity.toString()) {
                     case "ConnectedFragment":
@@ -1621,17 +1620,6 @@ public class SiUtil {
                     default:
                         break;
                 }
-                tvRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-                    @Override
-                    public void onChildViewAttachedToWindow(@NonNull View view) {
-
-                    }
-
-                    @Override
-                    public void onChildViewDetachedFromWindow(@NonNull View view) {
-
-                    }
-                });
             }
 
             @Override
@@ -1679,17 +1667,6 @@ public class SiUtil {
                     @Override
                     public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
                         // TODO: 19-8-2 添加内容
-
-                    }
-                });
-                tvRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-                    @Override
-                    public void onChildViewAttachedToWindow(@NonNull View view) {
-
-                    }
-
-                    @Override
-                    public void onChildViewDetachedFromWindow(@NonNull View view) {
 
                     }
                 });
@@ -2673,6 +2650,7 @@ public class SiUtil {
             @Override
             public void onSubscribe(Disposable d) {
                 Log.d(TAG, "onSubscribe: ");
+
             }
 
             @Override

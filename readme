@@ -108,7 +108,8 @@ ssid AC　AP
 未实现的类：DiagnosticToolsFragment 
           BackupFragment 
           DiagnosticToolsFragment
-           
+          
+不加密就是省略掉
 
 AppKey：
 c20ad4d76fe97759aa27a0c99bff6710

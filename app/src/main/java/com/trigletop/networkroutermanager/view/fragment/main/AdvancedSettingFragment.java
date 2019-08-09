@@ -187,7 +187,6 @@ public class AdvancedSettingFragment extends Fragment {
         }
     };
 
-
     public static AdvancedSettingFragment newInstance() {
         AdvancedSettingFragment advancedSettingFragment = new AdvancedSettingFragment();
         Bundle args = new Bundle();
@@ -246,24 +245,24 @@ public class AdvancedSettingFragment extends Fragment {
 //        fragmentList.add(networkDetectionFragment);
 //        fragmentList.add(updateFragment);
 
-        wanPortSettingFragment = WANPortSettingFragment.newInstance();
-        lanPortSettingFragment = LANPortSettingFragment.newInstance();
+        wanPortSettingFragment = WANPortSettingFragment.newInstance(localApi);
+        lanPortSettingFragment = LANPortSettingFragment.newInstance(localApi);
         macAddressFragment = MacAddressFragment.newInstance();
         dhcpServerFragment = DHCPServerFragment.newInstance();
         bindingSettingFragment = BindingSettingFragment.newInstance();
 
-        guestFragment = GuestNetworkFragment.newInstance();
-        hostNetworkFragment = HostNetworkFragment.newInstance();
+        guestFragment = GuestNetworkFragment.newInstance(localApi);
+        hostNetworkFragment = HostNetworkFragment.newInstance(localApi);
         wdsFragment = WDSFragment.newInstance();
 
-        backupFragment = BackupFragment.newInstance();
-        changePswFragment = ChangePswFragment.newInstance();
-        diagnosticToolsFragment = DiagnosticToolsFragment.newInstance();
-        resetFragment = ResetFragment.newInstance();
-        restartFragment = RestartFragment.newInstance();
+        backupFragment = BackupFragment.newInstance(localApi);
+        changePswFragment = ChangePswFragment.newInstance(localApi);
+        diagnosticToolsFragment = DiagnosticToolsFragment.newInstance(localApi);
+        resetFragment = ResetFragment.newInstance(localApi);
+        restartFragment = RestartFragment.newInstance(localApi);
         systemLogFragment = SystemLogFragment.newInstance();
         timeAndLanguageFragment = TimeAndLanguageFragment.newInstance();
-        updateFragment = UpdateFragment.newInstance();
+        updateFragment = UpdateFragment.newInstance(localApi);
 
         ddnsFragment = DDNSFragment.newInstance();
         dmzHostFragment = DMZHostFragment.newInstance();
@@ -341,6 +340,7 @@ public class AdvancedSettingFragment extends Fragment {
     }
 
     private ArrayList<DummyParentDataItem> getDummyDataToPass() {
+
         ArrayList<DummyParentDataItem> arrDummyData = new ArrayList<>();
         ArrayList<DummyChildDataItem> childDataItems;
 

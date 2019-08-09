@@ -104,6 +104,7 @@ public class ResetFragment extends Fragment {
 
                     @Override
                     public void onSuccess(CommandRet commandRet) {
+                        // TODO: 19-8-8 弹出对话框
 
                     }
 
@@ -125,4 +126,5 @@ public class ResetFragment extends Fragment {
     private void initData() {
 
     }
+
 }

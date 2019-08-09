@@ -2,20 +2,21 @@ package com.trigletop.networkroutermanager.view.fragment.common;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.utils.SiUtil;
+import com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting.wrelelessType.WirelessTypeOneFragment;
 
 import java.util.Objects;
 
@@ -29,10 +30,13 @@ import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWiFiDetailParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetWiFiDetailParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WifiParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWiFiDetailRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWiFiDetailRet;
 
 public class WirelessSettingFragment extends Fragment {
+
+    private static final String TAG = WirelessTypeOneFragment.class.getSimpleName();
 
     @BindView(R.id.tab)
     TabLayout tab;
@@ -45,7 +49,6 @@ public class WirelessSettingFragment extends Fragment {
     private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
-    private SiUtil siUtil;
 
     public static WirelessSettingFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -96,12 +99,12 @@ public class WirelessSettingFragment extends Fragment {
     }
 
     private void init() {
-        siUtil = new SiUtil(getActivity());
+
     }
 
     private void initView() {
-        Single<GetWiFiDetailRet> getWifi = mLocalApi.executeApiWithSingleResponse(new GetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION), GetWiFiDetailRet.class);
-        getWifi.subscribe(new SingleObserver<GetWiFiDetailRet>() {
+        Single<GetWiFiDetailRet> getWiFiDetailRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION), GetWiFiDetailRet.class);
+        getWiFiDetailRetSingle.subscribe(new SingleObserver<GetWiFiDetailRet>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -121,14 +124,17 @@ public class WirelessSettingFragment extends Fragment {
     }
 
     private void intData() {
-//        siUtil.getWiFiDetail(mLocalApi);
 
     }
 
     @OnClick(R.id.btn_wireless_setting_save)
     void onViewClicked() {
         if (!etWirelessName.getText().toString().isEmpty() && !etWirelessPsw.getText().toString().isEmpty()) {
-            Single<SetWiFiDetailRet> setWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(new SetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION), SetWiFiDetailRet.class);
+            SetWiFiDetailParam setWiFiDetailParam = new SetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION);
+            WifiParam wifiParam = setWiFiDetailParam.getWifiParamsList().get(0);
+            // TODO: 19-8-9 设置参数
+            wifiParam.password = "";
+            Single<SetWiFiDetailRet> setWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(setWiFiDetailParam, SetWiFiDetailRet.class);
             setWanTypeRetSingle.subscribe(new SingleObserver<SetWiFiDetailRet>() {
                 @Override
                 public void onSubscribe(Disposable d) {
@@ -137,10 +143,14 @@ public class WirelessSettingFragment extends Fragment {
 
                 @Override
                 public void onSuccess(SetWiFiDetailRet setWiFiDetailRet) {
-                    // TODO: 19-8-6
+                    Log.d(TAG, "onSuccess: ");
                     NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
                     dialogBuilder
-                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
+                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                            .withTitleColor(R.color.cyan)
+                            .withMessage(getActivity().getString(R.string.successful_save))
+                            .withMessageColor("#FFFFFFFF")
+                            .withEffect(Effectstype.Fadein)
                             .withDuration(700)
                             .show();
                 }
@@ -151,10 +161,13 @@ public class WirelessSettingFragment extends Fragment {
                 }
             });
         } else {
-            // TODO: 19-8-6 实现弹框提示
             NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
             dialogBuilder
-                    .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
+                    .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                    .withTitleColor(R.color.cyan)
+                    .withMessage(getActivity().getString(R.string.successful_save))
+                    .withMessageColor("#FFFFFFFF")
+                    .withEffect(Effectstype.Fadein)
                     .withDuration(700)
                     .show();
         }

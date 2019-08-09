@@ -6,6 +6,7 @@
 
     <!--常用设置　侧边栏-->
     <LinearLayout
+        android:id="@+id/ll_setup_wizard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -20,13 +21,6 @@
             android:src="@mipmap/icon_wizard" />
 
         <TextView
-            android:id="@+id/tv_device_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已连接设备数量：2"
-            android:visibility="gone" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/setup_wizard" />
@@ -34,12 +28,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/default_background"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -48,46 +44,9 @@
             android:src="@mipmap/icon_exit" />
 
         <TextView
-            android:id="@+id/tv_network_method"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上网方式：自动获得IP地址"
-            android:visibility="gone" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/exit_safe" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/default_background"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:src="@mipmap/ic_launcher"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_wireless_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上网方式：自动获得IP地址"
-            android:visibility="gone" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wireless_setting"
-            android:visibility="gone" />
 
     </LinearLayout>
 

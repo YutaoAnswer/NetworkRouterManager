@@ -10,12 +10,12 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
-import com.trigletop.networkroutermanager.Bean.Device;
 import com.trigletop.networkroutermanager.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.Device;
 
 public class DeviceDetailFragment extends Fragment {
 
@@ -26,7 +26,6 @@ public class DeviceDetailFragment extends Fragment {
     public static DeviceDetailFragment newInstance(Device device) {
         DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
         Bundle args = new Bundle();
-        args.putSerializable("device", device);
         deviceDetailFragment.setArguments(args);
         return deviceDetailFragment;
     }

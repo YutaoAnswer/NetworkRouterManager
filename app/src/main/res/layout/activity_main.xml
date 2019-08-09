@@ -24,18 +24,6 @@
         tl:tl_indicator_margin_top="2dp"
         tl:tl_tab_space_equal="true" />
 
-    <!--右上角图片-->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:clickable="true"
-        android:contentDescription="@string/add_router"
-        android:focusable="true"
-        android:src="@mipmap/icon_add" />
-
     <!--底部容器-->
     <LinearLayout
         android:layout_width="match_parent"
