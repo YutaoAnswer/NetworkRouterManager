@@ -23,7 +23,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/setup_wizard" />
+            android:text="@string/setup_wizard"
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
 

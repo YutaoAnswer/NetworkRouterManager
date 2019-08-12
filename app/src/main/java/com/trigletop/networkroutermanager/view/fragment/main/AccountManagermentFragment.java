@@ -28,7 +28,7 @@ public class AccountManagermentFragment extends Fragment {
 
     @BindView(R.id.frameLayout_account)
     FrameLayout frameLayoutAccount;
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
 
@@ -111,7 +111,6 @@ public class AccountManagermentFragment extends Fragment {
 
     }
 
-
     /**
      * 切换Fragment
      *
@@ -122,7 +121,6 @@ public class AccountManagermentFragment extends Fragment {
         if (fromFragment != toFragment) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (!toFragment.isAdded()) {
-                // TODO: 19-8-2 是否要用replace
                 fragmentTransaction.hide(fromFragment).add(R.id.frameLayout_common_setting, toFragment).commit();
             } else {
                 fragmentTransaction.hide(fromFragment).show(toFragment).commit();
@@ -135,4 +133,5 @@ public class AccountManagermentFragment extends Fragment {
         switchFragment(currentFragment, setupWizardFragment);
         currentFragment = setupWizardFragment;
     }
+
 }

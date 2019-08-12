@@ -20,7 +20,6 @@ import com.trigletop.networkroutermanager.view.fragment.common.devicesManagement
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +32,7 @@ public class DevicesManagementFragment extends Fragment {
     TabLayout tab;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
 
@@ -81,7 +80,7 @@ public class DevicesManagementFragment extends Fragment {
         tab.addTab(tab.newTab());
 
         viewPager.setAdapter(new DevicesManagementAdapter(
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager(),
+                getChildFragmentManager(),
                 mLocalApi,
                 getString(R.string.connected),
                 getString(R.string.forbidden)));
@@ -107,7 +106,6 @@ public class DevicesManagementFragment extends Fragment {
     }
 
     private class DevicesManagementAdapter extends FragmentPagerAdapter {
-
         private String[] mTitles;
         private LocalApi mLocalApi;
         private List<Fragment> fragmentList = new ArrayList<>();

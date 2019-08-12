@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
@@ -35,6 +36,8 @@ import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetWanTypeParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWanTypeRet;
 
 public class PPOEFragment extends Fragment {
+
+    private static final String TAG = PPOEFragment.class.getSimpleName();
 
     @BindView(R.id.et_account)
     EditText etAccount;
@@ -71,6 +74,7 @@ public class PPOEFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: PPOE");
         View view = inflater.inflate(R.layout.fragment_ppoe, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -79,6 +83,7 @@ public class PPOEFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: PPOE");
         init();
         initView();
         initData();
@@ -111,7 +116,6 @@ public class PPOEFragment extends Fragment {
     @OnClick(R.id.btn_ppoe_save)
     public void onViewClicked() {
         if (account != null && password != null) {
-//            siUtil.setWanType(mLocalApi, account, password, handler);
             SetWanTypeParam setWanTypeParam = new SetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION);
             setWanTypeParam.setPppnanme(account);
             setWanTypeParam.setPpppwd(password);
@@ -123,14 +127,14 @@ public class PPOEFragment extends Fragment {
 
                 @Override
                 public void onSuccess(SetWanTypeRet setWanTypeRet) {
-//                    Message message = new Message();
-//                    message.what = Data.handler_message_setWanType_PPOE;
-//                    message.obj = "setDevice";
-//                    handler.sendMessage(message);
                     // TODO: 19-8-6 实现弹框提示
                     NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
                     dialogBuilder
-                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
+                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                            .withTitleColor(R.color.cyan)
+                            .withMessage(getActivity().getString(R.string.setting_successful))
+                            .withMessageColor("#FFFFFFFF")
+                            .withEffect(Effectstype.Fadein)
                             .withDuration(700)
                             .show();
                 }
@@ -141,7 +145,15 @@ public class PPOEFragment extends Fragment {
             });
         } else {
             // TODO: 19-8-6 需要修改
-            Toast.makeText(getContext(), "错误", Toast.LENGTH_SHORT).show();
+            NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+            dialogBuilder
+                    .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                    .withTitleColor(R.color.cyan)
+                    .withMessage(getActivity().getString(R.string.setting_unsuccessful))
+                    .withMessageColor("#FFFFFFFF")
+                    .withEffect(Effectstype.Fadein)
+                    .withDuration(700)
+                    .show();
         }
     }
 

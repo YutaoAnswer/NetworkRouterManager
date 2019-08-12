@@ -27,7 +27,7 @@
 
     <string name="PPOE">宽带拨号上网</string>
     <string name="static_ip">固定IP地址</string>
-    <string name="IP_address_auto">固定IP地址</string>
+    <string name="IP_address_auto">自动获取IP地址</string>
 
     <string name="more">more</string>
 
@@ -70,10 +70,10 @@
     <string name="broadband_psw">宽带密码</string>
     <string name="broadband_account">宽带账号</string>
 
-    <string name="ip_address">    IP 地址</string>
-    <string name="mac_address">    MAC 地址</string>
-    <string name="subnet_mask">    子网掩码</string>
-    <string name="gateway">       网关</string>
+    <string name="ip_address">IP 地址</string>
+    <string name="mac_address">MAC 地址</string>
+    <string name="subnet_mask">子网掩码</string>
+    <string name="gateway">网关</string>
     <string name="preferred_dns_server">首选DNS服务器</string>
     <string name="spare_dns_server">备用DNS服务器</string>
 
@@ -96,6 +96,9 @@
     <string name="upload_download_limit">上传下载限制</string>
     <string name="no_psw">不加密</string>
     <string name="successful_save">保存成功</string>
+    <string name="unsuccessful_save">保存失败</string>
+    <string name="setting_successful">设置成功</string>
+    <string name="setting_unsuccessful">设置失败</string>
     <string name="network_mode">上网方式</string>
 
     <string name="wireless_one">2.4G</string>
@@ -105,6 +108,11 @@
     <string name="maximum_upload_speed">访客网络最大上传速度</string>
     <string name="maximum_download_speed">访客网络最大下载速度</string>
     <string name="opening_hours">是否设置访客网络开放时间</string>
+    <string name="channel">信道</string>
+    <string name="mode">模式</string>
+    <string name="bandwidth">频段带宽</string>
+    <string name="signal_strength">信号强度</string>
+    <string name="ap_isolation">开启AP隔离</string>
 
     <string name="reset">恢复出厂设置</string>
     <string name="restart">重启路由器</string>
@@ -125,4 +133,16 @@
 
     <string name="wds_setup_wizard">WDS 网组向导</string>
     <string name="wds_setup_wizard_hint">通过WDS功能，主,从路由器之间可以通过无线进行桥接,以扩展无线网络的覆盖范围.\n 开启WDS功能之后，本路由器将作为从路由器进行WDS组网</string>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="input_password">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="password">密码</string>
+    <string name="forget_password">忘记密码</string>
+
+    <string name="intranet_resource">是否设置访客访问内网资源</string>
+    <string name="guest_network_download_speed">访客网络最大下载速度</string>
+    <string name="guest_network_upload_speed">访客网络最大上传速度</string>
+    <string name="guest_network_opening_time">是否设置访客网络开放时间</string>
+
 </resources>

@@ -11,7 +11,6 @@ import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.utils.SiUtil;
 import com.trigletop.networkroutermanager.view.fragment.main.AccountManagermentFragment;
 import com.trigletop.networkroutermanager.view.fragment.main.AdvancedSettingFragment;
 import com.trigletop.networkroutermanager.view.fragment.main.CommonSettingFragment;
@@ -177,13 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.hide(fromFragment).show(toFragment).commit();
             }
         }
-    }
-
-    /**
-     * 重新加载Fragment
-     */
-    public void reLoadFragView() {
-
     }
 
 }

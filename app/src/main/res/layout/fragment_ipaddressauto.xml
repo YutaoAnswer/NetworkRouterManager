@@ -15,7 +15,7 @@
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/ip_address"
@@ -39,10 +39,11 @@
         android:id="@+id/ll_subnet_mask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/subnet_mask"
@@ -66,10 +67,11 @@
         android:id="@+id/ll_gateway"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/gateway"
@@ -93,10 +95,11 @@
         android:id="@+id/ll_preferred_dns_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/preferred_dns_server"
@@ -120,10 +123,11 @@
         android:id="@+id/ll_spare_dns_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/spare_dns_server"

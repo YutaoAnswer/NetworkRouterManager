@@ -34,7 +34,7 @@ public class NetworkManagementFragment extends Fragment {
     TabLayout tab;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
 
@@ -61,7 +61,7 @@ public class NetworkManagementFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_devices_managment, container, false);
+        View view = inflater.inflate(R.layout.fragment_network_managment, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -83,7 +83,7 @@ public class NetworkManagementFragment extends Fragment {
         tab.addTab(tab.newTab());
 
         viewPager.setAdapter(new NetworkManagmentAdapter(
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager(),
+                getChildFragmentManager(),
                 mLocalApi,
                 getString(R.string.PPOE),
                 getString(R.string.static_ip),

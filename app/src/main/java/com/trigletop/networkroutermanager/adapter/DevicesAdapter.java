@@ -63,7 +63,6 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         // TODO: 19-7-30 如果deviceList为空怎么办，则不会设置任何值 为空处理
         final RecyclerViewHolder viewHolder = (RecyclerViewHolder) holder;
         Log.d(TAG, "onBindViewHolder: position" + position);
-
         if (deviceList != null && deviceList.size() > 0 && position < deviceList.size()) {
             Device device = deviceList.get(position);
             switch (mParam) {

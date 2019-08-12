@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
@@ -119,8 +120,6 @@ public class IPAddressAutoFragment extends Fragment {
     }
 
     private void initData() {
-//        siUtil.getWanTypeRet(mLocalApi);
-
         Single<GetWanTypeRet> getWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION), GetWanTypeRet.class);
         getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
             @Override
@@ -139,11 +138,10 @@ public class IPAddressAutoFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
+                // TODO: 19-8-9 取取数据失败，请重试
 
             }
         });
-
-
     }
 
     @OnClick(R.id.btn_address_auto_save)
@@ -154,28 +152,47 @@ public class IPAddressAutoFragment extends Fragment {
         String preferredDnsServer = tvPreferredDnsServer.getText().toString();
         String spareDnsServer = tvSpareDnsServer.getText().toString();
         String subnetMask = tvSubnetMask.getText().toString();
-        SetWanTypeParam setWanTypeParam = new SetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION);
-        setWanTypeParam.setAddress(ipAddress);
-        setWanTypeParam.setMask(subnetMask);
-        setWanTypeParam.setGateway(gateWay);
-        setWanTypeParam.setDns1(preferredDnsServer);
-        setWanTypeParam.setDns2(spareDnsServer);
-        Single<SetWanTypeRet> setWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(setWanTypeParam, SetWanTypeRet.class);
-        setWanTypeRetSingle.subscribe(new SingleObserver<SetWanTypeRet>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-            }
+        if (!gateWay.isEmpty() && !ipAddress.isEmpty() && !preferredDnsServer.isEmpty() && !spareDnsServer.isEmpty() && !subnetMask.isEmpty()) {
+            SetWanTypeParam setWanTypeParam = new SetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION);
+            setWanTypeParam.setAddress(ipAddress);
+            setWanTypeParam.setMask(subnetMask);
+            setWanTypeParam.setGateway(gateWay);
+            setWanTypeParam.setDns1(preferredDnsServer);
+            setWanTypeParam.setDns2(spareDnsServer);
+            Single<SetWanTypeRet> setWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(setWanTypeParam, SetWanTypeRet.class);
+            setWanTypeRetSingle.subscribe(new SingleObserver<SetWanTypeRet>() {
+                @Override
+                public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onSuccess(SetWanTypeRet setWanTypeRet) {
-                // TODO: 19-8-6 弹窗
+                }
 
-            }
+                @Override
+                public void onSuccess(SetWanTypeRet setWanTypeRet) {
+                    // TODO: 19-8-6 弹窗
+                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+                    dialogBuilder
+                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                            .withTitleColor(R.color.cyan)
+                            .withMessage(getActivity().getString(R.string.setting_successful))
+                            .withMessageColor("#FFFFFFFF")
+                            .withEffect(Effectstype.Fadein)
+                            .withDuration(700)
+                            .show();
+                }
 
-            @Override
-            public void onError(Throwable e) {
-            }
-        });
-
+                @Override
+                public void onError(Throwable e) {
+                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+                    dialogBuilder
+                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                            .withTitleColor(R.color.cyan)
+                            .withMessage(getActivity().getString(R.string.setting_successful))
+                            .withMessageColor("#FFFFFFFF")
+                            .withEffect(Effectstype.Fadein)
+                            .withDuration(700)
+                            .show();
+                }
+            });
+        }
     }
 }

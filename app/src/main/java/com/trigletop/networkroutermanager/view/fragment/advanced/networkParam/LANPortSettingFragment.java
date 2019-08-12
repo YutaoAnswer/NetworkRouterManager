@@ -17,7 +17,7 @@ import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 
 public class LANPortSettingFragment extends Fragment {
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
 

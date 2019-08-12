@@ -22,12 +22,12 @@ public class WANPortStaticIPAddressFragment extends Fragment {
 
     private Unbinder unbinder;
 
-    public static WANPortIPAddressAutoFragment newInstance(LocalApi localApi) {
+    public static WANPortStaticIPAddressFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
-        WANPortIPAddressAutoFragment wanPortIPAddressAutoFragment = new WANPortIPAddressAutoFragment();
+        WANPortStaticIPAddressFragment wanPortStaticIPAddressFragment = new WANPortStaticIPAddressFragment();
         Bundle args = new Bundle();
-        wanPortIPAddressAutoFragment.setArguments(args);
-        return wanPortIPAddressAutoFragment;
+        wanPortStaticIPAddressFragment.setArguments(args);
+        return wanPortStaticIPAddressFragment;
     }
 
     @Override

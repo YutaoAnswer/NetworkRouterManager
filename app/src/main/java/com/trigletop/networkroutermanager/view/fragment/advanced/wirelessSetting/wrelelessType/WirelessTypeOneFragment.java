@@ -19,7 +19,7 @@ public class WirelessTypeOneFragment extends Fragment {
 
     private static LocalApi mLocalApi;
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     public static WirelessTypeOneFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -44,7 +44,7 @@ public class WirelessTypeOneFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wireless_two, container, false);
+        View view = inflater.inflate(R.layout.fragment_wireless_guest, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

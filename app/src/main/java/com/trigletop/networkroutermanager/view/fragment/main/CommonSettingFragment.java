@@ -46,7 +46,7 @@ public class CommonSettingFragment extends Fragment {
     LinearLayout llNetworkManagment;
     @BindView(R.id.ll_wireless_setting)
     LinearLayout llWirelessSetting;
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     private SiUtil mSiUtil;
     private static LocalApi localApi;
@@ -74,6 +74,7 @@ public class CommonSettingFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -126,6 +127,7 @@ public class CommonSettingFragment extends Fragment {
         fragmentList.add(devicesManagementFragment);
         fragmentList.add(netwrokManagementFragment);
         fragmentList.add(wirelessSettingFragment);
+
         fragmentManager = getFragmentManager();
     }
 
@@ -139,10 +141,9 @@ public class CommonSettingFragment extends Fragment {
     }
 
     private void initData() {
-//        mSiUtil.getDeviceRet(rcyCommonSetting, localApi, getActivity());
+
     }
 
-    // TODO: 19-7-31 不知是否需要优化       感觉不需要优化了
     @OnClick({R.id.ll_devices_managment, R.id.ll_network_managment, R.id.ll_wireless_setting})
     void onViewClicked(View view) {
         switch (view.getId()) {

@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/network_param_wan"
             android:textColor="@android:color/black"
             android:textSize="40sp" />
 
@@ -47,7 +48,8 @@
         <LinearLayout
             android:id="@+id/ll_subnet_mask"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="100dp"
@@ -73,7 +75,8 @@
         <LinearLayout
             android:id="@+id/ll_gateway"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="100dp"
@@ -99,7 +102,8 @@
         <LinearLayout
             android:id="@+id/dns_server"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="100dp"
@@ -160,6 +164,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -171,7 +176,8 @@
         <LinearLayout
             android:id="@+id/ll_data_pack_mtu_byte"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="150dp"
@@ -224,7 +230,8 @@
         <LinearLayout
             android:id="@+id/ll_preferred_dns_server"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="150dp"
@@ -249,7 +256,8 @@
         <LinearLayout
             android:id="@+id/ll_spare_dns_server"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="150dp"
@@ -274,7 +282,8 @@
         <LinearLayout
             android:id="@+id/ll_host_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="150dp"

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -17,10 +18,9 @@ import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 
 public class WirelessTypeTwoFragment extends Fragment {
 
-
     private static LocalApi mLocalApi;
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     public static WirelessTypeTwoFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -44,8 +44,8 @@ public class WirelessTypeTwoFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wireless_one, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_wireless_host, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

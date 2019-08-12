@@ -184,7 +184,6 @@ public class SiUtil {
         progressDialog.setTitle("This is ProgressDialog");
         progressDialog.setMessage("Loading...");
         mUser = SFUser.getCacheUser(mContext);
-
     }
 
     /**

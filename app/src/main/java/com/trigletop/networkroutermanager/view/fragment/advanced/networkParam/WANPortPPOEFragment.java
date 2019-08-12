@@ -21,22 +21,24 @@ public class WANPortPPOEFragment extends Fragment {
     private static LocalApi mLocalApi;
     private Unbinder unbinder;
 
-    public static WANPortIPAddressAutoFragment newInstance(LocalApi localApi) {
+    public static WANPortPPOEFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
-        WANPortIPAddressAutoFragment wanPortIPAddressAutoFragment = new WANPortIPAddressAutoFragment();
+        WANPortPPOEFragment wanPortPPOEFragment = new WANPortPPOEFragment();
         Bundle args = new Bundle();
-        wanPortIPAddressAutoFragment.setArguments(args);
-        return wanPortIPAddressAutoFragment;
+        wanPortPPOEFragment.setArguments(args);
+        return wanPortPPOEFragment;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable

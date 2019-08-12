@@ -21,7 +21,6 @@ import com.trigletop.networkroutermanager.view.fragment.advanced.networkParam.WA
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,7 +90,7 @@ public class SetupWizardFragment extends Fragment {
         tab.addTab(tab.newTab());
 
         viewPager.setAdapter(new DevicesManagementAdapter(
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager(),
+                getChildFragmentManager(),
                 mLocalApi,
                 getString(R.string.IP_address_auto),
                 getString(R.string.static_ip),
@@ -118,7 +117,6 @@ public class SetupWizardFragment extends Fragment {
             super(fm);
             mLocalApi = localApi;
             mTitles = titles;
-            // TODO: 19-8-8 不显示
             fragmentList.add(WANPortIPAddressAutoFragment.newInstance(mLocalApi));
             fragmentList.add(WANPortStaticIPAddressFragment.newInstance(mLocalApi));
             fragmentList.add(WANPortPPOEFragment.newInstance(mLocalApi));

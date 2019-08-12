@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -72,7 +73,7 @@ public class WirelessSettingFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wireless_setting, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -96,6 +97,12 @@ public class WirelessSettingFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void init() {
@@ -129,11 +136,14 @@ public class WirelessSettingFragment extends Fragment {
 
     @OnClick(R.id.btn_wireless_setting_save)
     void onViewClicked() {
-        if (!etWirelessName.getText().toString().isEmpty() && !etWirelessPsw.getText().toString().isEmpty()) {
+        String wirelesspas = etWirelessPsw.getText().toString();
+        String wirelessname = etWirelessName.getText().toString();
+        if (!wirelessname.isEmpty() && !wirelesspas.isEmpty()) {
             SetWiFiDetailParam setWiFiDetailParam = new SetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION);
             WifiParam wifiParam = setWiFiDetailParam.getWifiParamsList().get(0);
-            // TODO: 19-8-9 设置参数
-            wifiParam.password = "";
+            // TODO: 19-8-9 验证设置是否成功
+            wifiParam.password = wirelesspas;
+            wifiParam.oldssid = wirelessname;
             Single<SetWiFiDetailRet> setWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(setWiFiDetailParam, SetWiFiDetailRet.class);
             setWanTypeRetSingle.subscribe(new SingleObserver<SetWiFiDetailRet>() {
                 @Override
@@ -165,7 +175,7 @@ public class WirelessSettingFragment extends Fragment {
             dialogBuilder
                     .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
                     .withTitleColor(R.color.cyan)
-                    .withMessage(getActivity().getString(R.string.successful_save))
+                    .withMessage(getActivity().getString(R.string.unsuccessful_save))
                     .withMessageColor("#FFFFFFFF")
                     .withEffect(Effectstype.Fadein)
                     .withDuration(700)

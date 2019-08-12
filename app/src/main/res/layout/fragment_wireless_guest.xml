@@ -15,10 +15,10 @@
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/ip_address"
+            android:text="@string/wireless_name"
             android:textColor="@android:color/black" />
 
         <View
@@ -39,13 +39,14 @@
         android:id="@+id/ll_subnet_mask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/subnet_mask"
+            android:text="@string/wireless_psw"
             android:textColor="@android:color/black" />
 
         <View
@@ -63,16 +64,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_gateway"
+        android:id="@+id/ll_intranet_resource"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/gateway"
+            android:text="@string/intranet_resource"
             android:textColor="@android:color/black" />
 
         <View
@@ -82,24 +84,25 @@
             android:layout_marginEnd="20dp"
             android:background="@android:color/black" />
 
-        <EditText
-            android:id="@+id/et_gateway"
+        <Button
+            android:id="@+id/et_intranet_resource"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_preferred_dns_server"
+        android:id="@+id/ll_guest_network_upload_speed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/preferred_dns_server"
+            android:text="@string/guest_network_upload_speed"
             android:textColor="@android:color/black" />
 
         <View
@@ -110,23 +113,24 @@
             android:background="@android:color/black" />
 
         <EditText
-            android:id="@+id/et_preferred_dns"
+            android:id="@+id/et_guest_network_upload_speed"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_spare_dns_server"
+        android:id="@+id/ll_guest_network_download_speed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/spare_dns_server"
+            android:text="@string/guest_network_download_speed"
             android:textColor="@android:color/black" />
 
         <View
@@ -137,17 +141,47 @@
             android:background="@android:color/black" />
 
         <EditText
-            android:id="@+id/et_spare_dns"
+            android:id="@+id/et_guest_network_download_speed"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_guest_network_opening_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/guest_network_opening_time"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/black" />
+
+        <Button
+            android:id="@+id/btn_guest_network_opening_time"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/btn_static_address_save"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
         android:background="@android:color/holo_red_light"
         android:text="@string/save"
         android:textSize="20sp" />

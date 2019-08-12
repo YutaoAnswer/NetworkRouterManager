@@ -46,7 +46,6 @@ import com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,14 +58,14 @@ public class AdvancedSettingFragment extends Fragment {
 
     @BindView(R.id.rcy_sidebar)
     RecyclerView rcySidebar;
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     private SiUtil siUtil;
     private LocalApi localApi;
 
     private List<Fragment> fragmentList = new ArrayList<>();
     private Fragment currentFragment;
-    private FragmentManager supportFragmentManager;
+    private FragmentManager fragmentManager;
     private WANPortSettingFragment wanPortSettingFragment;
     private LANPortSettingFragment lanPortSettingFragment;
     private MacAddressFragment macAddressFragment;
@@ -96,7 +95,6 @@ public class AdvancedSettingFragment extends Fragment {
             super.handleMessage(msg);
             String obj = (String) msg.obj;
             switch (obj) {
-                // TODO: 19-7-31 代码优化
                 case "WAN口设置":
                     switchFragment(currentFragment, wanPortSettingFragment);
                     currentFragment = wanPortSettingFragment;
@@ -245,6 +243,8 @@ public class AdvancedSettingFragment extends Fragment {
 //        fragmentList.add(networkDetectionFragment);
 //        fragmentList.add(updateFragment);
 
+        fragmentManager = getFragmentManager();
+
         wanPortSettingFragment = WANPortSettingFragment.newInstance(localApi);
         lanPortSettingFragment = LANPortSettingFragment.newInstance(localApi);
         macAddressFragment = MacAddressFragment.newInstance();
@@ -296,43 +296,17 @@ public class AdvancedSettingFragment extends Fragment {
         fragmentList.add(uPnPSettingFragment);
         fragmentList.add(virtualServerFragment);
 
-        supportFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
     }
 
     private void initView() {
         //初始化界面　首页展示设备管理界面
-        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
                 .add(R.id.frameLayout_advanced_setting, fragmentList.get(0))
                 .commit();
         currentFragment = fragmentList.get(0);
 
-        //RecyclerView
-//        TvRecyclerView.openDEBUG();
-//        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
-//        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        rcySetting.setLayoutManager(manager);
-//
-//        int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
-//        rcySetting.addItemDecoration(new SpaceItemDecoration(itemSpace));
-//        DevicesAdapter mAdapter = new DevicesAdapter(getActivity(), TAG);
-//        rcySetting.setAdapter(mAdapter);
-//
-//        rcySetting.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
-//            @Override
-//            public void onItemViewClick(View view, int position) {
-//                FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.addToBackStack(null).add(R.id.frameLayout, fragmentList.get(position)).replace(R.id.frameLayout, fragmentList.get(position)).commit();
-//            }
-//
-//            @Override
-//            public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
-//
-//            }
-//        });
-
         //rcy sidebar
-
         RecyclerDataAdapter recyclerDataAdapter = new RecyclerDataAdapter(getDummyDataToPass(), uiHandler);
         rcySidebar.setLayoutManager(new LinearLayoutManager(getActivity()));
         rcySidebar.setAdapter(recyclerDataAdapter);
@@ -391,7 +365,7 @@ public class AdvancedSettingFragment extends Fragment {
      */
     private void switchFragment(Fragment fromFragment, Fragment toFragment) {
         if (fromFragment != toFragment) {
-            FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (!toFragment.isAdded()) {
                 fragmentTransaction.hide(fromFragment).add(R.id.frameLayout_advanced_setting, toFragment).commit();
             } else {

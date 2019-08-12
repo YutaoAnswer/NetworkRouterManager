@@ -12,17 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.view.fragment.common.DevicesManagementFragment;
-import com.trigletop.networkroutermanager.view.fragment.common.devicesManagement.ConnectedFragment;
-import com.trigletop.networkroutermanager.view.fragment.common.devicesManagement.ForbiddenFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,13 +35,18 @@ public class WANPortSettingFragment extends Fragment {
 
     @BindView(R.id.tab)
     TabLayout tab;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    //    @BindView(R.id.viewPager)
+//    ViewPager viewPager;
     @BindView(R.id.frameLayout_wireless_setting)
     LinearLayout frameLayoutWirelessSetting;
     private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
+    private WANPortIPAddressAutoFragment wanPortIPAddressAutoFragment;
+    private WANPortStaticIPAddressFragment wanPortStaticIPAddressFragment;
+    private WANPortPPOEFragment wanPortPPOEFragment;
+    private Fragment currentFragment;
+    private FragmentManager childFragmentManager;
 
     public static WANPortSettingFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -101,21 +103,52 @@ public class WANPortSettingFragment extends Fragment {
     }
 
     private void init() {
-
+        childFragmentManager = getChildFragmentManager();
+        wanPortIPAddressAutoFragment = WANPortIPAddressAutoFragment.newInstance(mLocalApi);
+        wanPortStaticIPAddressFragment = WANPortStaticIPAddressFragment.newInstance(mLocalApi);
+        wanPortPPOEFragment = WANPortPPOEFragment.newInstance(mLocalApi);
     }
 
     private void initView() {
-        tab.addTab(tab.newTab());
-        tab.addTab(tab.newTab());
+        tab.addTab(tab.newTab().setText(getString(R.string.IP_address_auto)));
+        tab.addTab(tab.newTab().setText(getString(R.string.static_ip)));
+        tab.addTab(tab.newTab().setText(getString(R.string.PPOE)));
 
-        viewPager.setAdapter(new DevicesManagementAdapter(
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager(),
-                mLocalApi,
-                getString(R.string.IP_address_auto),
-                getString(R.string.static_ip),
-                getString(R.string.PPOE)
-        ));
-        tab.setupWithViewPager(viewPager);
+        FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+        fragmentTransaction
+                .add(R.id.frameLayout_wanport_setting, wanPortIPAddressAutoFragment)
+                .commit();
+        currentFragment = wanPortIPAddressAutoFragment;
+
+        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        switchFragment(currentFragment, wanPortIPAddressAutoFragment);
+                        currentFragment = wanPortIPAddressAutoFragment;
+                        break;
+                    case 1:
+                        switchFragment(currentFragment, wanPortStaticIPAddressFragment);
+                        currentFragment = wanPortStaticIPAddressFragment;
+                        break;
+                    case 2:
+                        switchFragment(currentFragment, wanPortPPOEFragment);
+                        currentFragment = wanPortPPOEFragment;
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void initData() {
@@ -138,38 +171,54 @@ public class WANPortSettingFragment extends Fragment {
         });
     }
 
-    private class DevicesManagementAdapter extends FragmentPagerAdapter {
+//    private class WANPortSettingManagementAdapter extends FragmentPagerAdapter {
+//
+//        private String[] mTitles;
+//        private LocalApi mLocalApi;
+//        private List<Fragment> fragmentList = new ArrayList<>();
+//
+//        WANPortSettingManagementAdapter(FragmentManager fm, LocalApi localApi, String... titles) {
+//            super(fm);
+//            mLocalApi = localApi;
+//            mTitles = titles;
+//            fragmentList.add(WANPortIPAddressAutoFragment.newInstance(mLocalApi));
+//            fragmentList.add(WANPortStaticIPAddressFragment.newInstance(mLocalApi));
+//            fragmentList.add(WANPortPPOEFragment.newInstance(mLocalApi));
+//        }
+//
+//        @NonNull
+//        @Override
+//        public Fragment getItem(int position) {
+//            return fragmentList.get(position);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mTitles.length;
+//        }
+//
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return mTitles[position];
+//        }
+//
+//    }
 
-        private String[] mTitles;
-        private LocalApi mLocalApi;
-        private List<Fragment> fragmentList = new ArrayList<>();
-
-        DevicesManagementAdapter(FragmentManager fm, LocalApi localApi, String... titles) {
-            super(fm);
-            mLocalApi = localApi;
-            mTitles = titles;
-            // TODO: 19-8-8 不显示
-            fragmentList.add(WANPortIPAddressAutoFragment.newInstance(mLocalApi));
-            fragmentList.add(WANPortStaticIPAddressFragment.newInstance(mLocalApi));
-            fragmentList.add(WANPortPPOEFragment.newInstance(mLocalApi));
+    /**
+     * 切换Fragment
+     *
+     * @param fromFragment：需要隐藏的Fragment
+     * @param toFragment：需要显示的Fragment
+     */
+    private void switchFragment(Fragment fromFragment, Fragment toFragment) {
+        if (fromFragment != toFragment) {
+            FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+            if (!toFragment.isAdded()) {
+                fragmentTransaction.hide(fromFragment).add(R.id.frameLayout_wanport_setting, toFragment).commit();
+            } else {
+                fragmentTransaction.hide(fromFragment).show(toFragment).commit();
+            }
         }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mTitles.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mTitles[position];
-        }
-
     }
 
 }

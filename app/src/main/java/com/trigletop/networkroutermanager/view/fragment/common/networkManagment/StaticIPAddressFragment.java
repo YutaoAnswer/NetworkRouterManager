@@ -1,22 +1,19 @@
 package com.trigletop.networkroutermanager.view.fragment.common.networkManagment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
-import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
 import com.trigletop.networkroutermanager.utils.SiUtil;
 
@@ -57,22 +54,6 @@ public class StaticIPAddressFragment extends Fragment {
     private String preferredDns;
     private String spareDns;
 
-//    @SuppressLint("HandlerLeak")
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            if (msg.what == Data.handler_message_setWanType_static) {
-//                // TODO: 19-8-5 设置上网方式 弹窗提示
-//                NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
-//                dialogBuilder
-//                        .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
-//                        .withDuration(700)
-//                        .show();
-//            }
-//        }
-//    };
-
     public static StaticIPAddressFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
         StaticIPAddressFragment staticIPAddressFragment = new StaticIPAddressFragment();
@@ -96,6 +77,7 @@ public class StaticIPAddressFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: Static");
         View view = inflater.inflate(R.layout.fragment_staticipaddress, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -104,6 +86,7 @@ public class StaticIPAddressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: Static");
         init();
         initView();
         initData();
@@ -149,14 +132,14 @@ public class StaticIPAddressFragment extends Fragment {
 
                 @Override
                 public void onSuccess(SetWanTypeRet setWanTypeRet) {
-//                    Message message = new Message();
-//                    message.what = Data.handler_message_setWanType_static;
-//                    message.obj = "setDevice";
-//                    handler.sendMessage(message);
                     // TODO: 19-8-5 设置上网方式 弹窗提示
                     NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
                     dialogBuilder
-                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
+                            .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                            .withTitleColor(R.color.cyan)
+                            .withMessage(getActivity().getString(R.string.setting_successful))
+                            .withMessageColor("#FFFFFFFF")
+                            .withEffect(Effectstype.Fadein)
                             .withDuration(700)
                             .show();
                 }
@@ -168,7 +151,15 @@ public class StaticIPAddressFragment extends Fragment {
             });
         } else {
             // TODO: 19-8-6 需要修改
-            Toast.makeText(getContext(), "错误", Toast.LENGTH_SHORT).show();
+            NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+            dialogBuilder
+                    .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.network_mode))
+                    .withTitleColor(R.color.cyan)
+                    .withMessage(getActivity().getString(R.string.setting_unsuccessful))
+                    .withMessageColor("#FFFFFFFF")
+                    .withEffect(Effectstype.Fadein)
+                    .withDuration(700)
+                    .show();
         }
     }
 

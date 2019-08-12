@@ -38,29 +38,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="登录"
+            android:text="@string/input_password"
             android:textColor="@color/lb_playback_controls_background_light"
             android:textSize="25sp" />
 
-        <EditText
-            android:id="@+id/et_name"
+        <LinearLayout
+            android:id="@+id/ll_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_login"
             android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
-            android:hint="手机/邮箱"
-            android:textSize="25sp" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_password"
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                android:textSize="25sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/login" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_name"
+            android:layout_below="@+id/ll_password"
             android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
-            android:text="密码"
-            android:textSize="25sp" />
+            android:background="@null"
+            android:text="@string/forget_password" />
 
     </RelativeLayout>
 
