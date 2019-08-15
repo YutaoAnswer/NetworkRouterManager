@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -19,6 +20,7 @@ import com.trigletop.networkroutermanager.view.fragment.common.networkManagment.
 import com.trigletop.networkroutermanager.view.fragment.common.networkManagment.PPOEFragment;
 import com.trigletop.networkroutermanager.view.fragment.common.networkManagment.StaticIPAddressFragment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +39,12 @@ public class NetworkManagementFragment extends Fragment {
     private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
+    private FragmentManager childFragmentManager;
+    private Fragment currentFragment;
+    private PPOEFragment ppoeFragment;
+    private StaticIPAddressFragment staticIPAddressFragment;
+    private IPAddressAutoFragment ipAddressAutoFragment;
+    private List<Fragment> fragmentArrayList = new ArrayList<>();
 
     public static NetworkManagementFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -74,14 +82,17 @@ public class NetworkManagementFragment extends Fragment {
     }
 
     private void init() {
-
+        childFragmentManager = getChildFragmentManager();
+        ppoeFragment = PPOEFragment.newInstance(mLocalApi);
+        staticIPAddressFragment = StaticIPAddressFragment.newInstance(mLocalApi);
+        ipAddressAutoFragment = IPAddressAutoFragment.newInstance(mLocalApi);
+        currentFragment = ppoeFragment;
+        fragmentArrayList.add(ppoeFragment);
+        fragmentArrayList.add(staticIPAddressFragment);
+        fragmentArrayList.add(ipAddressAutoFragment);
     }
 
     private void initView() {
-        tab.addTab(tab.newTab());
-        tab.addTab(tab.newTab());
-        tab.addTab(tab.newTab());
-
         viewPager.setAdapter(new NetworkManagmentAdapter(
                 getChildFragmentManager(),
                 mLocalApi,
@@ -89,18 +100,63 @@ public class NetworkManagementFragment extends Fragment {
                 getString(R.string.static_ip),
                 getString(R.string.IP_address_auto)));
         tab.setupWithViewPager(viewPager);
+//        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                switch (tab.getPosition()) {
+//                    case 0:
+//                        switchFragment(currentFragment, ppoeFragment);
+//                        currentFragment = ppoeFragment;
+//                        break;
+//                    case 1:
+//                        switchFragment(currentFragment, staticIPAddressFragment);
+//                        currentFragment = staticIPAddressFragment;
+//                        break;
+//                    case 2:
+//                        switchFragment(currentFragment, ipAddressAutoFragment);
+//                        currentFragment = ipAddressAutoFragment;
+//                        break;
+//                }
+//            }
+
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+//        tab.setOnFocusChangeListener((v, hasFocus) -> {
+//            switch (v.getId()) {
+//                case R.id.tab_ppoe:
+//                    switchFragment(currentFragment, ppoeFragment);
+//                    currentFragment = ppoeFragment;
+//                    break;
+//                case R.id.tab_static_ip:
+//                    switchFragment(currentFragment, staticIPAddressFragment);
+//                    currentFragment = staticIPAddressFragment;
+//                    break;
+//                case R.id.tab_ip_address_auto:
+//                    switchFragment(currentFragment, ipAddressAutoFragment);
+//                    currentFragment = ipAddressAutoFragment;
+//                    break;
+//                default:
+//                    break;
+//            }
+//        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override
@@ -113,15 +169,13 @@ public class NetworkManagementFragment extends Fragment {
 
         private String[] mTitles;
         private LocalApi mLocalApi;
-        private List<Fragment> fragmentList = new ArrayList<>();
+        private List<Fragment> fragmentList;
 
         NetworkManagmentAdapter(FragmentManager fm, LocalApi localApi, String... titles) {
             super(fm);
             mLocalApi = localApi;
             mTitles = titles;
-            fragmentList.add(PPOEFragment.newInstance(mLocalApi));
-            fragmentList.add(StaticIPAddressFragment.newInstance(mLocalApi));
-            fragmentList.add(IPAddressAutoFragment.newInstance(mLocalApi));
+            fragmentList = fragmentArrayList;
         }
 
         @NonNull
@@ -132,12 +186,29 @@ public class NetworkManagementFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return mTitles.length;
+            return fragmentList.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             return mTitles[position];
+        }
+    }
+
+    /**
+     * 切换Fragment
+     *
+     * @param fromFragment：需要隐藏的Fragment
+     * @param toFragment：需要显示的Fragment
+     */
+    private void switchFragment(Fragment fromFragment, Fragment toFragment) {
+        if (fromFragment != toFragment) {
+            FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+            if (!toFragment.isAdded()) {
+                fragmentTransaction.hide(fromFragment).add(R.id.frameLayout_common_setting, toFragment).commit();
+            } else {
+                fragmentTransaction.hide(fromFragment).show(toFragment).commit();
+            }
         }
     }
 }

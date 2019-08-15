@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.utils.SiUtil;
 
 import java.util.Objects;
 
@@ -27,7 +26,9 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWanTypeParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetWanTypeParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWanTypeRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWanTypeRet;
 
 public class StaticIPAddressFragment extends Fragment {
@@ -46,13 +47,7 @@ public class StaticIPAddressFragment extends Fragment {
     EditText etSpareDns;
     private Unbinder unbinder;
 
-    private SiUtil siUtil;
     private static LocalApi mLocalApi;
-    private String ipAddress;
-    private String subNetMask;
-    private String gateWay;
-    private String preferredDns;
-    private String spareDns;
 
     public static StaticIPAddressFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -99,30 +94,56 @@ public class StaticIPAddressFragment extends Fragment {
     }
 
     private void init() {
-        siUtil = new SiUtil(getActivity());
     }
 
     private void initView() {
-        ipAddress = etIpAddress.getText().toString();
-        subNetMask = etSubnetMask.getText().toString();
-        gateWay = etGateway.getText().toString();
-        preferredDns = etPreferredDns.getText().toString();
-        spareDns = etSpareDns.getText().toString();
+//        ipAddress = etIpAddress.getText().toString();
+//        subNetMask = etSubnetMask.getText().toString();
+//        gateWay = etGateway.getText().toString();
+//        preferredDns = etPreferredDns.getText().toString();
+//        spareDns = etSpareDns.getText().toString();
     }
 
     private void initData() {
+        Single<GetWanTypeRet> getWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION), GetWanTypeRet.class);
+        getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "IPAddressAuto onSubscribe: ");
 
+            }
+
+            @Override
+            public void onSuccess(GetWanTypeRet getWanTypeRet) {
+                Log.d(TAG, "onSuccess: ");
+                // TODO: 19-8-14 写处理逻辑
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+                // TODO: 19-8-9 取取数据失败，请重试
+
+            }
+        });
     }
 
     @OnClick(R.id.btn_static_address_save)
     public void onViewClicked() {
-        if (!ipAddress.isEmpty() && !subNetMask.isEmpty() && !gateWay.isEmpty() && !preferredDns.isEmpty() && !spareDns.isEmpty()) {
+        String ipAddress = etIpAddress.getText().toString();
+        String gateWay = etGateway.getText().toString();
+        String subnetMask = etSubnetMask.getText().toString();
+        String preferredDNS = etPreferredDns.getText().toString();
+        String spareDNS = etSpareDns.getText().toString();
+
+        if (!ipAddress.isEmpty() && !subnetMask.isEmpty() && !gateWay.isEmpty() && !preferredDNS.isEmpty() && !spareDNS.isEmpty()) {
             SetWanTypeParam setWanTypeParam = new SetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION);
             setWanTypeParam.setAddress(ipAddress);
-            setWanTypeParam.setMask(subNetMask);
+            setWanTypeParam.setMask(subnetMask);
             setWanTypeParam.setGateway(gateWay);
-            setWanTypeParam.setDns1(preferredDns);
-            setWanTypeParam.setDns2(spareDns);
+            setWanTypeParam.setDns1(preferredDNS);
+            setWanTypeParam.setDns2(spareDNS);
             Single<SetWanTypeRet> setWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(setWanTypeParam, SetWanTypeRet.class);
             setWanTypeRetSingle.subscribe(new SingleObserver<SetWanTypeRet>() {
                 @Override

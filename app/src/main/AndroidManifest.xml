@@ -27,9 +27,7 @@
         android:theme="@style/changeBackgroundTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity
-            android:name=".view.activity.MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".view.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +35,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.LoginActivity" />
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <uses-library
             android:name="org.apache.http.legacy"

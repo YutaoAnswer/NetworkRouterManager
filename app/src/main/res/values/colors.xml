@@ -20,6 +20,7 @@
     <color name="selected_background">#ffaa3f</color>
     <!--<color name="default_background">#3d3d3d</color>-->
     <color name="default_background">#20FFFFFF</color>
+    <color name="login_background">	#C7C7E2</color>
 
 
 </resources>

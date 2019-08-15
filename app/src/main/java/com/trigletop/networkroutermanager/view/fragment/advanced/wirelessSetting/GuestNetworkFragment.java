@@ -5,45 +5,44 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.view.fragment.advanced.networkParam.WANPortIPAddressAutoFragment;
-import com.trigletop.networkroutermanager.view.fragment.advanced.networkParam.WANPortPPOEFragment;
-import com.trigletop.networkroutermanager.view.fragment.advanced.networkParam.WANPortStaticIPAddressFragment;
 import com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting.wrelelessType.WirelessTypeOneFragment;
 import com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting.wrelelessType.WirelessTypeTwoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWDSInfoParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWiFiDetailParam;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWDSInfoRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetWiFiDetailParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WifiParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWiFiDetailRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWiFiDetailRet;
 
 public class GuestNetworkFragment extends Fragment {
 
     @BindView(R.id.tab)
     TabLayout tab;
+    @BindView(R.id.et_wireless_name)
+    EditText etWirelessName;
+    @BindView(R.id.et_wireless_psw)
+    EditText etWirelessPsw;
     private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
@@ -132,6 +131,9 @@ public class GuestNetworkFragment extends Fragment {
 
                                     @Override
                                     public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
+                                        etWirelessName.setText(getWiFiDetailRet.getInfo().get(0).getSsid());
+                                        etWirelessPsw.setText(getWiFiDetailRet.getInfo().get(0).getPassword());
+                                        // TODO: 19-8-14 button按钮切换
 
                                     }
 
@@ -153,7 +155,8 @@ public class GuestNetworkFragment extends Fragment {
 
                                     @Override
                                     public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
-
+                                        etWirelessName.setText(getWiFiDetailRet.getInfo().get(2).getSsid());
+                                        etWirelessPsw.setText(getWiFiDetailRet.getInfo().get(2).getPassword());
                                     }
 
                                     @Override
@@ -192,6 +195,51 @@ public class GuestNetworkFragment extends Fragment {
 
                     @Override
                     public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
+                        etWirelessName.setText(getWiFiDetailRet.getInfo().get(0).getSsid());
+                        etWirelessPsw.setText(getWiFiDetailRet.getInfo().get(0).getPassword());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
+    @OnClick(R.id.btn_static_address_save)
+    public void onViewClicked() {
+        // TODO: 19-8-12 2.4G　  5G
+        SetWiFiDetailParam setWiFiDetailParam = new SetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION);
+        WifiParam siWiFiSetParam5 = new WifiParam();
+        List<WifiParam> params = new ArrayList<>();
+        WifiParam siWiFiSetParam24 = new WifiParam();
+        siWiFiSetParam24.oldssid = "siflower-2.4G";
+        siWiFiSetParam24.password = "12345678";
+        siWiFiSetParam24.enable = 1;
+        siWiFiSetParam24.encryption = "psk2+ccmp";
+        siWiFiSetParam24.newssid = "siwifi-2.4G";
+        siWiFiSetParam24.channel = 13;
+
+        siWiFiSetParam5.oldssid = "siflower-5G";
+        siWiFiSetParam5.password = "12345678";
+        siWiFiSetParam5.enable = 1;
+        siWiFiSetParam5.encryption = "psk2+ccmp";
+        siWiFiSetParam5.newssid = "siwifi-5G";
+        siWiFiSetParam5.channel = 161;
+        params.add(siWiFiSetParam5);
+        setWiFiDetailParam.setWifiParamsList(params);
+
+        mLocalApi.executeApiWithSingleResponse(setWiFiDetailParam, SetWiFiDetailRet.class)
+                .observeOn(Schedulers.trampoline())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<SetWiFiDetailRet>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(SetWiFiDetailRet setWiFiDetailRet) {
 
                     }
 
@@ -200,6 +248,7 @@ public class GuestNetworkFragment extends Fragment {
 
                     }
                 });
+
     }
 
 //    private class DevicesManagementAdapter extends FragmentPagerAdapter {

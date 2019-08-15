@@ -1,6 +1,7 @@
 package com.trigletop.networkroutermanager.view.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -152,7 +153,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselect(int position) {
-
+                switch (position) {
+                    case tabLayout_router:
+                        switchFragment(fragmentList.get(mPosition), commonSettingFragment);
+                        mPosition = position;
+                        break;
+                    case tabLayout_setting:
+                        switchFragment(fragmentList.get(mPosition), advancedSettingFragment);
+                        mPosition = position;
+                        break;
+                    case tabLayout_account:
+                        switchFragment(fragmentList.get(mPosition), accountFragment);
+                        mPosition = position;
+                        break;
+                    default:
+                        break;
+                }
             }
         });
         mTabLayout.setCurrentTab(0);

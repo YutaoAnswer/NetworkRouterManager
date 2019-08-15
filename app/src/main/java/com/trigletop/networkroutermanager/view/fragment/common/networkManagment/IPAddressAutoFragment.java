@@ -1,10 +1,7 @@
 package com.trigletop.networkroutermanager.view.fragment.common.networkManagment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
-import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.utils.SiUtil;
 
 import java.util.Objects;
 
@@ -38,6 +33,8 @@ import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetWanTypeRet;
 
 public class IPAddressAutoFragment extends Fragment {
 
+    private static final String TAG = IPAddressAutoFragment.class.getSimpleName();
+
     @BindView(R.id.tv_ip_address)
     TextView tvIpAddress;
     @BindView(R.id.tv_subnet_mask)
@@ -50,24 +47,7 @@ public class IPAddressAutoFragment extends Fragment {
     TextView tvSpareDnsServer;
     private Unbinder unbinder;
 
-    private SiUtil siUtil;
-
     private static LocalApi mLocalApi;
-
-//    @SuppressLint("HandlerLeak")
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            if (msg.what == Data.handler_message_setWanType_PPOE) {
-//                NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
-//                dialogBuilder
-//                        .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
-//                        .withDuration(700)
-//                        .show();
-//            }
-//        }
-//    };
 
     public static IPAddressAutoFragment newInstance(LocalApi localApi) {
         mLocalApi = localApi;
@@ -112,7 +92,7 @@ public class IPAddressAutoFragment extends Fragment {
     }
 
     private void init() {
-        siUtil = new SiUtil(getActivity());
+
     }
 
     private void intiView() {
@@ -124,20 +104,24 @@ public class IPAddressAutoFragment extends Fragment {
         getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
             @Override
             public void onSubscribe(Disposable d) {
+                Log.d(TAG, "IPAddressAuto onSubscribe: ");
 
             }
 
             @Override
-            public void onSuccess(GetWanTypeRet getStokLocalRet) {
-                tvIpAddress.setText(getStokLocalRet.getIp());
-                tvGateway.setText(getStokLocalRet.getGateway());
-                tvSubnetMask.setText(getStokLocalRet.getGateway());
-                tvPreferredDnsServer.setText(getStokLocalRet.getDns1());
-                tvSpareDnsServer.setText(getStokLocalRet.getDns2());
+            public void onSuccess(GetWanTypeRet getWanTypeRet) {
+                Log.d(TAG, "onSuccess: ");
+                Log.d(TAG, "IPAddressAuto onSuccess: " + getWanTypeRet.toString());
+                tvIpAddress.setText(getWanTypeRet.getIp());
+                tvGateway.setText(getWanTypeRet.getGateway());
+                tvSubnetMask.setText(getWanTypeRet.getGateway());
+                tvPreferredDnsServer.setText(getWanTypeRet.getDns1());
+                tvSpareDnsServer.setText(getWanTypeRet.getDns2());
             }
 
             @Override
             public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
                 // TODO: 19-8-9 取取数据失败，请重试
 
             }

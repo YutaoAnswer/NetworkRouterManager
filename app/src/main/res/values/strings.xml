@@ -87,13 +87,13 @@
     <string name="default_wireless_name">SiWiFi-db5c-2.4G</string>
     <string name="anonymous_host">匿名主机</string>
     <string name="dns_server_setting_manual">手动设置DNS服务器</string>
-    <string name="unicast_mode">单薄方式获取IP一般情况下请勿选择</string>
+    <string name="unicast_mode">单播方式获取IP一般情况下请勿选择</string>
 
     <string name="update">更新</string>
     <string name="release">释放</string>
 
     <string name="lan_prot_setting">LAN口设置</string>
-    <string name="upload_download_limit">上传下载限制</string>
+    <string name="upload_download_limit">上传限制　下载限制　禁用设备</string>
     <string name="no_psw">不加密</string>
     <string name="successful_save">保存成功</string>
     <string name="unsuccessful_save">保存失败</string>
@@ -144,5 +144,10 @@
     <string name="guest_network_download_speed">访客网络最大下载速度</string>
     <string name="guest_network_upload_speed">访客网络最大上传速度</string>
     <string name="guest_network_opening_time">是否设置访客网络开放时间</string>
+    <string name="_0_0_0_0">0.0.0.0</string>
+    <string name="data_pack_hint">默认是1500,如非必要，请勿修改</string>
+    <string name="default_data_pack">1500</string>
+    <string name="upload">上传速率</string>
+    <string name="download">下载速率</string>
 
 </resources>

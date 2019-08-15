@@ -1,11 +1,8 @@
 package com.trigletop.networkroutermanager.view.fragment.common.devicesManagement;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +10,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
 import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
 import com.trigletop.networkroutermanager.utils.SiUtil;
-import com.trigletop.networkroutermanager.view.activity.MainActivity;
 
-import java.util.List;
+import java.util.Objects;
 
 import app.com.tvrecyclerview.TvRecyclerView;
 import butterknife.BindView;
@@ -100,6 +96,8 @@ public class ForbiddenFragment extends Fragment {
 
         int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
         rcyConnected.addItemDecoration(new SpaceItemDecoration(itemSpace));
+
+
     }
 
     private void initData() {
@@ -128,34 +126,43 @@ public class ForbiddenFragment extends Fragment {
                 rcyConnected.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
                     @Override
                     public void onItemViewClick(View view, int position) {
+                        Device device = devicesAdapter.getDeviceList().get(position);
+                        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+                        dialogBuilder
+                                .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
+                                .withDuration(700)
+                                .setCustomView(R.layout.custom_view_forbidden, getContext())
+                                .withButton1Text("确定")
+                                .setButton1Click(v -> liftBan(device.getMac()))
+                                .show();
+
                         // TODO: 19-8-2 功能一：解除禁用按钮实现设备禁用
-                        List<Device> deviceList = devicesAdapter.getDeviceList();
-//                        siUtil.setDevice(mLocalApi, deviceList.get(position).getAuthority().getLan() + "", handler);
-
-                        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, deviceList.get(position).getAuthority().getInternet() + "");
-                        setDeviceParam.setLan(1);//禁用设备使用无线网络
-                        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
-                        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                Log.d(TAG, "onSubscribe: ");
-
-                            }
-
-                            @Override
-                            public void onSuccess(SetDeviceRet setDeviceRet) {
-                                Log.d(TAG, "onSuccess: ");
-                                // TODO: 19-8-9 实现页面刷新
-                                rcyConnected.removeViewAt(position);
-                                rcyConnected.notifyAll();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d(TAG, "onError: ");
-
-                            }
-                        });
+//                        List<Device> deviceList = devicesAdapter.getDeviceList();
+////                        siUtil.setDevice(mLocalApi, deviceList.get(position).getAuthority().getLan() + "", handler);
+//
+//                        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, deviceList.get(position).getAuthority().getInternet() + "");
+//                        setDeviceParam.setLan(1);//禁用设备使用无线网络
+//                        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
+//                        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
+//                            @Override
+//                            public void onSubscribe(Disposable d) {
+//                                Log.d(TAG, "onSubscribe: ");
+//
+//                            }
+//
+//                            @Override
+//                            public void onSuccess(SetDeviceRet setDeviceRet) {
+//                                Log.d(TAG, "onSuccess: ");
+//                                // TODO: 19-8-9 实现页面刷新
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                Log.d(TAG, "onError: ");
+//
+//                            }
+//                        });
 
                     }
 
@@ -165,6 +172,36 @@ public class ForbiddenFragment extends Fragment {
 
                     }
                 });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+
+            }
+        });
+    }
+
+    /**
+     * 解除禁用设备连接网络
+     *
+     * @param mac 　解除禁用设备Mac地址
+     */
+    private void liftBan(String mac) {
+        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
+        setDeviceParam.setInternet(1);
+        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
+        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "onSubscribe: ");
+
+            }
+
+            @Override
+            public void onSuccess(SetDeviceRet setDeviceRet) {
+                Log.d(TAG, "onSuccess: ");
+
             }
 
             @Override

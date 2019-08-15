@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/default_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -11,12 +11,32 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
             app:tabIndicatorColor="@android:color/white"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextAppearance="@style/tab_appearance"
-            app:tabTextColor="#EF9A9A"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            app:tabTextColor="#EF9A9A">
+
+            <!--<com.google.android.material.tabs.TabItem-->
+            <!--android:id="@+id/tab_ppoe"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="@string/PPOE"-->
+            <!--android:layout_height="wrap_content" />-->
+
+            <!--<com.google.android.material.tabs.TabItem-->
+            <!--android:id="@+id/tab_static_ip"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="@string/static_ip"-->
+            <!--android:layout_height="wrap_content" />-->
+
+            <!--<com.google.android.material.tabs.TabItem-->
+            <!--android:id="@+id/tab_ip_address_auto"-->
+            <!--android:text="@string/IP_address_auto"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -24,7 +44,7 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </FrameLayout>

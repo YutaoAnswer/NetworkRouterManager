@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lb_tv_white"
+    android:background="@color/login_background"
     android:baselineAligned="false"
     android:orientation="horizontal">
 
@@ -10,27 +10,21 @@
         之后logo和相应的登录按钮　浮现（渐现效果动画）　
         作为launcher页和登录页的整体实现-->
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/lb_grey">
 
-        <!--左边可以实现ｂanner效果，切换背景图片以展示效果-->
+        android:src="@drawable/icon_bg"
+        android:scaleType="fitXY"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="左边logo"
-            android:textSize="30sp" />
-
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@color/login_background"
         android:gravity="center_vertical">
 
         <TextView
@@ -52,13 +46,13 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/et_name"
+                android:id="@+id/et_password"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="@string/password"
                 android:textSize="25sp" />
 
             <Button
+                android:id="@+id/btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/login" />

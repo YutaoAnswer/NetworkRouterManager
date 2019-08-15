@@ -138,6 +138,20 @@ public class CommonSettingFragment extends Fragment {
                 .add(R.id.frameLayout_common_setting, devicesManagementFragment)
                 .commit();
         currentFragment = devicesManagementFragment;
+
+        llDevicesManagment.setOnFocusChangeListener((v, hasFocus) -> {
+            switchFragment(currentFragment, devicesManagementFragment);
+            currentFragment = devicesManagementFragment;
+
+        });
+        llNetworkManagment.setOnFocusChangeListener((v, hasFocus) -> {
+            switchFragment(currentFragment, netwrokManagementFragment);
+            currentFragment = netwrokManagementFragment;
+        });
+        llWirelessSetting.setOnFocusChangeListener((v, hasFocus) -> {
+            switchFragment(currentFragment, wirelessSettingFragment);
+            currentFragment = wirelessSettingFragment;
+        });
     }
 
     private void initData() {
@@ -172,7 +186,6 @@ public class CommonSettingFragment extends Fragment {
         if (fromFragment != toFragment) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (!toFragment.isAdded()) {
-                // TODO: 19-8-2 是否要用replace
                 fragmentTransaction.hide(fromFragment).add(R.id.frameLayout_common_setting, toFragment).commit();
             } else {
                 fragmentTransaction.hide(fromFragment).show(toFragment).commit();

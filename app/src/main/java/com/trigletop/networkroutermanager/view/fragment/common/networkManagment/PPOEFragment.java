@@ -45,10 +45,6 @@ public class PPOEFragment extends Fragment {
     EditText etPsw;
     private Unbinder unbinder;
 
-    private SiUtil siUtil;
-    private String password;
-    private String account;
-
     private static LocalApi mLocalApi;
 
     public static PPOEFragment newInstance(LocalApi localApi) {
@@ -101,12 +97,11 @@ public class PPOEFragment extends Fragment {
     }
 
     private void init() {
-        siUtil = new SiUtil(getActivity());
+
     }
 
     private void initView() {
-        account = etAccount.getText().toString();
-        password = etPsw.getText().toString();
+
     }
 
     private void initData() {
@@ -115,7 +110,9 @@ public class PPOEFragment extends Fragment {
 
     @OnClick(R.id.btn_ppoe_save)
     public void onViewClicked() {
-        if (account != null && password != null) {
+        String account = etAccount.getText().toString();
+        String password = etPsw.getText().toString();
+        if (!account.isEmpty() && !password.isEmpty()) {
             SetWanTypeParam setWanTypeParam = new SetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION);
             setWanTypeParam.setPppnanme(account);
             setWanTypeParam.setPpppwd(password);
@@ -142,6 +139,7 @@ public class PPOEFragment extends Fragment {
                 @Override
                 public void onError(Throwable e) {
                 }
+
             });
         } else {
             // TODO: 19-8-6 需要修改

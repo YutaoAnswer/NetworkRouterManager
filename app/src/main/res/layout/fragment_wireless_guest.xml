@@ -29,14 +29,14 @@
             android:background="@android:color/black" />
 
         <EditText
-            android:id="@+id/et_ip_address"
+            android:id="@+id/et_wireless_name"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_subnet_mask"
+        android:id="@+id/ll_wireless_psw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -57,7 +57,7 @@
             android:background="@android:color/black" />
 
         <EditText
-            android:id="@+id/et_subnet_mask"
+            android:id="@+id/et_wireless_psw"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
