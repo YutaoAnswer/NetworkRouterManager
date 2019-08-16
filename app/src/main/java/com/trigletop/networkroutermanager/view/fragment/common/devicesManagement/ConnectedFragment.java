@@ -169,7 +169,7 @@ public class ConnectedFragment extends Fragment {
                     @Override
                     public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
                         // TODO: 19-8-2 添加内容
-                        
+
                     }
                 });
             }
@@ -201,6 +201,7 @@ public class ConnectedFragment extends Fragment {
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
+                Toast.makeText(getActivity(), "禁用设备成功", Toast.LENGTH_SHORT).show();
                 initData();
             }
 
@@ -263,8 +264,9 @@ public class ConnectedFragment extends Fragment {
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
-                // TODO: 19-8-15 刷新页面，重新获取数据
                 Toast.makeText(getActivity(), "设置上传速率" + uploadSpeed, Toast.LENGTH_SHORT).show();
+                // TODO: 19-8-15 刷新页面，重新获取数据
+
             }
 
             @Override

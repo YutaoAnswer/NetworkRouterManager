@@ -9,11 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
