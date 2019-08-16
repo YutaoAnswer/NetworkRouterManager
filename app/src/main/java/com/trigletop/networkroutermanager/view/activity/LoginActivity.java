@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +57,6 @@ public class LoginActivity extends Activity {
         localApi.setmLocalIp("192.168.4.1");
         //路由器管理员密码
         localApi.setAdminPassword("admin");
-
     }
 
     @OnClick({R.id.btn_login, R.id.btn_forget_password})
@@ -66,7 +70,15 @@ public class LoginActivity extends Activity {
                 }
                 break;
             case R.id.btn_forget_password:
-
+//                NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(this);
+//                dialogBuilder
+//                        .withDuration(700)
+//                        .setCustomView(R.layout.custom_view_forget, this)
+//                        .withDialogColor("#0096a6")
+//                        .withEffect(Effectstype.SlideBottom)
+//                        .isCancelableOnTouchOutside(true)
+//                        .show();
+                Toast.makeText(this, "如果忘记密码，请恢复出厂设置.恢复出厂设置：当设备通电时，按住Reset按钮直到所有指示灯同事亮起后松开", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

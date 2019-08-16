@@ -5,7 +5,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,13 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.trigletop.networkroutermanager.R;
 import com.trigletop.networkroutermanager.utils.ContantUtil;
-import com.trigletop.networkroutermanager.utils.SiUtil;
 
 import java.util.List;
 
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.Device;
-
 
 public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -113,7 +110,6 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 ////                viewHolder.mFrameLayout_Rigth.setLayoutParams(params);
 ////                viewHolder.mForbidden.setLayoutParams(new LinearLayout.LayoutParams());
 //            }
-
         }
     }
 

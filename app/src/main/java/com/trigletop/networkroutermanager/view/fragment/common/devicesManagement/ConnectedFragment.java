@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -168,7 +169,7 @@ public class ConnectedFragment extends Fragment {
                     @Override
                     public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
                         // TODO: 19-8-2 添加内容
-
+                        
                     }
                 });
             }
@@ -200,7 +201,7 @@ public class ConnectedFragment extends Fragment {
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
-
+                initData();
             }
 
             @Override
@@ -231,7 +232,7 @@ public class ConnectedFragment extends Fragment {
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
-
+                Toast.makeText(getActivity(), "设置下载速率为" + downloadSpeed, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -262,7 +263,8 @@ public class ConnectedFragment extends Fragment {
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
-
+                // TODO: 19-8-15 刷新页面，重新获取数据
+                Toast.makeText(getActivity(), "设置上传速率" + uploadSpeed, Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -96,13 +96,9 @@ public class ForbiddenFragment extends Fragment {
 
         int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
         rcyConnected.addItemDecoration(new SpaceItemDecoration(itemSpace));
-
-
     }
 
     private void initData() {
-//        siUtil.getDeviceRet(rcyConnected, mLocalApi, getActivity(), siUtil, mHandler);
-
         Single<GetDeviceRet> getDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceRet.class);
         getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
             @Override
@@ -116,11 +112,11 @@ public class ForbiddenFragment extends Fragment {
                 Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
                 DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Forbidden", mLocalApi);
                 // TODO: 19-8-9 循环遍历删除　需要做优化修改
-                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
-                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 0) {
-                        getDeviceRet.getList().remove(i);
-                    }
-                }
+//                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
+//                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 0) {
+//                        getDeviceRet.getList().remove(i);
+//                    }
+//                }
                 devicesAdapter.setDeviceList(getDeviceRet.getList());
                 rcyConnected.setAdapter(devicesAdapter);
                 rcyConnected.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
@@ -135,7 +131,6 @@ public class ForbiddenFragment extends Fragment {
                                 .withButton1Text("确定")
                                 .setButton1Click(v -> liftBan(device.getMac()))
                                 .show();
-
                         // TODO: 19-8-2 功能一：解除禁用按钮实现设备禁用
 //                        List<Device> deviceList = devicesAdapter.getDeviceList();
 ////                        siUtil.setDevice(mLocalApi, deviceList.get(position).getAuthority().getLan() + "", handler);
@@ -201,7 +196,8 @@ public class ForbiddenFragment extends Fragment {
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
-
+                // TODO: 19-8-15 刷新页面，重新获取数据
+                initData();
             }
 
             @Override

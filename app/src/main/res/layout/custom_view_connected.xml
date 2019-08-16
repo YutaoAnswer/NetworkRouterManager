@@ -20,17 +20,18 @@
         android:id="@+id/et_download"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:hint="@string/download"
         android:inputType="number"
-        android:layout_marginBottom="10dp"
         android:textColor="#FFFFFFFF"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/btn_forbidden"
         android:layout_width="150dp"
-        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/forbidden_button" />
+        android:layout_marginBottom="10dp"
+        android:text="@string/forbidden_release_device" />
+
 </LinearLayout>
