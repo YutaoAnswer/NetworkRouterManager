@@ -66,14 +66,6 @@ public class LoginActivity extends Activity {
                 }
                 break;
             case R.id.btn_forget_password:
-//                NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(this);
-//                dialogBuilder
-//                        .withDuration(700)
-//                        .setCustomView(R.layout.custom_view_forget, this)
-//                        .withDialogColor("#0096a6")
-//                        .withEffect(Effectstype.SlideBottom)
-//                        .isCancelableOnTouchOutside(true)
-//                        .show();
                 Toast.makeText(this, "如果忘记密码，请恢复出厂设置.恢复出厂设置：当设备通电时，按住Reset按钮直到所有指示灯同事亮起后松开", Toast.LENGTH_SHORT).show();
                 break;
         }

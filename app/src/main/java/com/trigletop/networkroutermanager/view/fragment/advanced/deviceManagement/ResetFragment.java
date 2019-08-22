@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -93,7 +94,6 @@ public class ResetFragment extends Fragment {
     public void onViewClicked() {
         CommandParam commandParam = new CommandParam(LocalApi.DEFAULT_APP_API_VERSION);
         commandParam.setCmd(2);
-
         mLocalApi.executeApiWithSingleResponse(commandParam, CommandRet.class)
                 .observeOn(Schedulers.trampoline())
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -105,8 +105,7 @@ public class ResetFragment extends Fragment {
 
                     @Override
                     public void onSuccess(CommandRet commandRet) {
-                        // TODO: 19-8-8 弹出对话框
-
+                        Toast.makeText(getContext(), "重置成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

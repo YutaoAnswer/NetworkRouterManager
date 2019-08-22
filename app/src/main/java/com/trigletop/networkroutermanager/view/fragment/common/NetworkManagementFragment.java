@@ -100,53 +100,6 @@ public class NetworkManagementFragment extends Fragment {
                 getString(R.string.static_ip),
                 getString(R.string.IP_address_auto)));
         tab.setupWithViewPager(viewPager);
-//        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                switch (tab.getPosition()) {
-//                    case 0:
-//                        switchFragment(currentFragment, ppoeFragment);
-//                        currentFragment = ppoeFragment;
-//                        break;
-//                    case 1:
-//                        switchFragment(currentFragment, staticIPAddressFragment);
-//                        currentFragment = staticIPAddressFragment;
-//                        break;
-//                    case 2:
-//                        switchFragment(currentFragment, ipAddressAutoFragment);
-//                        currentFragment = ipAddressAutoFragment;
-//                        break;
-//                }
-//            }
-
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//        tab.setOnFocusChangeListener((v, hasFocus) -> {
-//            switch (v.getId()) {
-//                case R.id.tab_ppoe:
-//                    switchFragment(currentFragment, ppoeFragment);
-//                    currentFragment = ppoeFragment;
-//                    break;
-//                case R.id.tab_static_ip:
-//                    switchFragment(currentFragment, staticIPAddressFragment);
-//                    currentFragment = staticIPAddressFragment;
-//                    break;
-//                case R.id.tab_ip_address_auto:
-//                    switchFragment(currentFragment, ipAddressAutoFragment);
-//                    currentFragment = ipAddressAutoFragment;
-//                    break;
-//                default:
-//                    break;
-//            }
-//        });
     }
 
     @Override
@@ -193,6 +146,7 @@ public class NetworkManagementFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mTitles[position];
         }
+
     }
 
     /**

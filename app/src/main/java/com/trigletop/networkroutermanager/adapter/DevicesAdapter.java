@@ -91,25 +91,6 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 default:
                     break;
             }
-//            if (device.getAuthority().getLan() == 1) {
-//                if (device.getNickname().equals("")) {
-//                    viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
-//                } else {
-//                    viewHolder.mName.setText(deviceList.get(position).getNickname());
-//                }
-//                viewHolder.mDownload.setText(String.valueOf(device.getSpeed().getDownspeed()));
-//                viewHolder.mUpload.setText(String.valueOf(device.getSpeed().getUpspeed()));
-//            } else if (device.getAuthority().getLan() == -1) {
-//                viewHolder.mFrameLayout_Left.setVisibility(View.GONE);
-//                if (device.getNickname().equals("")) {
-//                    viewHolder.mName.setText(mContext.getString(R.string.anonymous_host));
-//                } else {
-//                    viewHolder.mName.setText(deviceList.get(position).getNickname());
-//                }
-////                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) viewHolder.mFrameLayout_Rigth.getLayoutParams();
-////                viewHolder.mFrameLayout_Rigth.setLayoutParams(params);
-////                viewHolder.mForbidden.setLayoutParams(new LinearLayout.LayoutParams());
-//            }
         }
     }
 

@@ -96,6 +96,7 @@ public class ForbiddenFragment extends Fragment {
 
         int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
         rcyConnected.addItemDecoration(new SpaceItemDecoration(itemSpace));
+        rcyConnected.setSelectPadding(35, 34, 35, 38);
     }
 
     private void initData() {

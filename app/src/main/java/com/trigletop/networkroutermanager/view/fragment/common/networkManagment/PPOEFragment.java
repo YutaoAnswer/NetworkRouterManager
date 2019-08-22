@@ -1,16 +1,12 @@
 package com.trigletop.networkroutermanager.view.fragment.common.networkManagment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,9 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
-import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.utils.SiUtil;
 
 import java.util.Objects;
 

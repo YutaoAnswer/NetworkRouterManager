@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -97,7 +98,6 @@ public class RestartFragment extends Fragment {
     public void onViewClicked() {
         CommandParam commandParam = new CommandParam(LocalApi.DEFAULT_APP_API_VERSION);
         commandParam.setCmd(0);
-
         mLocalApi.executeApiWithSingleResponse(commandParam, CommandRet.class)
                 .observeOn(Schedulers.trampoline())
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -109,8 +109,7 @@ public class RestartFragment extends Fragment {
 
                     @Override
                     public void onSuccess(CommandRet commandRet) {
-                        // TODO: 19-8-8 弹窗
-
+                        Toast.makeText(getContext(), "重启", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

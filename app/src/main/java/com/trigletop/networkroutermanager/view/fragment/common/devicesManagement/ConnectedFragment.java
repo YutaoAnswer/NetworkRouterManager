@@ -3,6 +3,7 @@ package com.trigletop.networkroutermanager.view.fragment.common.devicesManagemen
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -117,6 +118,8 @@ public class ConnectedFragment extends Fragment {
 
         int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
         rcyConnected.addItemDecoration(new SpaceItemDecoration(itemSpace));
+        DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Connected", mLocalApi);
+        rcyConnected.setAdapter(devicesAdapter);
         rcyConnected.setSelectPadding(35, 34, 35, 38);
     }
 
@@ -134,12 +137,6 @@ public class ConnectedFragment extends Fragment {
             public void onSuccess(GetDeviceRet getDeviceRet) {
                 Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
                 DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Connected", mLocalApi);
-//                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
-//                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 1) {
-//                        // TODO: 19-8-9 循环遍历删除　需要做优化修改
-//                        getDeviceRet.getList().remove(i);
-//                    }
-//                }
                 devicesAdapter.setDeviceList(getDeviceRet.getList());
                 rcyConnected.setAdapter(devicesAdapter);
                 rcyConnected.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
@@ -165,6 +162,7 @@ public class ConnectedFragment extends Fragment {
                                 .setButton2Click(v -> limitDownload(device.getMac(), Long.valueOf(etDownload.getText().toString())))
                                 .show();
                     }
+
 
                     @Override
                     public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {

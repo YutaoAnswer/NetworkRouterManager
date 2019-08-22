@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         localApi = new LocalApi(LocalApi.DEFAULT_APP_API_VERSION);
 
         fragmentManager = getSupportFragmentManager();
-        commonSettingFragment = CommonSettingFragment.newInstance();
+        commonSettingFragment = CommonSettingFragment.newInstance(localApi);
         advancedSettingFragment = AdvancedSettingFragment.newInstance();
         accountFragment = AccountManagermentFragment.newInstance(localApi);
         fragmentList = new ArrayList<>();
@@ -173,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
         });
         mTabLayout.setCurrentTab(0);
     }
+
+
 
     //todo 首页替换Fragment内容需要优化，已发现bug,router　Fragment 点进去后的详情页  初步判断和回退栈有关,和要实现的另一个功能onBackPress　onKeyDown这两个方法有关 回退栈
     //todo 然后就是和顶部的切换会有冲突，需要优化

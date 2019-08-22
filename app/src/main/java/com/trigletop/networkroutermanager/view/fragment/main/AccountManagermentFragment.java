@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +29,8 @@ public class AccountManagermentFragment extends Fragment {
 
     @BindView(R.id.frameLayout_account)
     FrameLayout frameLayoutAccount;
+    @BindView(R.id.ll_setup_wizard)
+    LinearLayout llSetupWizard;
     private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
@@ -105,6 +108,11 @@ public class AccountManagermentFragment extends Fragment {
                 .add(R.id.frameLayout_account, setupWizardFragment)
                 .commit();
         currentFragment = setupWizardFragment;
+
+        llSetupWizard.setOnFocusChangeListener((v, hasFocus) -> {
+            switchFragment(currentFragment, setupWizardFragment);
+            currentFragment = setupWizardFragment;
+        });
     }
 
     private void initData() {
