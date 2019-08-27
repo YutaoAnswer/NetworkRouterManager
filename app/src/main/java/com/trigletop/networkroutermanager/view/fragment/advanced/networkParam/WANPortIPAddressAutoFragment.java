@@ -105,7 +105,7 @@ public class WANPortIPAddressAutoFragment extends Fragment {
             public void onSuccess(GetWanTypeRet getWanTypeRet) {
                 Log.d(TAG, "onSuccess: ");
                 tvIpAddress.setText(getWanTypeRet.getIp());
-                tvGateway.setText(getWanTypeRet.getMask());
+                tvSubnetMask.setText(getWanTypeRet.getMask());
                 tvGateway.setText(getWanTypeRet.getGateway());
                 tvDnsServer.setText(getWanTypeRet.getDns1());
 

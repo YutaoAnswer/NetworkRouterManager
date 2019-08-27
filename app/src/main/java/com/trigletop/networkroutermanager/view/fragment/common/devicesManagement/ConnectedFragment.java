@@ -141,12 +141,8 @@ public class ConnectedFragment extends Fragment {
                     @Override
                     public void onItemViewClick(View view, int position) {
                         Device device = devicesAdapter.getDeviceList().get(position);
-                        // TODO: 19-8-2 功能一：弹出框限制上传下载的数据  功能二：禁用按钮实现设备禁用
+//                        // TODO: 19-8-2 功能一：弹出框限制上传下载的数据  功能二：禁用按钮实现设备禁用
                         NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
-                        EditText etUpload = dialogBuilder.findViewById(R.id.et_upload);
-                        EditText etDownload = dialogBuilder.findViewById(R.id.et_download);
-                        Button btnForbidden = dialogBuilder.findViewById(R.id.btn_forbidden);
-                        btnForbidden.setOnClickListener(v -> forbidden(device.getMac()));
                         dialogBuilder
                                 .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
                                 .withDuration(700)
@@ -155,10 +151,27 @@ public class ConnectedFragment extends Fragment {
                                 .withButton1Text("限制上传")
                                 .withButton2Text("限制下载")
                                 .withEffect(Effectstype.SlideBottom)
-                                .isCancelableOnTouchOutside(true)
-                                .setButton1Click(v -> limitUpload(device.getMac(), Long.valueOf(etUpload.getText().toString())))
-                                .setButton2Click(v -> limitDownload(device.getMac(), Long.valueOf(etDownload.getText().toString())))
-                                .show();
+                                .isCancelableOnTouchOutside(true);
+
+                        EditText etUpload = dialogBuilder.findViewById(R.id.et_upload);
+                        EditText etDownload = dialogBuilder.findViewById(R.id.et_download);
+                        Button btnForbidden = dialogBuilder.findViewById(R.id.btn_forbidden);
+                        etDownload.setText(String.valueOf(device.getAuthority().getLimitdown()));
+                        etUpload.setText(String.valueOf(device.getAuthority().getLimitup()));
+                        btnForbidden.setOnClickListener(v -> forbidden(device.getMac()));
+                        String upload = etUpload.getText().toString();
+                        String download = etDownload.getText().toString();
+                        if (!upload.equals("")) {
+                            dialogBuilder
+                                    .setButton1Click(v -> limitUpload(device.getMac(), Long.valueOf(upload)));
+                        }
+                        if (!download.equals("")) {
+                            dialogBuilder.
+                                    setButton2Click(v -> limitDownload(device.getMac(), Long.valueOf(download)));
+                        }
+
+                        dialogBuilder.show();
+
                     }
 
 
