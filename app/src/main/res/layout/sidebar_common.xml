@@ -25,7 +25,6 @@
             android:id="@+id/tv_device_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已连接设备数量：2"
             android:textColor="@android:color/black" />
 
         <TextView
@@ -56,7 +55,6 @@
             android:id="@+id/tv_network_method"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="上网方式：自动获得IP地址"
             android:textColor="@android:color/black" />
 
         <TextView
@@ -87,7 +85,6 @@
             android:id="@+id/tv_wireless_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="无线名称：siwifi-8d78-2.4G"
             android:textColor="@android:color/black" />
 
         <TextView

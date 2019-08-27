@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -220,6 +221,7 @@ public class CommonSettingFragment extends Fragment {
             @Override
             public void onSuccess(GetDeviceRet getDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
+                Toast.makeText(getContext(), "getDeviceRet", Toast.LENGTH_SHORT).show();
                 tvDeviceNum.setText("已链接设备数量" + getDeviceRet.getList().size());
             }
 
@@ -244,6 +246,7 @@ public class CommonSettingFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
+                Toast.makeText(getContext(), "getWiFiDetailRet", Toast.LENGTH_SHORT).show();
                 tvWirelessName.setText("上网方式" + getWiFiDetailRet.getInfo().get(0).getSsid());
             }
 

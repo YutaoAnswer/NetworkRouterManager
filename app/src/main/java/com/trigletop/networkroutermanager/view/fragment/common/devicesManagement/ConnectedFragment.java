@@ -118,8 +118,6 @@ public class ConnectedFragment extends Fragment {
 
         int itemSpace = getResources().getDimensionPixelSize(R.dimen.recyclerView_item_space);
         rcyConnected.addItemDecoration(new SpaceItemDecoration(itemSpace));
-        DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Connected", mLocalApi);
-        rcyConnected.setAdapter(devicesAdapter);
         rcyConnected.setSelectPadding(35, 34, 35, 38);
     }
 
@@ -200,6 +198,7 @@ public class ConnectedFragment extends Fragment {
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Log.d(TAG, "onSuccess: ");
                 Toast.makeText(getActivity(), "禁用设备成功", Toast.LENGTH_SHORT).show();
+                // TODO: 19-8-23
                 initData();
             }
 
