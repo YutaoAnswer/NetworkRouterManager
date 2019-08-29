@@ -112,11 +112,9 @@ public class ForbiddenFragment extends Fragment {
             public void onSuccess(GetDeviceRet getDeviceRet) {
                 Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
                 DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Forbidden", mLocalApi);
-                // TODO: 19-8-9 循环遍历删除　需要做优化修改
-                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
-                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 0) {
-                        getDeviceRet.getList().remove(i);
-                    }
+                for (Device device : getDeviceRet.getList()) {
+                    if (device.getAuthority().getInternet() != 0)
+                        getDeviceRet.getList().remove(device);
                 }
                 devicesAdapter.setDeviceList(getDeviceRet.getList());
                 rcyConnected.setAdapter(devicesAdapter);

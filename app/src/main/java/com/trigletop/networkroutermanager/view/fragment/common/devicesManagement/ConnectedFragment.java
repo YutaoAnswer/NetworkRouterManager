@@ -137,10 +137,9 @@ public class ConnectedFragment extends Fragment {
             public void onSuccess(GetDeviceRet getDeviceRet) {
                 Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
                 DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Connected", mLocalApi);
-                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
-                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 0) {
-                        getDeviceRet.getList().remove(i);
-                    }
+                for (Device device : getDeviceRet.getList()) {
+                    if (device.getAuthority().getInternet() != 1)
+                        getDeviceRet.getList().remove(device);
                 }
                 devicesAdapter.setDeviceList(getDeviceRet.getList());
                 rcyConnected.setAdapter(devicesAdapter);
