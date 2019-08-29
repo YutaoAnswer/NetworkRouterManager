@@ -145,3 +145,6 @@ wanportipaddressauto
 焦点控制
 
 MacGetIP获取路由器
+
+
+LocalApi: ret = {"msg":"set device fail MAC-addr is empty","code":1019}

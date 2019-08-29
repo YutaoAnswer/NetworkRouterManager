@@ -113,11 +113,11 @@ public class ForbiddenFragment extends Fragment {
                 Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
                 DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Forbidden", mLocalApi);
                 // TODO: 19-8-9 循环遍历删除　需要做优化修改
-//                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
-//                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 0) {
-//                        getDeviceRet.getList().remove(i);
-//                    }
-//                }
+                for (int i = 0; i < getDeviceRet.getList().size(); i++) {
+                    if (getDeviceRet.getList().get(i).getAuthority().getInternet() != 0) {
+                        getDeviceRet.getList().remove(i);
+                    }
+                }
                 devicesAdapter.setDeviceList(getDeviceRet.getList());
                 rcyConnected.setAdapter(devicesAdapter);
                 rcyConnected.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
@@ -185,6 +185,7 @@ public class ForbiddenFragment extends Fragment {
      */
     private void liftBan(String mac) {
         SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
+        setDeviceParam.setMac(mac);
         setDeviceParam.setInternet(1);
         Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
         setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {

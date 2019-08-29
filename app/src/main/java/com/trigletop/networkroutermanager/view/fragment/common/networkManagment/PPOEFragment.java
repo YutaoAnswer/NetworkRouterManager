@@ -125,7 +125,7 @@ public class PPOEFragment extends Fragment {
                             .withTitleColor(R.color.cyan)
                             .withMessage(getActivity().getString(R.string.setting_successful))
                             .withMessageColor("#FFFFFFFF")
-                            .withEffect(Effectstype.Fadein)
+                            .withEffect(Effectstype.SlideBottom)
                             .withDuration(700)
                             .show();
                 }
@@ -143,7 +143,7 @@ public class PPOEFragment extends Fragment {
                     .withTitleColor(R.color.cyan)
                     .withMessage(getActivity().getString(R.string.setting_unsuccessful))
                     .withMessageColor("#FFFFFFFF")
-                    .withEffect(Effectstype.Fadein)
+                    .withEffect(Effectstype.SlideBottom)
                     .withDuration(700)
                     .show();
         }

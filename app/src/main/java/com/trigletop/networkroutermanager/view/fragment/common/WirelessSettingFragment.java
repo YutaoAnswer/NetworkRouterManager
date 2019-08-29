@@ -160,7 +160,7 @@ public class WirelessSettingFragment extends Fragment {
                             .withTitleColor(R.color.cyan)
                             .withMessage(getActivity().getString(R.string.successful_save))
                             .withMessageColor("#FFFFFFFF")
-                            .withEffect(Effectstype.Fadein)
+                            .withEffect(Effectstype.SlideBottom)
                             .withDuration(700)
                             .show();
                 }
@@ -177,7 +177,7 @@ public class WirelessSettingFragment extends Fragment {
                     .withTitleColor(R.color.cyan)
                     .withMessage(getActivity().getString(R.string.unsuccessful_save))
                     .withMessageColor("#FFFFFFFF")
-                    .withEffect(Effectstype.Fadein)
+                    .withEffect(Effectstype.SlideBottom)
                     .withDuration(700)
                     .show();
         }

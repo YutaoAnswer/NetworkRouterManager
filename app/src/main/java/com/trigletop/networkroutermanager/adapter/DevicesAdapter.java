@@ -99,6 +99,14 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         // TODO: 19-8-1 优化点
         int itemCount = 0;
         if (deviceList != null) {
+            switch (mParam) {
+                case "Connected":
+
+                    break;
+                case "Forbidden":
+
+                    break;
+            }
             itemCount = deviceList.size();
         }
         return itemCount;

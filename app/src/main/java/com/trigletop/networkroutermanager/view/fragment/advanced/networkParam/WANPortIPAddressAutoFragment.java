@@ -103,12 +103,11 @@ public class WANPortIPAddressAutoFragment extends Fragment {
 
             @Override
             public void onSuccess(GetWanTypeRet getWanTypeRet) {
-                Log.d(TAG, "onSuccess: ");
+                Log.d(TAG, "onSuccess: " + getWanTypeRet);
                 tvIpAddress.setText(getWanTypeRet.getIp());
                 tvSubnetMask.setText(getWanTypeRet.getMask());
                 tvGateway.setText(getWanTypeRet.getGateway());
                 tvDnsServer.setText(getWanTypeRet.getDns1());
-
             }
 
             @Override
