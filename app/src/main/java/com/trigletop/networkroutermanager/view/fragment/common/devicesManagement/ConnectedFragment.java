@@ -147,7 +147,7 @@ public class ConnectedFragment extends Fragment {
                     @Override
                     public void onItemViewClick(View view, int position) {
                         Device device = devicesAdapter.getDeviceList().get(position);
-                        // TODO: 19-8-2 功能一：弹出框限制上传下载的数据  功能二：禁用按钮实现设备禁用
+                        // TODO: 19-8-2 功能一：弹出框限制上传下载的数据
                         NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
                         dialogBuilder
                                 .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
