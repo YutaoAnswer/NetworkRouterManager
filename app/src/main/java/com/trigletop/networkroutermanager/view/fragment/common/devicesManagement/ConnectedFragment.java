@@ -147,7 +147,6 @@ public class ConnectedFragment extends Fragment {
                     @Override
                     public void onItemViewClick(View view, int position) {
                         Device device = devicesAdapter.getDeviceList().get(position);
-                        // TODO: 19-8-2 功能一：弹出框限制上传下载的数据
                         NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
                         dialogBuilder
                                 .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
@@ -161,12 +160,13 @@ public class ConnectedFragment extends Fragment {
 
                         EditText etUpload = dialogBuilder.findViewById(R.id.et_upload);
                         EditText etDownload = dialogBuilder.findViewById(R.id.et_download);
-//                        if (device.getSpeed().getUpspeed() != -1) {
-//                            etUpload.setText(String.valueOf(device.getAuthority().getLimitup()));
-//                        }
-//                        if (device.getSpeed().getDownspeed() != -1) {
-//                            etDownload.setText(String.valueOf(device.getAuthority().getLimitdown()));
-//                        }
+                        // TODO: 19-8-30 测试　
+                        if (device.getAuthority().getLimitup() != -1) {
+                            etUpload.setText(String.valueOf(device.getAuthority().getLimitup()));
+                        }
+                        if (device.getAuthority().getLimitup() != -1) {
+                            etDownload.setText(String.valueOf(device.getAuthority().getLimitdown()));
+                        }
                         Button btnForbidden = dialogBuilder.findViewById(R.id.btn_forbidden);
                         long limitdown = device.getAuthority().getLimitdown();
                         long limitup = device.getAuthority().getLimitup();
@@ -202,7 +202,6 @@ public class ConnectedFragment extends Fragment {
                                     }
                                 });
                         dialogBuilder.show();
-
                     }
 
 

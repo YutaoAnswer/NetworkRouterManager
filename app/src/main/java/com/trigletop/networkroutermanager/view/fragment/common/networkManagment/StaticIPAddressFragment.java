@@ -122,7 +122,6 @@ public class StaticIPAddressFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
                 // TODO: 19-8-9 取取数据失败，请重试
 
             }

@@ -1,7 +1,9 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement;
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +28,9 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.OtaCheckParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.OtaUpgradeParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.OtaCheckRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.OtaUpgradeRet;
 
 /**
@@ -105,24 +113,60 @@ public class UpdateFragment extends Fragment {
                 break;
             case R.id.btn_ota_update:
                 // TODO: 19-8-7 优化
-                OtaUpgradeParam otaUpgradeParam = new OtaUpgradeParam(LocalApi.DEFAULT_APP_API_VERSION);
-                Single<OtaUpgradeRet> upgradeRetSingle = mLocalApi.executeApiWithSingleResponse(otaUpgradeParam, OtaUpgradeRet.class);
-                upgradeRetSingle.subscribe(new SingleObserver<OtaUpgradeRet>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                NiftyDialogBuilder niftyDialogBuilder = NiftyDialogBuilder.getInstance(getContext());
+                niftyDialogBuilder
+                        .withDuration(700)
+                        .setCustomView(R.layout.custom_view_otaupdate, getContext())
+                        .withDialogColor("#0096a6")
+                        .withButton1Text("取消")
+                        .withButton2Text("确定")
+                        .setButton1Click(v -> {
+                            new Thread() {
+                                public void run() {
+                                    //模拟按钮回退
+                                    try {
+                                        Instrumentation inst = new Instrumentation();
+                                        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+                        })
+                        .setButton2Click(v -> {
+                            //检测更新
+                            OtaCheckParam otaCheckParam = new OtaCheckParam(LocalApi.DEFAULT_APP_API_VERSION);
+                            Single<OtaCheckRet> otaCheckRetSingle = mLocalApi.executeApiWithSingleResponse(otaCheckParam, OtaCheckRet.class);
+                            otaCheckRetSingle.subscribe(new SingleObserver<OtaCheckRet>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
 
-                    }
+                                }
 
-                    @Override
-                    public void onSuccess(OtaUpgradeRet otaUpgradeRet) {
+                                @Override
+                                public void onSuccess(OtaCheckRet otaCheckRet) {
 
-                    }
+                                }
 
-                    @Override
-                    public void onError(Throwable e) {
+                                @Override
+                                public void onError(Throwable e) {
 
-                    }
-                });
+                                }
+                            });
+                            new Thread() {
+                                public void run() {
+                                    //模拟按钮回退
+                                    try {
+                                        Instrumentation inst = new Instrumentation();
+                                        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+                        })
+                        .withEffect(Effectstype.SlideBottom)
+                        .isCancelableOnTouchOutside(true);
                 break;
         }
     }
@@ -137,4 +181,29 @@ public class UpdateFragment extends Fragment {
 
     private void initView() {
     }
+
+    /**
+     * 更新
+     */
+    private void update() {
+        OtaUpgradeParam otaUpgradeParam = new OtaUpgradeParam(LocalApi.DEFAULT_APP_API_VERSION);
+        Single<OtaUpgradeRet> upgradeRetSingle = mLocalApi.executeApiWithSingleResponse(otaUpgradeParam, OtaUpgradeRet.class);
+        upgradeRetSingle.subscribe(new SingleObserver<OtaUpgradeRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(OtaUpgradeRet otaUpgradeRet) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
 }

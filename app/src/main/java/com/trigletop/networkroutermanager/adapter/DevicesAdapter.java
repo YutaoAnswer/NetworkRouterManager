@@ -57,7 +57,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        // TODO: 19-7-30 如果deviceList为空怎么办，则不会设置任何值 为空处理
+        // TODO: 19-7-30 如果deviceList为空怎么办，则不会设置任何值     为空处理
         final RecyclerViewHolder viewHolder = (RecyclerViewHolder) holder;
         Log.d(TAG, "onBindViewHolder: position" + position);
         if (deviceList != null && deviceList.size() > 0 && position < deviceList.size()) {
@@ -70,8 +70,9 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         } else {
                             viewHolder.mName.setText(deviceList.get(position).getNickname());
                         }
-                        viewHolder.mDownload.setText(String.valueOf(device.getSpeed().getDownspeed()));
-                        viewHolder.mUpload.setText(String.valueOf(device.getSpeed().getUpspeed()));
+                        // TODO: 19-8-30 测试　优化
+                        viewHolder.mDownload.setText(device.getSpeed().getDownspeed() + "b/s");
+                        viewHolder.mUpload.setText(device.getSpeed().getUpspeed() + "b/s");
                         GradientDrawable drawable = (GradientDrawable) viewHolder.mFrameLayout.getBackground();
                         drawable.setColor(ContextCompat.getColor(mContext, ContantUtil.getRandColor()));
                     }
@@ -96,17 +97,8 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        // TODO: 19-8-1 优化点
         int itemCount = 0;
         if (deviceList != null) {
-            switch (mParam) {
-                case "Connected":
-
-                    break;
-                case "Forbidden":
-
-                    break;
-            }
             itemCount = deviceList.size();
         }
         return itemCount;

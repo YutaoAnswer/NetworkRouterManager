@@ -152,23 +152,7 @@ public class WANPortSettingFragment extends Fragment {
     }
 
     private void initData() {
-        Single<GetWanTypeRet> getWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION), GetWanTypeRet.class);
-        getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
-            @Override
-            public void onSubscribe(Disposable d) {
 
-            }
-
-            @Override
-            public void onSuccess(GetWanTypeRet getWanTypeRet) {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-        });
     }
 
 //    private class WANPortSettingManagementAdapter extends FragmentPagerAdapter {

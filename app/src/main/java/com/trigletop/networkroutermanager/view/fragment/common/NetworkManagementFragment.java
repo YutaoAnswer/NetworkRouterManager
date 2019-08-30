@@ -2,9 +2,11 @@ package com.trigletop.networkroutermanager.view.fragment.common;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,15 +22,18 @@ import com.trigletop.networkroutermanager.view.fragment.common.networkManagment.
 import com.trigletop.networkroutermanager.view.fragment.common.networkManagment.PPOEFragment;
 import com.trigletop.networkroutermanager.view.fragment.common.networkManagment.StaticIPAddressFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWanTypeParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWanTypeRet;
 
 public class NetworkManagementFragment extends Fragment {
 
@@ -75,10 +80,11 @@ public class NetworkManagementFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
         initView();
+        initData();
     }
 
     private void init() {
@@ -100,6 +106,41 @@ public class NetworkManagementFragment extends Fragment {
                 getString(R.string.static_ip),
                 getString(R.string.IP_address_auto)));
         tab.setupWithViewPager(viewPager);
+    }
+
+    private void initData() {
+        Single<GetWanTypeRet> getWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION), GetWanTypeRet.class);
+        getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(GetWanTypeRet getWanTypeRet) {
+                // TODO: 19-8-30 测试
+                int type = getWanTypeRet.getType();//连接类型
+                switch (type) {
+                    case 0://dhcp
+                        viewPager.setCurrentItem(2, true);
+                        break;
+                    case 1://ppoe拨号
+                        viewPager.setCurrentItem(0, true);
+                        break;
+                    case 2://static ip
+                        viewPager.setCurrentItem(1, true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // TODO: 19-8-30 刷新获取
+                Toast.makeText(getActivity(), "获取数据失败，请重新获取", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

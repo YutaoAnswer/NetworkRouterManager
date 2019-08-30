@@ -104,13 +104,10 @@ public class IPAddressAutoFragment extends Fragment {
         getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "IPAddressAuto onSubscribe: ");
-
             }
 
             @Override
             public void onSuccess(GetWanTypeRet getWanTypeRet) {
-                Log.d(TAG, "onSuccess: ");
                 Log.d(TAG, "IPAddressAuto onSuccess: " + getWanTypeRet.toString());
                 tvIpAddress.setText(getWanTypeRet.getIp());
                 tvGateway.setText(getWanTypeRet.getGateway());
@@ -121,7 +118,6 @@ public class IPAddressAutoFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
                 // TODO: 19-8-9 取取数据失败，请重试
 
             }

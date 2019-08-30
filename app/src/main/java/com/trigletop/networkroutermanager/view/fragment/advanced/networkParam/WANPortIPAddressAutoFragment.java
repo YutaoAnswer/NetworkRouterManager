@@ -97,8 +97,6 @@ public class WANPortIPAddressAutoFragment extends Fragment {
         getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "IPAddressAuto onSubscribe: ");
-
             }
 
             @Override
@@ -112,12 +110,10 @@ public class WANPortIPAddressAutoFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
                 // TODO: 19-8-9 取取数据失败，请重试
 
             }
         });
-
     }
 
     private void initView() {
@@ -155,6 +151,8 @@ public class WANPortIPAddressAutoFragment extends Fragment {
                 break;
             case R.id.btn_wan_port_setting:
 
+                break;
+            default:
                 break;
         }
     }

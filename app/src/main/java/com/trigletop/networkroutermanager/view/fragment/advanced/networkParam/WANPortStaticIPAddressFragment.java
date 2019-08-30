@@ -2,11 +2,12 @@ package com.trigletop.networkroutermanager.view.fragment.advanced.networkParam;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,12 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWanTypeParam;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWanTypeRet;
 
 public class WANPortStaticIPAddressFragment extends Fragment {
 
@@ -40,6 +36,8 @@ public class WANPortStaticIPAddressFragment extends Fragment {
     TextView etPreferredDnsServer;
     @BindView(R.id.et_spare_dns_server)
     TextView etSpareDnsServer;
+    @BindView(R.id.et_data_pack)
+    EditText etDataPack;
     private Unbinder unbinder;
 
     public static WANPortStaticIPAddressFragment newInstance(LocalApi localApi) {
@@ -97,40 +95,31 @@ public class WANPortStaticIPAddressFragment extends Fragment {
     }
 
     private void init() {
-
     }
 
     private void initView() {
-
     }
 
     private void initData() {
-        Single<GetWanTypeRet> getWanTypeRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWanTypeParam(LocalApi.DEFAULT_APP_API_VERSION), GetWanTypeRet.class);
-        getWanTypeRetSingle.subscribe(new SingleObserver<GetWanTypeRet>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(TAG, "IPAddressAuto onSubscribe: ");
-
-            }
-
-            @Override
-            public void onSuccess(GetWanTypeRet getWanTypeRet) {
-                Log.d(TAG, "onSuccess: ");
-                // TODO: 19-8-14 写处理逻辑
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-                // TODO: 19-8-9 取取数据失败，请重试
-
-            }
-        });
     }
 
     @OnClick(R.id.btn_address_auto_save)
     public void onViewClicked() {
+        String ipAddress = etIpAddress.getText().toString();
+        String subnetMask = etSubnetMask.getText().toString();
+        String gateway = etGateway.getText().toString();
+        String preferredDnsServer = etPreferredDnsServer.getText().toString();
+        String spareDnsServer = etSpareDnsServer.getText().toString();
 
+        if (ipAddress.equals(R.string._0_0_0_0)
+                && subnetMask.equals(R.string._0_0_0_0)
+                && gateway.equals(R.string._0_0_0_0)
+                && preferredDnsServer.equals(R.string._0_0_0_0)
+                && spareDnsServer.equals(R.string._0_0_0_0)) {
+            Toast.makeText(getActivity(), "IP地址非法，请重新输入", Toast.LENGTH_SHORT).show();
+        } else {
+            // TODO: 19-8-30
+        }
     }
+
 }

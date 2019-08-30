@@ -64,7 +64,6 @@ public class PPOEFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: PPOE");
         View view = inflater.inflate(R.layout.fragment_ppoe, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -73,7 +72,6 @@ public class PPOEFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "onViewCreated: PPOE");
         init();
         initView();
         initData();

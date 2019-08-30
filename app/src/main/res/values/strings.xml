@@ -152,6 +152,8 @@
     <string name="default_data_pack">1500</string>
     <string name="upload">上传速率</string>
     <string name="download">下载速率</string>
+    <string name="unit">b/s</string>
     <string name="forget_password_hint">如果忘记密码，请恢复出厂设置.恢复出厂设置：当设备通电时，按住Reset按钮直到所有指示灯同事亮起后松开</string>
+    <string name="speed_setting">速率设置</string>
 
 </resources>

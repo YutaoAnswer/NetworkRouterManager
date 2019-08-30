@@ -148,3 +148,5 @@ MacGetIP获取路由器
 
 
 LocalApi: ret = {"msg":"set device fail MAC-addr is empty","code":1019}
+
+LocalApi: ret = {"msg":"OK","type":0,"autodns":1,"code":0}

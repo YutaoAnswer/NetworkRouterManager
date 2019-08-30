@@ -82,11 +82,11 @@ public class AdvancedSettingFragment extends Fragment {
     private SystemLogFragment systemLogFragment;
     private TimeAndLanguageFragment timeAndLanguageFragment;
     private UpdateFragment updateFragment;
-    private DDNSFragment ddnsFragment;
-    private DMZHostFragment dmzHostFragment;
-    private RouterFragment routerFragment;
-    private UPnPSettingFragment uPnPSettingFragment;
-    private VirtualServerFragment virtualServerFragment;
+//    private DDNSFragment ddnsFragment;
+//    private DMZHostFragment dmzHostFragment;
+//    private RouterFragment routerFragment;
+//    private UPnPSettingFragment uPnPSettingFragment;
+//    private VirtualServerFragment virtualServerFragment;
 
     @SuppressLint("HandlerLeak")
     private Handler uiHandler = new Handler() {
@@ -127,26 +127,26 @@ public class AdvancedSettingFragment extends Fragment {
                     switchFragment(currentFragment, wdsFragment);
                     currentFragment = wdsFragment;
                     break;
-                case "虚拟服务器":
-                    switchFragment(currentFragment, virtualServerFragment);
-                    currentFragment = virtualServerFragment;
-                    break;
-                case "DMZ主机":
-                    switchFragment(currentFragment, dmzHostFragment);
-                    currentFragment = dmzHostFragment;
-                    break;
-                case "UPnP设置":
-                    switchFragment(currentFragment, uPnPSettingFragment);
-                    currentFragment = uPnPSettingFragment;
-                    break;
-                case "路由功能":
-                    switchFragment(currentFragment, routerFragment);
-                    currentFragment = routerFragment;
-                    break;
-                case "DDNS":
-                    switchFragment(currentFragment, ddnsFragment);
-                    currentFragment = ddnsFragment;
-                    break;
+//                case "虚拟服务器":
+//                    switchFragment(currentFragment, virtualServerFragment);
+//                    currentFragment = virtualServerFragment;
+//                    break;
+//                case "DMZ主机":
+//                    switchFragment(currentFragment, dmzHostFragment);
+//                    currentFragment = dmzHostFragment;
+//                    break;
+//                case "UPnP设置":
+//                    switchFragment(currentFragment, uPnPSettingFragment);
+//                    currentFragment = uPnPSettingFragment;
+//                    break;
+//                case "路由功能":
+//                    switchFragment(currentFragment, routerFragment);
+//                    currentFragment = routerFragment;
+//                    break;
+//                case "DDNS":
+//                    switchFragment(currentFragment, ddnsFragment);
+//                    currentFragment = ddnsFragment;
+//                    break;
                 case "时间和语言":
                     switchFragment(currentFragment, timeAndLanguageFragment);
                     currentFragment = timeAndLanguageFragment;
@@ -264,11 +264,11 @@ public class AdvancedSettingFragment extends Fragment {
         timeAndLanguageFragment = TimeAndLanguageFragment.newInstance();
         updateFragment = UpdateFragment.newInstance(localApi);
 
-        ddnsFragment = DDNSFragment.newInstance();
-        dmzHostFragment = DMZHostFragment.newInstance();
-        routerFragment = RouterFragment.newInstance();
-        uPnPSettingFragment = UPnPSettingFragment.newInstance();
-        virtualServerFragment = VirtualServerFragment.newInstance();
+//        ddnsFragment = DDNSFragment.newInstance();
+//        dmzHostFragment = DMZHostFragment.newInstance();
+//        routerFragment = RouterFragment.newInstance();
+//        uPnPSettingFragment = UPnPSettingFragment.newInstance();
+//        virtualServerFragment = VirtualServerFragment.newInstance();
 
         fragmentList.add(wanPortSettingFragment);
         fragmentList.add(lanPortSettingFragment);
@@ -290,11 +290,11 @@ public class AdvancedSettingFragment extends Fragment {
         fragmentList.add(timeAndLanguageFragment);
         fragmentList.add(updateFragment);
 
-        fragmentList.add(ddnsFragment);
-        fragmentList.add(dmzHostFragment);
-        fragmentList.add(routerFragment);
-        fragmentList.add(uPnPSettingFragment);
-        fragmentList.add(virtualServerFragment);
+//        fragmentList.add(ddnsFragment);
+//        fragmentList.add(dmzHostFragment);
+//        fragmentList.add(routerFragment);
+//        fragmentList.add(uPnPSettingFragment);
+//        fragmentList.add(virtualServerFragment);
 
     }
 
@@ -322,8 +322,8 @@ public class AdvancedSettingFragment extends Fragment {
         childDataItems.add(new DummyChildDataItem("WAN口设置"));
         childDataItems.add(new DummyChildDataItem("LAN口设置"));
         childDataItems.add(new DummyChildDataItem("Mac地址"));
-        childDataItems.add(new DummyChildDataItem("DHCP服务器"));
-        childDataItems.add(new DummyChildDataItem("IP与MAC绑定设置"));
+//        childDataItems.add(new DummyChildDataItem("DHCP服务器"));
+//        childDataItems.add(new DummyChildDataItem("IP与MAC绑定设置"));
         arrDummyData.add(new DummyParentDataItem("网络参数", childDataItems));
         /////////
         childDataItems = new ArrayList<>();
@@ -332,13 +332,13 @@ public class AdvancedSettingFragment extends Fragment {
         childDataItems.add(new DummyChildDataItem("WDS"));
         arrDummyData.add(new DummyParentDataItem("无线设置", childDataItems));
         /////////
-        childDataItems = new ArrayList<>();
-        childDataItems.add(new DummyChildDataItem("虚拟服务器"));
-        childDataItems.add(new DummyChildDataItem("DMZ主机"));
-        childDataItems.add(new DummyChildDataItem("UPnP设置"));
-        childDataItems.add(new DummyChildDataItem("路由功能"));
-        childDataItems.add(new DummyChildDataItem("DDNS"));
-        arrDummyData.add(new DummyParentDataItem("高级用户", childDataItems));
+//        childDataItems = new ArrayList<>();
+//        childDataItems.add(new DummyChildDataItem("虚拟服务器"));
+//        childDataItems.add(new DummyChildDataItem("DMZ主机"));
+//        childDataItems.add(new DummyChildDataItem("UPnP设置"));
+//        childDataItems.add(new DummyChildDataItem("路由功能"));
+//        childDataItems.add(new DummyChildDataItem("DDNS"));
+//        arrDummyData.add(new DummyParentDataItem("高级用户", childDataItems));
         /////////
         childDataItems = new ArrayList<>();
         childDataItems.add(new DummyChildDataItem("时间和语言"));

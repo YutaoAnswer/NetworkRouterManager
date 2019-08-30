@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -36,18 +37,6 @@ public class RestartFragment extends Fragment {
         return restartFragment;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +46,7 @@ public class RestartFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
         initView();
@@ -97,7 +86,7 @@ public class RestartFragment extends Fragment {
     @OnClick(R.id.btn_reset)
     public void onViewClicked() {
         CommandParam commandParam = new CommandParam(LocalApi.DEFAULT_APP_API_VERSION);
-        commandParam.setCmd(0);
+        commandParam.setCmd(0);//0为重启
         mLocalApi.executeApiWithSingleResponse(commandParam, CommandRet.class)
                 .observeOn(Schedulers.trampoline())
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -109,7 +98,7 @@ public class RestartFragment extends Fragment {
 
                     @Override
                     public void onSuccess(CommandRet commandRet) {
-                        Toast.makeText(getContext(), "重启", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "路由器重启中", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
