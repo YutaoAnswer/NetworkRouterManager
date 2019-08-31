@@ -179,13 +179,19 @@ public class CommonSettingFragment extends Fragment {
                 .add(R.id.frameLayout_common_setting, devicesManagementFragment)
                 .commit();
         currentFragment = devicesManagementFragment;
-        // TODO: 19-8-19 选中动画
-//        ScaleAnimation scaleAnimation_zoom = (ScaleAnimation) AnimationUtils.loadAnimation(getActivity(), R.anim.scale_zoom);
-//        ScaleAnimation scaleAnimation_narrow = (ScaleAnimation) AnimationUtils.loadAnimation(getActivity(), R.anim.scale_narrow);
+        // TODO: 19-8-19 选中动画 测试
+        ScaleAnimation scaleAnimation_zoom = (ScaleAnimation) AnimationUtils.loadAnimation(getActivity(), R.anim.scale_zoom);
+        ScaleAnimation scaleAnimation_narrow = (ScaleAnimation) AnimationUtils.loadAnimation(getActivity(), R.anim.scale_narrow);
         llDevicesManagment.setOnFocusChangeListener((v, hasFocus) -> {
 //            imageViewList.get(currentFocusPostition).startAnimation(scaleAnimation_narrow);
-//            ivDevicesManagment.startAnimation(scaleAnimation_zoom);
 //            currentFocusPostition = 0;
+            if (hasFocus) {
+                ivDevicesManagment.startAnimation(scaleAnimation_zoom);
+                ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_computer_normal, null));
+            } else {
+                ivDevicesManagment.startAnimation(scaleAnimation_narrow);
+                ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_computer_focus, null));
+            }
             switchFragment(currentFragment, devicesManagementFragment);
             currentFragment = devicesManagementFragment;
 
@@ -194,6 +200,13 @@ public class CommonSettingFragment extends Fragment {
 //            imageViewList.get(currentFocusPostition).startAnimation(scaleAnimation_narrow);
 //            ivNetworkManagment.startAnimation(scaleAnimation_zoom);
 //            currentFocusPostition = 1;
+            if (hasFocus) {
+                ivNetworkManagment.startAnimation(scaleAnimation_zoom);
+                ivNetworkManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_normal, null));
+            } else {
+                ivNetworkManagment.startAnimation(scaleAnimation_narrow);
+                ivNetworkManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_focus, null));
+            }
             switchFragment(currentFragment, netwrokManagementFragment);
             currentFragment = netwrokManagementFragment;
         });
@@ -201,6 +214,13 @@ public class CommonSettingFragment extends Fragment {
 //            imageViewList.get(currentFocusPostition).startAnimation(scaleAnimation_narrow);
 //            ivWirelessSetting.startAnimation(scaleAnimation_zoom);
 //            currentFocusPostition = 2;
+            if (hasFocus) {
+                ivWirelessSetting.startAnimation(scaleAnimation_zoom);
+                ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_normal, null));
+            } else {
+                ivWirelessSetting.startAnimation(scaleAnimation_narrow);
+                ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_focus, null));
+            }
             switchFragment(currentFragment, wirelessSettingFragment);
             currentFragment = wirelessSettingFragment;
         });

@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:src="@mipmap/icon_computer" />
+            android:focusableInTouchMode="true"
+            android:src="@drawable/device_managment_selector" />
 
         <TextView
             android:id="@+id/tv_device_num"
@@ -49,7 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:src="@mipmap/icon_internet_focus" />
+            android:focusableInTouchMode="true"
+            android:src="@drawable/network_managment_selector" />
 
         <TextView
             android:id="@+id/tv_network_method"
@@ -79,7 +81,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:src="@mipmap/icon_wifi" />
+            android:focusableInTouchMode="true"
+            android:src="@drawable/wireless_setting_selector" />
 
         <TextView
             android:id="@+id/tv_wireless_name"
