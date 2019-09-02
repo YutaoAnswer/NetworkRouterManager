@@ -236,7 +236,6 @@ public class ConnectedFragment extends Fragment {
             @Override
             public void onSubscribe(Disposable d) {
                 Log.d(TAG, "onSubscribe: ");
-                Toast.makeText(getActivity(), "onSUbscribe", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -315,7 +314,6 @@ public class ConnectedFragment extends Fragment {
         setSpeedRetSingle.subscribe(new SingleObserver<SetSpeedRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Toast.makeText(getActivity(), "onSubscribe", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -325,7 +323,6 @@ public class ConnectedFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(getActivity(), "onError", Toast.LENGTH_SHORT).show();
             }
         });
 
