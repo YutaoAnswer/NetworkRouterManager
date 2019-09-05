@@ -18,6 +18,11 @@ public class Data {
     public static final String[] advanced_account_data = {"虚拟服务器", "DMZ主机", "UPnP设置", "路由功能", "DDNS"};
     public static final String[] device_management_data = {"时间和语言", "软件升级", "恢复出厂设置", "备份", "重启路由器", "修改登录密码", "诊断工具", "系统日志"};
 
+    public static final String[] host_channel_data = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"};
+    public static final String[] host_mode_data = {"11n only", "11g only", "11b only"};
+    public static final String[] host_bandwidth_data = {"自动", "20MHZ", "40MHZ"};
+    public static final String[] host_signalStrength_data = {"高", "中", "低"};
+
     // TODO: 19-7-31 转化为不变的字符串
     public static final int handler_message_setWanType_PPOE = 3;
     public static final int handler_message_setWanType_static = 4;

@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,23 +7,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
+import com.trigletop.networkroutermanager.Bean.Data;
 import com.trigletop.networkroutermanager.R;
+import com.trigletop.networkroutermanager.adapter.BandwidthAdapter;
+import com.trigletop.networkroutermanager.adapter.ChannelAdapter;
+import com.trigletop.networkroutermanager.adapter.ModeAdapter;
+import com.trigletop.networkroutermanager.adapter.SignalStrengthAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -72,18 +81,6 @@ public class HostNetworkFragment extends Fragment {
         return hostNetworkFragment;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -98,18 +95,6 @@ public class HostNetworkFragment extends Fragment {
         init();
         initView();
         initData();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
     @Override
@@ -129,9 +114,6 @@ public class HostNetworkFragment extends Fragment {
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
-//                GetWiFiDetailParam getWiFiDetailParam = new GetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION);
-//                GetWiFiAdvanceParam getWiFiAdvanceParam = new GetWiFiAdvanceParam(LocalApi.DEFAULT_APP_API_VERSION);
                 switch (tab.getPosition()) {
                     case 0:
                         Single<GetWiFiDetailRet> getWiFiDetailRetSingle
@@ -144,10 +126,9 @@ public class HostNetworkFragment extends Fragment {
 
                             @Override
                             public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
-//                                etWirelessName.setText(getWiFiDetailRet.getInfo().get(0).getSsid());
-//                                etWirelessPsw.setText(getWiFiDetailRet.getInfo().get(0).getPassword());
-//                                btnChannel.setText(getWiFiDetailRet.getInfo().get(0).getChannel());
-//                                btnBandwidth.setText(getWiFiDetailRet.getInfo().get(0).getBand());
+                                etWirelessName.setText(getWiFiDetailRet.getInfo().get(0).getSsid());
+                                etWirelessPsw.setText(getWiFiDetailRet.getInfo().get(0).getPassword());
+                                btnChannel.setText(getWiFiDetailRet.getInfo().get(0).getChannel());
                             }
 
                             @Override
@@ -167,8 +148,8 @@ public class HostNetworkFragment extends Fragment {
 
                                     @Override
                                     public void onSuccess(GetWiFiAdvanceRet getWiFiAdvanceRet) {
-//                                        btnMode.setText(getWiFiAdvanceRet.getInfo().get(0).signalmode);
-//                                        btnSignalStrength.setText(getWiFiAdvanceRet.getInfo().get(position[0]).);
+                                        btnMode.setText(getWiFiAdvanceRet.getInfo().get(0).htmode);
+                                        btnSignalStrength.setText(getWiFiAdvanceRet.getInfo().get(0).signalmode);
                                     }
 
                                     @Override
@@ -234,8 +215,9 @@ public class HostNetworkFragment extends Fragment {
             public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
                 etWirelessName.setText(getWiFiDetailRet.getInfo().get(0).getSsid());
                 etWirelessPsw.setText(getWiFiDetailRet.getInfo().get(0).getPassword());
+//                Toast.makeText(getContext(), getWiFiDetailRet.getInfo().get(0).getChannel(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onSuccess: " + getWiFiDetailRet.getInfo().get(0).getChannel());
 //                btnChannel.setText(getWiFiDetailRet.getInfo().get(0).getChannel());
-//                btnBandwidth.setText(getWiFiDetailRet.getInfo().get(0).getBand());
             }
 
             @Override
@@ -243,25 +225,108 @@ public class HostNetworkFragment extends Fragment {
 
             }
         });
+
+        mLocalApi.executeApiWithSingleResponse(new GetWiFiAdvanceParam(LocalApi.DEFAULT_APP_API_VERSION), GetWiFiAdvanceRet.class)
+                .observeOn(Schedulers.trampoline())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<GetWiFiAdvanceRet>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(GetWiFiAdvanceRet getWiFiAdvanceRet) {
+                        Toast.makeText(getContext(), getWiFiAdvanceRet.toString(), Toast.LENGTH_SHORT).show();
+                        btnMode.setText(getWiFiAdvanceRet.getInfo().get(0).htmode);
+//                        btnSignalStrength.setText(getWiFiAdvanceRet.getInfo().get(0).signalmode);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 
     @OnClick({R.id.btn_channel, R.id.btn_mode, R.id.btn_bandwidth, R.id.btn_signal_strength, R.id.btn_static_address_save})
     public void onViewClicked(View view) {
+        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+        dialogBuilder
+                .withTitle(Objects.requireNonNull(getActivity()).getString(R.string.upload_download_limit))
+                .withDuration(700)
+                .setCustomView(R.layout.custom_view_host, getContext());
+        RecyclerView rcyHost = dialogBuilder.findViewById(R.id.rcy_host);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rcyHost.setLayoutManager(linearLayoutManager);
         switch (view.getId()) {
             case R.id.btn_channel:
-                // TODO: 19-8-12 弹窗
+                ChannelAdapter channelAdapter = new ChannelAdapter(getContext());
+                channelAdapter.setOnItemClickListener(new ChannelAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        dialogBuilder.dismiss();
+                        btnChannel.setText(Data.host_channel_data[position]);
+                    }
 
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
+                rcyHost.setAdapter(channelAdapter);
+                dialogBuilder.show();
                 break;
             case R.id.btn_mode:
-                // TODO: 19-8-12 弹窗
+                ModeAdapter modeAdapter = new ModeAdapter(getContext());
+                modeAdapter.setOnItemClickListener(new ChannelAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        dialogBuilder.dismiss();
+                        btnMode.setText(Data.host_mode_data[position]);
+                    }
 
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
+                rcyHost.setAdapter(modeAdapter);
+                dialogBuilder.show();
                 break;
             case R.id.btn_bandwidth:
-                // TODO: 19-8-12 弹窗
+                BandwidthAdapter bandwidthAdapter = new BandwidthAdapter(getContext());
+                bandwidthAdapter.setOnItemClickListener(new ChannelAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        dialogBuilder.dismiss();
+                        btnBandwidth.setText(Data.host_bandwidth_data[position]);
+                    }
 
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
+                rcyHost.setAdapter(bandwidthAdapter);
+                dialogBuilder.show();
                 break;
             case R.id.btn_signal_strength:
+                SignalStrengthAdapter signalStrengthAdapter = new SignalStrengthAdapter(getContext());
+                signalStrengthAdapter.setOnItemClickListener(new ChannelAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        btnSignalStrength.setText(Data.host_signalStrength_data[position]);
+                    }
 
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
+                rcyHost.setAdapter(signalStrengthAdapter);
+                dialogBuilder.show();
                 break;
             case R.id.btn_static_address_save:
                 save();
@@ -302,7 +367,7 @@ public class HostNetworkFragment extends Fragment {
 
                     @Override
                     public void onSuccess(SetWiFiDetailRet setWiFiDetailRet) {
-
+                        Toast.makeText(getContext(), "设置成功！", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -311,22 +376,5 @@ public class HostNetworkFragment extends Fragment {
                     }
                 });
     }
-
-//    /**
-//     * 切换Fragment
-//     *
-//     * @param fromFragment：需要隐藏的Fragment
-//     * @param toFragment：需要显示的Fragment
-//     */
-//    private void switchFragment(Fragment fromFragment, Fragment toFragment) {
-//        if (fromFragment != toFragment) {
-//            FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
-//            if (!toFragment.isAdded()) {
-//                fragmentTransaction.hide(fromFragment).add(R.id.frameLayout_host, toFragment).commit();
-//            } else {
-//                fragmentTransaction.hide(fromFragment).show(toFragment).commit();
-//            }
-//        }
-//    }
 
 }

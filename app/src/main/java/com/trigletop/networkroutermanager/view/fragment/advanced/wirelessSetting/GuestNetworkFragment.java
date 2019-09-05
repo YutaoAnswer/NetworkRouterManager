@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.trigletop.networkroutermanager.R;
 import com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting.wrelelessType.WirelessTypeOneFragment;
@@ -19,6 +23,7 @@ import com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +48,14 @@ public class GuestNetworkFragment extends Fragment {
     EditText etWirelessName;
     @BindView(R.id.et_wireless_psw)
     EditText etWirelessPsw;
+    @BindView(R.id.et_guest_network_upload_speed)
+    EditText etGuestNetworkUploadSpeed;
+    @BindView(R.id.et_guest_network_download_speed)
+    EditText etGuestNetworkDownloadSpeed;
+    @BindView(R.id.btn_intranet_resource)
+    Button btnIntranetResource;
+    @BindView(R.id.btn_guest_network_opening_time)
+    Button btnGuestNetworkOpeningTime;
     private Unbinder unbinder;
 
     private static LocalApi mLocalApi;
@@ -155,6 +168,7 @@ public class GuestNetworkFragment extends Fragment {
 
                                     @Override
                                     public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
+                                        // TODO: 2019-09-03 获取数据
                                         etWirelessName.setText(getWiFiDetailRet.getInfo().get(2).getSsid());
                                         etWirelessPsw.setText(getWiFiDetailRet.getInfo().get(2).getPassword());
                                     }
@@ -206,49 +220,90 @@ public class GuestNetworkFragment extends Fragment {
                 });
     }
 
-    @OnClick(R.id.btn_static_address_save)
-    public void onViewClicked() {
-        // TODO: 19-8-12 2.4G　  5G
-        SetWiFiDetailParam setWiFiDetailParam = new SetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION);
-        WifiParam siWiFiSetParam5 = new WifiParam();
-        List<WifiParam> params = new ArrayList<>();
-        WifiParam siWiFiSetParam24 = new WifiParam();
-        siWiFiSetParam24.oldssid = "siflower-2.4G";
-        siWiFiSetParam24.password = "12345678";
-        siWiFiSetParam24.enable = 1;
-        siWiFiSetParam24.encryption = "psk2+ccmp";
-        siWiFiSetParam24.newssid = "siwifi-2.4G";
-        siWiFiSetParam24.channel = 13;
+    @OnClick({R.id.btn_intranet_resource, R.id.btn_guest_network_opening_time, R.id.btn_static_address_save})
+    public void onViewClicked(View view) {
+        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+        switch (view.getId()) {
+            case R.id.btn_intranet_resource:
+                dialogBuilder
+                        .withTitle("是否允许方可访问内网资源")
+                        .withDuration(700)
+                        .withDialogColor("#0096a6")
+                        .withButton1Text("是")
+                        .withButton2Text("否")
+                        .setButton1Click(v -> {
+                            btnIntranetResource.setText("是");
+                            dialogBuilder.dismiss();
+                        })
+                        .setButton2Click(v -> {
+                            btnIntranetResource.setText("否");
+                            dialogBuilder.dismiss();
+                        })
+                        .withEffect(Effectstype.SlideBottom)
+                        .isCancelableOnTouchOutside(true)
+                        .show();
+                break;
+            case R.id.btn_guest_network_opening_time:
+                dialogBuilder
+                        .withTitle("是否设置访客网络开放时间")
+                        .withDuration(700)
+                        .withDialogColor("#0096a6")
+                        .withButton1Text("是")
+                        .withButton2Text("否")
+                        .setButton1Click(v -> {
+                            btnGuestNetworkOpeningTime.setText("是");
+                            dialogBuilder.dismiss();
+                        })
+                        .setButton2Click(v -> {
+                            btnGuestNetworkOpeningTime.setText("否");
+                            dialogBuilder.dismiss();
+                        })
+                        .withEffect(Effectstype.SlideBottom)
+                        .isCancelableOnTouchOutside(true)
+                        .show();
+                break;
+            case R.id.btn_static_address_save:
+                SetWiFiDetailParam setWiFiDetailParam = new SetWiFiDetailParam(LocalApi.DEFAULT_APP_API_VERSION);
+                WifiParam siWiFiSetParam5 = new WifiParam();
+                List<WifiParam> params = new ArrayList<>();
+                WifiParam siWiFiSetParam24 = new WifiParam();
+                siWiFiSetParam24.oldssid = "siflower-2.4G";
+                siWiFiSetParam24.password = "12345678";
+                siWiFiSetParam24.enable = 1;
+                siWiFiSetParam24.encryption = "psk2+ccmp";
+                siWiFiSetParam24.newssid = "siwifi-2.4G";
+                siWiFiSetParam24.channel = 13;
 
-        siWiFiSetParam5.oldssid = "siflower-5G";
-        siWiFiSetParam5.password = "12345678";
-        siWiFiSetParam5.enable = 1;
-        siWiFiSetParam5.encryption = "psk2+ccmp";
-        siWiFiSetParam5.newssid = "siwifi-5G";
-        siWiFiSetParam5.channel = 161;
-        params.add(siWiFiSetParam5);
-        setWiFiDetailParam.setWifiParamsList(params);
+                siWiFiSetParam5.oldssid = "siflower-5G";
+                siWiFiSetParam5.password = "12345678";
+                siWiFiSetParam5.enable = 1;
+                siWiFiSetParam5.encryption = "psk2+ccmp";
+                siWiFiSetParam5.newssid = "siwifi-5G";
+                siWiFiSetParam5.channel = 161;
+                params.add(siWiFiSetParam5);
+                setWiFiDetailParam.setWifiParamsList(params);
 
-        mLocalApi.executeApiWithSingleResponse(setWiFiDetailParam, SetWiFiDetailRet.class)
-                .observeOn(Schedulers.trampoline())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<SetWiFiDetailRet>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                mLocalApi.executeApiWithSingleResponse(setWiFiDetailParam, SetWiFiDetailRet.class)
+                        .observeOn(Schedulers.trampoline())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new SingleObserver<SetWiFiDetailRet>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
-                    }
+                            }
 
-                    @Override
-                    public void onSuccess(SetWiFiDetailRet setWiFiDetailRet) {
+                            @Override
+                            public void onSuccess(SetWiFiDetailRet setWiFiDetailRet) {
+                                Toast.makeText(getContext(), "设置成功！", Toast.LENGTH_SHORT).show();
+                            }
 
-                    }
+                            @Override
+                            public void onError(Throwable e) {
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-
+                            }
+                        });
+                break;
+        }
     }
 
 //    private class DevicesManagementAdapter extends FragmentPagerAdapter {

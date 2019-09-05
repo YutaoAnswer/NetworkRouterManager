@@ -1,7 +1,6 @@
 package com.trigletop.networkroutermanager.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -129,7 +128,10 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
         //TabLayout
-        mTabLayout.setTabData(Data.title_data);
+        String[] title_data = {getResources().getString(R.string.commonsetting),
+                getResources().getString(R.string.advancedsetting),
+                getResources().getString(R.string.accountmanagerment)};
+        mTabLayout.setTabData(title_data);
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -173,8 +175,6 @@ public class MainActivity extends AppCompatActivity {
         });
         mTabLayout.setCurrentTab(0);
     }
-
-
 
     //todo 首页替换Fragment内容需要优化，已发现bug,router　Fragment 点进去后的详情页  初步判断和回退栈有关,和要实现的另一个功能onBackPress　onKeyDown这两个方法有关 回退栈
     //todo 然后就是和顶部的切换会有冲突，需要优化

@@ -18,8 +18,8 @@ import com.trigletop.networkroutermanager.R;
 
 import java.util.ArrayList;
 
-
 public class RecyclerDataAdapter extends RecyclerView.Adapter<RecyclerDataAdapter.MyViewHolder> {
+
     private ArrayList<DummyParentDataItem> dummyParentDataItems;
 
     private Handler uiHandler = new Handler();

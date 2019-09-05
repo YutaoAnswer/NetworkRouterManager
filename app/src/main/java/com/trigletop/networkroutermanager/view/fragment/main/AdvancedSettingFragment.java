@@ -1,7 +1,6 @@
 package com.trigletop.networkroutermanager.view.fragment.main;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,11 +21,6 @@ import com.trigletop.networkroutermanager.adapter.DummyChildDataItem;
 import com.trigletop.networkroutermanager.adapter.DummyParentDataItem;
 import com.trigletop.networkroutermanager.adapter.RecyclerDataAdapter;
 import com.trigletop.networkroutermanager.utils.SiUtil;
-import com.trigletop.networkroutermanager.view.fragment.advanced.advancedAccount.DDNSFragment;
-import com.trigletop.networkroutermanager.view.fragment.advanced.advancedAccount.DMZHostFragment;
-import com.trigletop.networkroutermanager.view.fragment.advanced.advancedAccount.RouterFragment;
-import com.trigletop.networkroutermanager.view.fragment.advanced.advancedAccount.UPnPSettingFragment;
-import com.trigletop.networkroutermanager.view.fragment.advanced.advancedAccount.VirtualServerFragment;
 import com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement.BackupFragment;
 import com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement.ChangePswFragment;
 import com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement.DiagnosticToolsFragment;
@@ -192,18 +186,6 @@ public class AdvancedSettingFragment extends Fragment {
         return advancedSettingFragment;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -229,7 +211,6 @@ public class AdvancedSettingFragment extends Fragment {
     private void init() {
         siUtil = new SiUtil(getActivity());
         localApi = siUtil.localApiInit();
-
 //        ExtranetSettingFragment extranetSettingFragment = ExtranetSettingFragment.newInstance();//外网设置
 //        WIFILeaseFragment wifiLeaseFragment = WIFILeaseFragment.newInstance();//WIFI租赁
 //        WIFISettingFragment wifiSettingFragment = WIFISettingFragment.newInstance();//WIFI设置
@@ -242,7 +223,6 @@ public class AdvancedSettingFragment extends Fragment {
 //        fragmentList.add(floodControlNetworkFragment);
 //        fragmentList.add(networkDetectionFragment);
 //        fragmentList.add(updateFragment);
-
         fragmentManager = getFragmentManager();
 
         wanPortSettingFragment = WANPortSettingFragment.newInstance(localApi);

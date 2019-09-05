@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">NetworkRouterManager</string>
-    <string name="title_activity_main2">Leanback Main2Activity Title</string>
-    <string name="browse_title"><![CDATA[Videos by Your Company]]></string>
+    <string name="title_activity_main2" translatable="false">Leanback Main2Activity Title</string>
+    <string name="browse_title" translatable="false"><![CDATA[Videos by Your Company]]></string>
     <string name="related_movies">Related Videos</string>
     <string name="grid_view">Grid View</string>
     <string name="error_fragment">Error Fragment</string>
     <string name="personal_settings">Personal Settings</string>
-    <string name="watch_trailer_1">Watch trailer</string>
-    <string name="watch_trailer_2">FREE</string>
+    <string name="watch_trailer_1" translatable="false">Watch trailer</string>
+    <string name="watch_trailer_2" translatable="false">FREE</string>
     <string name="rent_1">Rent By Day</string>
     <string name="rent_2">From $1.99</string>
-    <string name="buy_1">Buy and Own</string>
-    <string name="buy_2">AT $9.99</string>
-    <string name="movie">Movie</string>
+    <string name="buy_1" translatable="false">Buy and Own</string>
+    <string name="buy_2" translatable="false">AT $9.99</string>
+    <string name="movie" translatable="false">Movie</string>
 
     <!-- Error messages -->
     <string name="error_fragment_message">An error occurred</string>
@@ -31,7 +31,7 @@
     <string name="static_ip">固定IP地址</string>
     <string name="IP_address_auto">自动获取IP地址</string>
 
-    <string name="more">more</string>
+    <string name="more" translatable="false">more</string>
 
     <string name="devices_managment">连接设备管理</string>
     <string name="network_managment">上网管理</string>
@@ -40,15 +40,17 @@
     <string name="setup_wizard">设置向导</string>
     <string name="exit_safe">安全退出</string>
 
+    <string name="network_param">网络参数</string>
     <string name="network_param_wan">WAN口设置</string>
-    <string name="network_param_lan">LAN口设置</string>
+    <string name="newwork_param_lan">LAN口设置</string>
+    <string name="network_param_lan">DHCP服务器</string>
     <string name="network_param_mac">Mac地址</string>
     <string name="network_param_dhcp">DHCP服务器</string>
     <string name="network_param_bind">IP与MAC绑定设置</string>
 
     <string name="wireless_setting_host">主人网络</string>
-    <string name="network_param_guest">访客网络</string>
-    <string name="network_param_wds">WDS</string>
+    <string name="wireless_setting_guest">访客网络</string>
+    <string name="wireless_setting_wds">WDS</string>
 
     <string name="advanced_account_virtual_server">虚拟服务器</string>
     <string name="advanced_account_dmz">DMZ主机</string>
@@ -56,14 +58,22 @@
     <string name="advanced_account_router">路由功能</string>
     <string name="advanced_account_ddns">DDNS</string>
 
-    <string name="advanced_account_time_language">时间和语言</string>
-    <string name="advanced_account_update">软件升级</string>
-    <string name="advanced_account_reset">恢复出厂设置</string>
-    <string name="advanced_account_backup">备份</string>
-    <string name="advanced_account_restart">重启路由器</string>
-    <string name="advanced_account_change">修改登录密码</string>
-    <string name="advanced_account_diagnostic">诊断工具</string>
-    <string name="advanced_account_syslog">系统日志</string>
+    <string name="device_management">软件管理</string>
+    <string name="device_management_language">时间和语言</string>
+    <string name="device_management_update">软件升级</string>
+    <string name="device_management_reset">恢复出厂设置</string>
+    <string name="device_management_restart">重启路由器</string>
+    <string name="device_management_backup">备份</string>
+    <string name="device_management_change">修改登录密码</string>
+    <string name="device_management_diagnostic">诊断工具</string>
+    <string name="device_management_syslog">系统日志</string>
+
+    <string name="commonsetting">常用设置</string>
+    <string name="advancedsetting">高级设置</string>
+    <string name="accountmanagerment">用户管理</string>
+    
+    <string name="time_zone_setting">时区设置</string>
+    <string name="language_setting">语言设置</string>
 
     <string name="wireless_name">无线名称</string>
     <string name="wireless_psw">无线密码</string>
@@ -104,8 +114,8 @@
     <string name="setting_unsuccessful">设置失败</string>
     <string name="network_mode">上网方式</string>
 
-    <string name="wireless_one">2.4G</string>
-    <string name="wireless_two">5G</string>
+    <string name="wireless_one" translatable="false">2.4G</string>
+    <string name="wireless_two" translatable="false">5G</string>
 
     <string name="interview_intranet_resource">访问内网资源</string>
     <string name="maximum_upload_speed">访客网络最大上传速度</string>
@@ -123,11 +133,10 @@
 
     <string name="old_password">原登录密码</string>
     <string name="new_password">新登录密码</string>
-    <string name="confirm_password">确认新登录密码</string>
+    <string name="confirm_password">确认新登陆密码</string>
 
     <string name="update_hint">请选择升级软件,软件点击升级按钮进行升级</string>
     <string name="save_config">是否保留配置</string>
-    <string name="current_hardware">当前硬件版本</string>
     <string name="current_software">当前软件版本</string>
     <string name="software_update">软件升级</string>
     <string name="ota_software_update">OTA软件升级</string>
@@ -135,7 +144,7 @@
     <string name="browse">浏览</string>
 
     <string name="wds_setup_wizard">WDS 网组向导</string>
-    <string name="wds_setup_wizard_hint">通过WDS功能，主,从路由器之间可以通过无线进行桥接,以扩展无线网络的覆盖范围.\n 开启WDS功能之后，本路由器将作为从路由器进行WDS组网</string>
+    <string name="wds_setup_wizard_hint">通过WDS功能，主,从路由器之间可以通过无线进行桥接,以扩展无线网络的覆盖范围.  开启WDS功能之后，本路由器将作为从路由器进行WDS组网</string>
 
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="input_password">请输入密码</string>
@@ -148,12 +157,15 @@
     <string name="guest_network_upload_speed">访客网络最大上传速度</string>
     <string name="guest_network_opening_time">是否设置访客网络开放时间</string>
     <string name="_0_0_0_0">0.0.0.0</string>
-    <string name="data_pack_hint">默认是1500,如非必要，请勿修改</string>
+    <string name="data_pack_hint">The default is 1500. If a is not necessary, please do not modify it.</string>
     <string name="default_data_pack">1500</string>
     <string name="upload">上传速率</string>
     <string name="download">下载速率</string>
-    <string name="unit">b/s</string>
+    <string name="unit" translatable="false">b/s</string>
     <string name="forget_password_hint">如果忘记密码，请恢复出厂设置.恢复出厂设置：当设备通电时，按住Reset按钮直到所有指示灯同事亮起后松开</string>
     <string name="speed_setting">速率设置</string>
+    <string name="current_hardware">当前硬件版本</string>
+    <string name="simpledateformat">yyyy-MM-dd</string>
+    <string name="device__language">时间和语言</string>
 
 </resources>

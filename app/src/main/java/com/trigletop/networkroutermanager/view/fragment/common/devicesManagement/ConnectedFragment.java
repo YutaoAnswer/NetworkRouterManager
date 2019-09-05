@@ -23,6 +23,7 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
 import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -129,19 +130,20 @@ public class ConnectedFragment extends Fragment {
         getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe: ");
-
             }
 
             @Override
             public void onSuccess(GetDeviceRet getDeviceRet) {
-                Log.d(TAG, "onSuccess: " + getDeviceRet.toString());
                 DevicesAdapter devicesAdapter = new DevicesAdapter(getActivity(), "Connected", mLocalApi);
-                for (Device device : getDeviceRet.getList()) {
+                List<Device> current = getDeviceRet.getList();
+                ArrayList<Device> temporary = new ArrayList<>();
+                for (Device device : current) {
                     if (device.getAuthority().getInternet() != 1)
-                        getDeviceRet.getList().remove(device);
+//                        getDeviceRet.getList().remove(device);
+                        temporary.add(device);
                 }
-                devicesAdapter.setDeviceList(getDeviceRet.getList());
+                current.removeAll(temporary);
+                devicesAdapter.setDeviceList(current);
                 rcyConnected.setAdapter(devicesAdapter);
                 rcyConnected.setOnItemStateListener(new TvRecyclerView.OnItemStateListener() {
                     @Override
@@ -160,7 +162,6 @@ public class ConnectedFragment extends Fragment {
 
                         EditText etUpload = dialogBuilder.findViewById(R.id.et_upload);
                         EditText etDownload = dialogBuilder.findViewById(R.id.et_download);
-                        // TODO: 19-8-30 测试　
                         if (device.getAuthority().getLimitup() != -1) {
                             etUpload.setText(String.valueOf(device.getAuthority().getLimitup()));
                         }
@@ -185,8 +186,7 @@ public class ConnectedFragment extends Fragment {
                                 .setButton1Click(v -> {
                                     String upload = etUpload.getText().toString();
                                     if (!upload.equals("")) {
-//                                        Toast.makeText(getActivity(), "限制上传速率为" + upload + "Mac地址为" + device.getMac(), Toast.LENGTH_SHORT).show();
-                                        limitUpload(device.getMac(), Long.valueOf(upload));
+                                        limitUpload(device.getMac(), Long.valueOf(upload), dialogBuilder);
                                     } else {
                                         Toast.makeText(getActivity(), "请输入上传限速值", Toast.LENGTH_SHORT).show();
                                     }
@@ -196,14 +196,13 @@ public class ConnectedFragment extends Fragment {
                                     String download = etDownload.getText().toString();
                                     if (!download.equals("")) {
                                         Toast.makeText(getActivity(), "限制下载" + download + "Mac地址为" + device.getMac(), Toast.LENGTH_SHORT).show();
-                                        limitDownload(device.getMac(), Long.valueOf(download));
+                                        limitDownload(device.getMac(), Long.valueOf(download), dialogBuilder);
                                     } else {
                                         Toast.makeText(getActivity(), "请输入下载限速值", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         dialogBuilder.show();
                     }
-
 
                     @Override
                     public void onItemViewFocusChanged(boolean gainFocus, View view, int position) {
@@ -215,8 +214,6 @@ public class ConnectedFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-
             }
         });
     }
@@ -227,33 +224,25 @@ public class ConnectedFragment extends Fragment {
      * @param mac 　禁用设备Mac地址
      */
     private void forbidden(String mac) {
-        Log.d(TAG, "forbidden: " + mac);
         SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
-        setDeviceParam.setMac(mac);
+        setDeviceParam.setMac(mac.replaceAll(":", "_"));
         setDeviceParam.setInternet(0);
         Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
         setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe: ");
             }
 
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
-                Log.d(TAG, "onSuccess: ");
                 Toast.makeText(getActivity(), "禁用设备成功", Toast.LENGTH_SHORT).show();
                 initData();
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-                Toast.makeText(getActivity(), "onError", Toast.LENGTH_SHORT).show();
-
             }
         });
-
-
 //        SetSpeedParam setSpeedParam = new SetSpeedParam(LocalApi.DEFAULT_APP_API_VERSION);
 //        setSpeedParam.setMac(mac);
 //        setSpeedParam.setEnable();
@@ -282,49 +271,47 @@ public class ConnectedFragment extends Fragment {
      * @param mac           设备Mac地址
      * @param downloadSpeed 下载速率设置值
      */
-    private void limitDownload(String mac, long downloadSpeed) {
-//        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
-//        setDeviceParam.setLimitdown(downloadSpeed);
-//        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
-//        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
-//            @Override
-//            public void onSubscribe(Disposable d) {
-//                Toast.makeText(getActivity(), "onSubscribe", Toast.LENGTH_SHORT).show();
-//                Log.d(TAG, "onSubscribe: ");
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(SetDeviceRet setDeviceRet) {
-//                Log.d(TAG, "onSuccess: ");
-//                Toast.makeText(getActivity(), "设置下载速率为" + downloadSpeed, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Toast.makeText(getActivity(), "onError", Toast.LENGTH_SHORT).show();
-//                Log.d(TAG, "onError: ");
-//            }
-//        });
-
-        SetSpeedParam setSpeedParam = new SetSpeedParam(LocalApi.DEFAULT_APP_API_VERSION);
-        setSpeedParam.setMac(mac);
-        setSpeedParam.setLimitdown(downloadSpeed);
-        Single<SetSpeedRet> setSpeedRetSingle = mLocalApi.executeApiWithSingleResponse(setSpeedParam, SetSpeedRet.class);
-        setSpeedRetSingle.subscribe(new SingleObserver<SetSpeedRet>() {
+    private void limitDownload(String mac, long downloadSpeed, NiftyDialogBuilder niftyDialogBuilder) {
+        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
+        Log.d(TAG, "limitDownload: " + downloadSpeed);
+        setDeviceParam.setMac(mac.replaceAll(":", "_"));
+        setDeviceParam.setLimitdown(downloadSpeed);
+        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
+        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
             @Override
             public void onSubscribe(Disposable d) {
             }
 
             @Override
-            public void onSuccess(SetSpeedRet setSpeedRet) {
+            public void onSuccess(SetDeviceRet setDeviceRet) {
+                niftyDialogBuilder.dismiss();
                 Toast.makeText(getActivity(), "设置下载速率为" + downloadSpeed, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Throwable e) {
+
             }
         });
+
+//        SetSpeedParam setSpeedParam = new SetSpeedParam(LocalApi.DEFAULT_APP_API_VERSION);
+//        setSpeedParam.setMac(mac);
+//        setSpeedParam.setLimitdown(downloadSpeed);
+//        Single<SetSpeedRet> setSpeedRetSingle = mLocalApi.executeApiWithSingleResponse(setSpeedParam, SetSpeedRet.class);
+//        setSpeedRetSingle.subscribe(new SingleObserver<SetSpeedRet>() {
+//            @Override
+//            public void onSubscribe(Disposable d) {
+//            }
+//
+//            @Override
+//            public void onSuccess(SetSpeedRet setSpeedRet) {
+//                Toast.makeText(getActivity(), "设置下载速率为" + downloadSpeed, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//            }
+//        });
 
     }
 
@@ -334,52 +321,46 @@ public class ConnectedFragment extends Fragment {
      * @param mac         设备Mac地址
      * @param uploadSpeed 　上传速率设置值
      */
-    private void limitUpload(String mac, Long uploadSpeed) {
-//        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
-//        setDeviceParam.setLimitup(uploadSpeed);
-//        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
-//        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
-//            @Override
-//            public void onSubscribe(Disposable d) {
-//                Log.d(TAG, "onSubscribe: ");
-//                Toast.makeText(getActivity(), "onSubscribe", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onSuccess(SetDeviceRet setDeviceRet) {
-//                Log.d(TAG, "onSuccess: ");
-//                Toast.makeText(getActivity(), "设置上传速率" + uploadSpeed, Toast.LENGTH_SHORT).show();
-//                // TODO: 19-8-15 刷新页面，重新获取数据
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Log.d(TAG, "onError: ");
-//                Toast.makeText(getActivity(), "onError", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-        SetSpeedParam setSpeedParam = new SetSpeedParam(LocalApi.DEFAULT_APP_API_VERSION);
-        setSpeedParam.setMac(mac);
-        setSpeedParam.setLimitup(uploadSpeed);
-        Single<SetSpeedRet> setSpeedRetSingle = mLocalApi.executeApiWithSingleResponse(setSpeedParam, SetSpeedRet.class);
-        setSpeedRetSingle.subscribe(new SingleObserver<SetSpeedRet>() {
+    private void limitUpload(String mac, Long uploadSpeed, NiftyDialogBuilder niftyDialogBuilder) {
+        SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
+        setDeviceParam.setMac(mac.replaceAll(":", "_"));
+        setDeviceParam.setLimitup(uploadSpeed);
+        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
+        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Toast.makeText(getActivity(), "onSubscribe", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onSuccess(SetSpeedRet setSpeedRet) {
+            public void onSuccess(SetDeviceRet setDeviceRet) {
+                Log.d(TAG, "onSuccess: ");
+                niftyDialogBuilder.dismiss();
                 Toast.makeText(getActivity(), "设置上传速率" + uploadSpeed, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(getActivity(), "onError", Toast.LENGTH_SHORT).show();
             }
         });
+//        SetSpeedParam setSpeedParam = new SetSpeedParam(LocalApi.DEFAULT_APP_API_VERSION);
+//        setSpeedParam.setMac(mac);
+//        setSpeedParam.setLimitup(uploadSpeed);
+//        Single<SetSpeedRet> setSpeedRetSingle = mLocalApi.executeApiWithSingleResponse(setSpeedParam, SetSpeedRet.class);
+//        setSpeedRetSingle.subscribe(new SingleObserver<SetSpeedRet>() {
+//            @Override
+//            public void onSubscribe(Disposable d) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(SetSpeedRet setSpeedRet) {
+//                Toast.makeText(getActivity(), "设置上传速率" + uploadSpeed, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//            }
+//        });
     }
 
     private class SpaceItemDecoration extends RecyclerView.ItemDecoration {

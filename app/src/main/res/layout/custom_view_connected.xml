@@ -6,13 +6,15 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_forbidden"
+    <EditText
+        android:id="@+id/et_upload"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        android:text="@string/forbidden_release_device" />
+        android:hint="@string/upload"
+        android:inputType="number"
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/et_download"
@@ -24,14 +26,12 @@
         android:textColor="#FFFFFFFF"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/et_upload"
+    <Button
+        android:id="@+id/btn_forbidden"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        android:hint="@string/upload"
-        android:inputType="number"
-        android:textColor="#FFFFFFFF"
-        android:textSize="18sp" />
+        android:text="@string/forbidden_release_device" />
 
 </LinearLayout>

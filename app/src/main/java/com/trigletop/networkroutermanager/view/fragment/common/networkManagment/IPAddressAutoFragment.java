@@ -57,18 +57,6 @@ public class IPAddressAutoFragment extends Fragment {
         return ipAddressAutoFragment;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

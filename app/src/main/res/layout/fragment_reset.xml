@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/advanced_account_reset"
+        android:text="@string/device_management_reset"
         android:textColor="@android:color/black"
         android:textSize="40sp" />
 
