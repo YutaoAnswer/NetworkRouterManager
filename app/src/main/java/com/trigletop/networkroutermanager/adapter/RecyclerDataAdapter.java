@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ public class RecyclerDataAdapter extends RecyclerView.Adapter<RecyclerDataAdapte
         this.uiHandler = handler;
     }
 
+    @NonNull
     @Override
     public RecyclerDataAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parent_child_listing, parent, false);
@@ -39,7 +41,6 @@ public class RecyclerDataAdapter extends RecyclerView.Adapter<RecyclerDataAdapte
     public void onBindViewHolder(RecyclerDataAdapter.MyViewHolder holder, int position) {
         DummyParentDataItem dummyParentDataItem = dummyParentDataItems.get(position);
         holder.textView_parentName.setText(dummyParentDataItem.getParentName());
-        //
         int noOfChildTextViews = holder.linearLayout_childItems.getChildCount();
         for (int index = 0; index < noOfChildTextViews; index++) {
             TextView currentTextView = (TextView) holder.linearLayout_childItems.getChildAt(index);

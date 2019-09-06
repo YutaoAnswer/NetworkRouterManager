@@ -116,4 +116,15 @@
     <string name="wireless_psw">無線密碼</string>
     <string name="wireless_setting">無線設置</string>
     <string name="wireless_setting_host">主人網絡</string>
+    <string name="hint_update">請確認是否升級路由器,如果升級,需要等待3-5分鐘,升級中請不要斷開電源</string>
+    <string name="device_management_language">時間和語言</string>
+    <string name="device_management">軟件管理</string>
+    <string name="language_setting">語言設置</string>
+    <string name="time_zone_setting">時區設置</string>
+    <string name="network_param">網絡參數</string>
+    <string name="newwork_param_lan">LAN口設置</string>
+    <string name="advancedsetting">高級設置</string>
+    <string name="accountmanagerment">用戶管理</string>
+    <string name="commonsetting">常用設置</string>
+    <string name="update_error">OTA版本信息獲取失敗</string>
 </resources>

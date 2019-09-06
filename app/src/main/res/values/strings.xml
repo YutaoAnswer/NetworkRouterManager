@@ -165,7 +165,11 @@
     <string name="forget_password_hint">如果忘记密码，请恢复出厂设置.恢复出厂设置：当设备通电时，按住Reset按钮直到所有指示灯同事亮起后松开</string>
     <string name="speed_setting">速率设置</string>
     <string name="current_hardware">当前硬件版本</string>
-    <string name="simpledateformat">yyyy-MM-dd</string>
+    <string name="simpledateformat" translatable="false">yyyy-MM-dd</string>
     <string name="device__language">时间和语言</string>
+    <string name="hint_update">请确认是否升级路由器,如果升级,需要等待3-5分钟,升级中请不要断开电源</string>
+    <string name="update_error">OTA版本信息获取失败</string>
+    <string name="update_nor">已经是最新版本，不需要升级</string>
+    <string name="status_download_mirror_error">下载OTA升级包出错，请点确定重试</string>
 
 </resources>

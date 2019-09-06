@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class TimeAndLanguageFragment extends Fragment {
-
     @BindView(R.id.et_time_zoom)
     EditText etTimeZoom;
     @BindView(R.id.tv_data)
@@ -57,11 +55,15 @@ public class TimeAndLanguageFragment extends Fragment {
 
     private void initView() {
         SimpleDateFormat simpleDateFormat_date = new SimpleDateFormat(getString(R.string.simpledateformat));
-        SimpleDateFormat simpleDateFormat_time = new SimpleDateFormat("HH:mm:ss");
+//        SimpleDateFormat simpleDateFormat_time = new SimpleDateFormat("HH:mm:ss");
         //获取当前时间
         Date date = new Date(System.currentTimeMillis());
-        tvData.setText(simpleDateFormat_date.format(date));
-        tvTime.setText(simpleDateFormat_time.format(date));
+        // TODO: 2019-09-05
+        //  01-01 08:18:01.448 8825 8825 E AndroidRuntime: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
+        //  01-01 08:18:01.448 8825 8825 E AndroidRuntime: at com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement.TimeAndLanguageFragment.initView(TimeAndLanguageFragment.java:62)
+        //  01-01 08:18:01.448 8825 8825 E AndroidRuntime: at com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement.TimeAndLanguageFragment.onViewCreated(TimeAndLanguageFragment.java:49)
+//        tvData.setText(String.valueOf(simpleDateFormat_date.format(date)));
+//        tvTime.setText(simpleDateFormat_time.format(date));
     }
 
     private void initData() {

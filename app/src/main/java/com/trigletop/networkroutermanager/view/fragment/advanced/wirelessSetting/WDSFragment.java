@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,25 +15,13 @@ import butterknife.Unbinder;
 
 public class WDSFragment extends Fragment {
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
 
     public static WDSFragment newInstance() {
         WDSFragment wdsFragment = new WDSFragment();
         Bundle args = new Bundle();
         wdsFragment.setArguments(args);
         return wdsFragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     // TODO: 19-8-2 先以弹出框的形式提示
@@ -68,18 +55,6 @@ public class WDSFragment extends Fragment {
 
     private void initWindow() {
         // TODO: 19-8-6 弹出对话框
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
     }
 

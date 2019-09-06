@@ -58,7 +58,7 @@
     <string name="intranet_resource">Whether to set up guest access to intranet resources</string>
     <string name="ip_address">IP address</string>
     <string name="IP_address_auto">Obtain an IP address automatically</string>
-    <string name="lan_prot_setting">LAN口设置</string>
+    <string name="lan_prot_setting">LAN port settings</string>
     <string name="login">login in</string>
     <string name="mac_address">MAC address</string>
     <string name="maximum_download_speed">Guest network maximum download speed</string>
@@ -116,4 +116,14 @@
     <string name="wireless_psw">Wireless password</string>
     <string name="wireless_setting">wireless setting</string>
     <string name="wireless_setting_host">Master network</string>
+    <string name="time_zone_setting">Time zone setting</string>
+    <string name="language_setting">language settings</string>
+    <string name="network_param">Network parameters</string>
+    <string name="newwork_param_lan">LAN port settings</string>
+    <string name="hint_update">Please confirm whether to upgrade the router. If you upgrade, you need to wait 3-5 minutes. Please do not disconnect the power during the upgrade.</string>
+    <string name="advancedsetting">advanced settings</string>
+    <string name="device_management_language">Time and language</string>
+    <string name="accountmanagerment">User Management</string>
+    <string name="commonsetting">Common settings</string>
+    <string name="update_error">OTA version information acquisition failed</string>
 </resources>

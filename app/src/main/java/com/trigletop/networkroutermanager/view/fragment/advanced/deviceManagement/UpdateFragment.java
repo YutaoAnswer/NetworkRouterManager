@@ -33,6 +33,10 @@ import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.OtaUpgradeParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.OtaCheckRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.OtaUpgradeRet;
 
+import static sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.OtaUpgradeRet.MSG_DOWNLOAD_ERROR;
+import static sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.OtaUpgradeRet.MSG_NOT_UPGRADING;
+import static sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.OtaUpgradeRet.MSG_START_UPGRADE;
+
 /**
  * 　固件升级
  */
@@ -120,19 +124,7 @@ public class UpdateFragment extends Fragment {
                         .withDialogColor("#0096a6")
                         .withButton1Text("取消")
                         .withButton2Text("确定")
-                        .setButton1Click(v -> {
-                            new Thread() {
-                                public void run() {
-                                    //模拟按钮回退
-                                    try {
-                                        Instrumentation inst = new Instrumentation();
-                                        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }.start();
-                        })
+                        .setButton1Click(v -> niftyDialogBuilder.dismiss())
                         .setButton2Click(v -> {
                             //检测更新
                             OtaCheckParam otaCheckParam = new OtaCheckParam(LocalApi.DEFAULT_APP_API_VERSION);
@@ -145,25 +137,47 @@ public class UpdateFragment extends Fragment {
 
                                 @Override
                                 public void onSuccess(OtaCheckRet otaCheckRet) {
+                                    if (otaCheckRet.getCode() == 0) {
+                                        //本地版本
+                                        String romVersion = otaCheckRet.getRomversion();
+                                        //服务器上的ota版本
+                                        String otaVersion = otaCheckRet.getOtaversion();
 
+                                        if (!romVersion.contains(otaVersion)) {
+                                            //可以进行ota升级
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    update();
+                                                }
+                                            });
+                                        } else {
+                                            //已经是最新版本，不需要升级
+                                            NiftyDialogBuilder instance = NiftyDialogBuilder.getInstance(getContext());
+                                            instance
+                                                    .withDuration(700)
+                                                    .setCustomView(R.layout.custom_view_update_nor, getContext())
+                                                    .withDialogColor("#0096a6")
+                                                    .withButton1Text("确定")
+                                                    .setButton1Click(v1 -> instance.dismiss())
+                                                    .show();
+                                        }
+                                    }
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                    NiftyDialogBuilder instance = NiftyDialogBuilder.getInstance(getContext());
+                                    instance
+                                            .withDuration(700)
+                                            .setCustomView(R.layout.custom_view_update, getContext())
+                                            .withDialogColor("#0096a6")
+                                            .withButton1Text("确定")
+                                            .setButton1Click(v1 -> instance.dismiss())
+                                            .show();
                                 }
                             });
-                            new Thread() {
-                                public void run() {
-                                    //模拟按钮回退
-                                    try {
-                                        Instrumentation inst = new Instrumentation();
-                                        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }.start();
+                            niftyDialogBuilder.dismiss();
                         })
                         .withEffect(Effectstype.SlideBottom)
                         .isCancelableOnTouchOutside(true);
@@ -180,6 +194,7 @@ public class UpdateFragment extends Fragment {
     }
 
     private void initView() {
+
     }
 
     /**
@@ -191,17 +206,46 @@ public class UpdateFragment extends Fragment {
         upgradeRetSingle.subscribe(new SingleObserver<OtaUpgradeRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-
             }
 
             @Override
             public void onSuccess(OtaUpgradeRet otaUpgradeRet) {
-
+                NiftyDialogBuilder niftyDialogBuilder = new NiftyDialogBuilder(getContext());
+                switch (otaUpgradeRet.getStatus()) {
+                    case OtaUpgradeRet.STATUS_START_UPGRADE://开始下载镜像文件
+                    case OtaUpgradeRet.STATUS_DOWNLOADING_MIRROR://下载镜像文件中
+                    case OtaUpgradeRet.STATUS_START_BURNING:
+                        update();
+                        break;
+                    case OtaUpgradeRet.STATUS_DOWNLOAD_MIRROR_ERROR://下载镜像出错
+                        niftyDialogBuilder
+                                .withDuration(700)
+                                .setCustomView(R.layout.custom_view_status_download_mirror_error, getContext())
+                                .withDialogColor("#0096a6")
+                                .withButton1Text("确定")
+                                .setButton1Click(v -> update())
+                                .withEffect(Effectstype.SlideBottom)
+                                .isCancelableOnTouchOutside(true)
+                                .show();
+                        break;
+                    case OtaUpgradeRet.STATUS_NOT_UPGRADING:
+                        niftyDialogBuilder
+                                .withDuration(700)
+                                .setCustomView(R.layout.custom_view_status_not_upgrading, getContext())
+                                .withDialogColor("#0096a6")
+                                .withButton1Text("确定")
+                                .setButton1Click(v -> niftyDialogBuilder.dismiss())
+                                .withEffect(Effectstype.SlideBottom)
+                                .isCancelableOnTouchOutside(true)
+                                .show();
+                        break;
+                    default:
+                        break;
+                }
             }
 
             @Override
             public void onError(Throwable e) {
-
             }
         });
     }

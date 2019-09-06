@@ -116,4 +116,15 @@
     <string name="wireless_psw">كلمة مرور لاسلكية</string>
     <string name="wireless_setting">الإعدادات اللاسلكية</string>
     <string name="wireless_setting_host">شبكة سيد</string>
+    <string name="hint_update">يرجى تأكيد ما إذا كنت ترغب في ترقية جهاز التوجيه ، وإذا كنت تقوم بالترقية ، فستحتاج إلى الانتظار من 3 إلى 5 دقائق ، الرجاء عدم فصل الطاقة أثناء الترقية.</string>
+    <string name="device_management_language">الوقت واللغة</string>
+    <string name="device_management">إدارة البرمجيات</string>
+    <string name="language_setting">إعداد اللغة</string>
+    <string name="network_param">معلمة الشبكة</string>
+    <string name="newwork_param_lan">إعدادات منفذ LAN</string>
+    <string name="time_zone_setting">إعداد المنطقة الزمنية</string>
+    <string name="advancedsetting">الإعدادات المتقدمة</string>
+    <string name="accountmanagerment">إدارة المستخدم</string>
+    <string name="commonsetting">الإعدادات المشتركة</string>
+    <string name="update_error">فشل الحصول على معلومات إصدار OTA</string>
 </resources>

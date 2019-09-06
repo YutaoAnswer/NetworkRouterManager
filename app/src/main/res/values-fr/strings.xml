@@ -114,4 +114,16 @@
     <string name="wireless_psw">Mot de passe sans fil</string>
     <string name="wireless_setting">Paramètres sans fil</string>
     <string name="wireless_setting_host">Réseau maître</string>
+    <string name="time_zone_setting">Réglage du fuseau horaire</string>
+    <string name="language_setting">Réglage de la langue</string>
+    <string name="network_param">Paramètre réseau</string>
+    <string name="newwork_param_lan">Paramètres du port LAN</string>
+    <string name="hint_update">Veuillez confirmer si vous souhaitez mettre à niveau le routeur. Si vous effectuez une mise à niveau, vous devez attendre 3 à 5 minutes. Ne débranchez pas l\'alimentation pendant la mise à niveau.</string>
+    <string name="advancedsetting">Paramètres avancés</string>
+    <string name="device_management_language">Temps et langue</string>
+    <string name="devices_managment">Gestion des périphériques connectés</string>
+    <string name="dismiss_error">Rejeter</string>
+    <string name="accountmanagerment">Gestion des utilisateurs</string>
+    <string name="commonsetting">Paramètres communs</string>
+    <string name="update_error">L\'acquisition des informations de version OTA a échoué</string>
 </resources>

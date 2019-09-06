@@ -203,22 +203,17 @@ public class CommonSettingFragment extends Fragment {
         getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe: ");
-
             }
 
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(GetDeviceRet getDeviceRet) {
-                Log.d(TAG, "onSuccess: ");
                 Toast.makeText(getContext(), "getDeviceRet", Toast.LENGTH_SHORT).show();
                 tvDeviceNum.setText("已链接设备数量" + getDeviceRet.getList().size());
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-
             }
         });
 
