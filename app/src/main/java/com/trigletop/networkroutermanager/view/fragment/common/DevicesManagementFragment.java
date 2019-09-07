@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.common;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -45,18 +44,6 @@ public class DevicesManagementFragment extends Fragment {
         return devicesManagementFragment;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -89,18 +76,6 @@ public class DevicesManagementFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -109,20 +84,28 @@ public class DevicesManagementFragment extends Fragment {
     private class DevicesManagementAdapter extends FragmentPagerAdapter {
         private String[] mTitles;
         private LocalApi mLocalApi;
-        private List<Fragment> fragmentList = new ArrayList<>();
 
         DevicesManagementAdapter(FragmentManager fm, LocalApi localApi, String... titles) {
             super(fm);
             mLocalApi = localApi;
             mTitles = titles;
-            fragmentList.add(ConnectedFragment.newInstance(mLocalApi));
-            fragmentList.add(ForbiddenFragment.newInstance());
+//            List<Fragment> fragmentList = new ArrayList<>();
+//            fragmentList.add(ConnectedFragment.newInstance(mLocalApi));
+//            fragmentList.add(ForbiddenFragment.newInstance());
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return fragmentList.get(position);
+            switch (position) {
+                case 0:
+                    return ConnectedFragment.newInstance(mLocalApi);
+                case 1:
+                    return ForbiddenFragment.newInstance();
+                default:
+                    break;
+            }
+            return null;
         }
 
         @Override

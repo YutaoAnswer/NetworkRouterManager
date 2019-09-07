@@ -1,23 +1,17 @@
 package com.trigletop.networkroutermanager.view.fragment.main;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,10 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
-import com.trigletop.networkroutermanager.adapter.DevicesAdapter;
 import com.trigletop.networkroutermanager.utils.SiUtil;
 import com.trigletop.networkroutermanager.view.fragment.common.DevicesManagementFragment;
 import com.trigletop.networkroutermanager.view.fragment.common.NetworkManagementFragment;
@@ -36,9 +27,7 @@ import com.trigletop.networkroutermanager.view.fragment.common.WirelessSettingFr
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import app.com.tvrecyclerview.TvRecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,10 +38,8 @@ import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWiFiDetailParam;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.Device;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWiFiDetailRet;
-
 
 public class CommonSettingFragment extends Fragment {
 
@@ -60,8 +47,6 @@ public class CommonSettingFragment extends Fragment {
 
     @BindView(R.id.tv_device_num)
     TextView tvDeviceNum;
-    @BindView(R.id.tv_network_method)
-    TextView tvNetworkMethod;
     @BindView(R.id.tv_wireless_name)
     TextView tvWirelessName;
     @BindView(R.id.ll_devices_managment)
@@ -91,7 +76,6 @@ public class CommonSettingFragment extends Fragment {
     private WirelessSettingFragment wirelessSettingFragment;
 
     private List<ImageView> imageViewList = new ArrayList<>();
-    private int currentFocusPostition = 0;
     private static LocalApi mLocalApi;
 
     public static CommonSettingFragment newInstance(LocalApi localApi) {
@@ -159,7 +143,7 @@ public class CommonSettingFragment extends Fragment {
                 ivDevicesManagment.startAnimation(scaleAnimation_zoom);
                 ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_computer_normal, null));
             } else {
-                ivDevicesManagment.startAnimation(scaleAnimation_narrow);
+//                ivDevicesManagment.startAnimation(scaleAnimation_narrow);
                 ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_computer_focus, null));
             }
             switchFragment(currentFragment, devicesManagementFragment);
@@ -174,7 +158,7 @@ public class CommonSettingFragment extends Fragment {
                 ivNetworkManagment.startAnimation(scaleAnimation_zoom);
                 ivNetworkManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_normal, null));
             } else {
-                ivNetworkManagment.startAnimation(scaleAnimation_narrow);
+//                ivNetworkManagment.startAnimation(scaleAnimation_narrow);
                 ivNetworkManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_focus, null));
             }
             switchFragment(currentFragment, netwrokManagementFragment);
@@ -188,7 +172,7 @@ public class CommonSettingFragment extends Fragment {
                 ivWirelessSetting.startAnimation(scaleAnimation_zoom);
                 ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_normal, null));
             } else {
-                ivWirelessSetting.startAnimation(scaleAnimation_narrow);
+//                ivWirelessSetting.startAnimation(scaleAnimation_narrow);
                 ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_focus, null));
             }
             switchFragment(currentFragment, wirelessSettingFragment);
@@ -197,7 +181,7 @@ public class CommonSettingFragment extends Fragment {
     }
 
     private void initData() {
-
+        // TODO: 2019-09-06 获取不到信息
         //设备管理
         Single<GetDeviceRet> getDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(new GetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION), GetDeviceRet.class);
         getDeviceRetSingle.subscribe(new SingleObserver<GetDeviceRet>() {
@@ -208,8 +192,9 @@ public class CommonSettingFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(GetDeviceRet getDeviceRet) {
-                Toast.makeText(getContext(), "getDeviceRet", Toast.LENGTH_SHORT).show();
-                tvDeviceNum.setText("已链接设备数量" + getDeviceRet.getList().size());
+                Log.d(TAG, "onSuccess: " + getDeviceRet);
+//                tvDeviceNum.setText("已链接设备数量" + getDeviceRet.getList().size());
+                tvDeviceNum.setText(getDeviceRet.getList().size());
             }
 
             @Override
@@ -228,16 +213,15 @@ public class CommonSettingFragment extends Fragment {
 
             }
 
-            @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(GetWiFiDetailRet getWiFiDetailRet) {
-                Toast.makeText(getContext(), "getWiFiDetailRet", Toast.LENGTH_SHORT).show();
-                tvWirelessName.setText("上网方式" + getWiFiDetailRet.getInfo().get(0).getSsid());
+                String ssid = getWiFiDetailRet.getInfo().get(0).getSsid();
+//                "上网方式" + ssid
+                tvWirelessName.setText(ssid);
             }
 
             @Override
             public void onError(Throwable e) {
-
             }
         });
     }

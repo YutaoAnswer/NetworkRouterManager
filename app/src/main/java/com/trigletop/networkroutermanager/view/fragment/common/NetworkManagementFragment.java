@@ -1,8 +1,6 @@
 package com.trigletop.networkroutermanager.view.fragment.common;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,18 +57,6 @@ public class NetworkManagementFragment extends Fragment {
         return networkManagementFragment;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -118,7 +104,6 @@ public class NetworkManagementFragment extends Fragment {
 
             @Override
             public void onSuccess(GetWanTypeRet getWanTypeRet) {
-                // TODO: 19-8-30 测试
                 int type = getWanTypeRet.getType();//连接类型
                 switch (type) {
                     case 0://dhcp
@@ -141,16 +126,6 @@ public class NetworkManagementFragment extends Fragment {
                 Toast.makeText(getActivity(), "获取数据失败，请重新获取", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.trigletop.networkroutermanager.Bean;
 
+import com.trigletop.networkroutermanager.view.fragment.common.devicesManagement.ConnectedFragment;
+import com.trigletop.networkroutermanager.view.fragment.common.devicesManagement.ForbiddenFragment;
+
 public class Data {
 
     /*矽昌sdk管理*/
@@ -22,6 +25,9 @@ public class Data {
     public static final String[] host_mode_data = {"11n only", "11g only", "11b only"};
     public static final String[] host_bandwidth_data = {"自动", "20MHZ", "40MHZ"};
     public static final String[] host_signalStrength_data = {"高", "中", "低"};
+
+    public static final String ForbiddenFragment_TAG = ForbiddenFragment.class.getSimpleName();
+    public static final String ConnectedFragment_TAG = ConnectedFragment.class.getSimpleName();
 
     // TODO: 19-7-31 转化为不变的字符串
     public static final int handler_message_setWanType_PPOE = 3;

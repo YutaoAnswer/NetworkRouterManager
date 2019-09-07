@@ -2,6 +2,8 @@ package com.trigletop.networkroutermanager.view.fragment.common.devicesManagemen
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,34 +120,8 @@ public class ForbiddenFragment extends Fragment {
                                 .withDuration(700)
                                 .setCustomView(R.layout.custom_view_forbidden, getContext())
                                 .withButton1Text("确定")
-                                .setButton1Click(v -> liftBan(device.getMac()))
+                                .setButton1Click(v -> liftBan(device.getMac(), dialogBuilder))
                                 .show();
-                        // TODO: 19-8-2 功能一：解除禁用按钮实现设备禁用
-                        List<Device> deviceList = devicesAdapter.getDeviceList();
-//                        siUtil.setDevice(mLocalApi, deviceList.get(position).getAuthority().getLan() + "", handler);
-
-                        SetDeviceParam setDeviceParam
-                                = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, deviceList.get(position).getAuthority().getInternet() + "");
-                        setDeviceParam.setLan(1);//禁用设备使用无线网络
-                        Single<SetDeviceRet> setDeviceRetSingle = mLocalApi.executeApiWithSingleResponse(setDeviceParam, SetDeviceRet.class);
-                        setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                Log.d(TAG, "onSubscribe: ");
-
-                            }
-
-                            @Override
-                            public void onSuccess(SetDeviceRet setDeviceRet) {
-                                Log.d(TAG, "onSuccess: ");
-                                // TODO: 19-8-9 实现页面刷新
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d(TAG, "onError: ");
-                            }
-                        });
                     }
 
                     @Override
@@ -167,7 +143,7 @@ public class ForbiddenFragment extends Fragment {
      *
      * @param mac 　解除禁用设备Mac地址
      */
-    private void liftBan(String mac) {
+    private void liftBan(String mac, NiftyDialogBuilder niftyDialogBuilder) {
         SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
         setDeviceParam.setMac(mac);
         setDeviceParam.setInternet(1);
@@ -175,35 +151,18 @@ public class ForbiddenFragment extends Fragment {
         setDeviceRetSingle.subscribe(new SingleObserver<SetDeviceRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe: ");
-
             }
 
             @Override
             public void onSuccess(SetDeviceRet setDeviceRet) {
-                Log.d(TAG, "onSuccess: ");
-                // TODO: 19-8-15 刷新页面，重新获取数据
                 initData();
+                niftyDialogBuilder.dismiss();
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
     @Override

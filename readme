@@ -241,3 +241,6 @@ LocalApi: ret = {"msg":"OK","type":0,"autodns":1,"code":0}
     <timezone id="Pacific/Fiji">斐济</timezone>
     <timezone id="Pacific/Tongatapu">东加塔布</timezone>
 </timezones>
+
+
+禁用设备和解禁设备后即使更新

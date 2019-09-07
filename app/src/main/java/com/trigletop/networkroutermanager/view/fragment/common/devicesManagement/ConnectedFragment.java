@@ -1,6 +1,5 @@
 package com.trigletop.networkroutermanager.view.fragment.common.devicesManagement;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,11 +37,9 @@ import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetDeviceParam;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.SetSpeedParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.Device;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetDeviceRet;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.SetSpeedRet;
 
 public class ConnectedFragment extends Fragment {
 
@@ -76,18 +73,6 @@ public class ConnectedFragment extends Fragment {
         init();
         initView();
         initData();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
     @Override
@@ -142,6 +127,8 @@ public class ConnectedFragment extends Fragment {
                                 .withDuration(700)
                                 .setCustomView(R.layout.custom_view_connected, getContext())
                                 .withDialogColor("#0096a6")
+                                .withButton1Text("确定")
+                                .withButton2Text("取消")
                                 .withEffect(Effectstype.SlideBottom)
                                 .isCancelableOnTouchOutside(true);
 
@@ -166,7 +153,7 @@ public class ConnectedFragment extends Fragment {
                         } else {
                             etUpload.setText(String.valueOf(limitup));
                         }
-                        btnForbidden.setOnClickListener(v -> forbidden(device.getMac()));
+                        btnForbidden.setOnClickListener(v -> forbidden(device.getMac(), dialogBuilder));
                         dialogBuilder
                                 .setButton1Click(v -> {
                                     String upload = etUpload.getText().toString();
@@ -195,11 +182,13 @@ public class ConnectedFragment extends Fragment {
 
                     }
                 });
+
             }
 
             @Override
             public void onError(Throwable e) {
             }
+
         });
     }
 
@@ -208,7 +197,7 @@ public class ConnectedFragment extends Fragment {
      *
      * @param mac 　禁用设备Mac地址
      */
-    private void forbidden(String mac) {
+    private void forbidden(String mac, NiftyDialogBuilder niftyDialogBuilder) {
         SetDeviceParam setDeviceParam = new SetDeviceParam(LocalApi.DEFAULT_APP_API_VERSION, mac);
         setDeviceParam.setMac(mac.replaceAll(":", "_"));
         setDeviceParam.setInternet(0);
@@ -222,6 +211,7 @@ public class ConnectedFragment extends Fragment {
             public void onSuccess(SetDeviceRet setDeviceRet) {
                 Toast.makeText(getActivity(), "禁用设备成功", Toast.LENGTH_SHORT).show();
                 initData();
+                niftyDialogBuilder.dismiss();
             }
 
             @Override
@@ -275,7 +265,6 @@ public class ConnectedFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-
             }
         });
 

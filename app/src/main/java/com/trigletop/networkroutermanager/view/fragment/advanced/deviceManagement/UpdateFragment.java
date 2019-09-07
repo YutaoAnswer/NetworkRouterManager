@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -90,24 +91,12 @@ public class UpdateFragment extends Fragment {
         initData();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     @OnClick({R.id.btn_add, R.id.btn_config, R.id.btn_update, R.id.btn_ota_update})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_add:
                 // TODO: 19-8-7 添加文件
-
                 break;
             case R.id.btn_config:
 
@@ -132,7 +121,6 @@ public class UpdateFragment extends Fragment {
                             otaCheckRetSingle.subscribe(new SingleObserver<OtaCheckRet>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
-
                                 }
 
                                 @Override
@@ -145,12 +133,7 @@ public class UpdateFragment extends Fragment {
 
                                         if (!romVersion.contains(otaVersion)) {
                                             //可以进行ota升级
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    update();
-                                                }
-                                            });
+                                            new Thread(() -> update());
                                         } else {
                                             //已经是最新版本，不需要升级
                                             NiftyDialogBuilder instance = NiftyDialogBuilder.getInstance(getContext());
@@ -167,12 +150,15 @@ public class UpdateFragment extends Fragment {
 
                                 @Override
                                 public void onError(Throwable e) {
+                                    // TODO: 2019-09-06 NullPointException java.lang.String android.Content.getPackageName()
+                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                     NiftyDialogBuilder instance = NiftyDialogBuilder.getInstance(getContext());
                                     instance
                                             .withDuration(700)
                                             .setCustomView(R.layout.custom_view_update, getContext())
                                             .withDialogColor("#0096a6")
                                             .withButton1Text("确定")
+                                            .withEffect(Effectstype.SlideBottom)
                                             .setButton1Click(v1 -> instance.dismiss())
                                             .show();
                                 }
@@ -180,7 +166,8 @@ public class UpdateFragment extends Fragment {
                             niftyDialogBuilder.dismiss();
                         })
                         .withEffect(Effectstype.SlideBottom)
-                        .isCancelableOnTouchOutside(true);
+                        .isCancelableOnTouchOutside(true)
+                        .show();
                 break;
         }
     }
@@ -228,7 +215,7 @@ public class UpdateFragment extends Fragment {
                                 .isCancelableOnTouchOutside(true)
                                 .show();
                         break;
-                    case OtaUpgradeRet.STATUS_NOT_UPGRADING:
+                    case OtaUpgradeRet.STATUS_NOT_UPGRADING://升级完成
                         niftyDialogBuilder
                                 .withDuration(700)
                                 .setCustomView(R.layout.custom_view_status_not_upgrading, getContext())
@@ -246,6 +233,7 @@ public class UpdateFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
