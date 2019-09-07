@@ -44,6 +44,7 @@ public class NetworkManagementFragment extends Fragment {
     private static LocalApi mLocalApi;
     private FragmentManager childFragmentManager;
     private Fragment currentFragment;
+
     private PPOEFragment ppoeFragment;
     private StaticIPAddressFragment staticIPAddressFragment;
     private IPAddressAutoFragment ipAddressAutoFragment;
