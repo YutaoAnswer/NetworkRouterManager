@@ -139,7 +139,6 @@ public class GuestNetworkFragment extends Fragment {
                                 .subscribe(new SingleObserver<GetWiFiDetailRet>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
-
                                     }
 
                                     @Override
@@ -152,7 +151,6 @@ public class GuestNetworkFragment extends Fragment {
 
                                     @Override
                                     public void onError(Throwable e) {
-
                                     }
                                 });
                         break;

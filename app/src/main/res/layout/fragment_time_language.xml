@@ -4,77 +4,82 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btn_time_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:text="@string/save" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时间"
+            android:textSize="30px" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_time_zoom"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时区"
+            android:textSize="30px" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期"
+            android:textSize="30px" />
+
+        <TextView
+            android:id="@+id/tv_data"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/time_zone_setting"
         android:textColor="@android:color/black"
-        android:textSize="40sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30px"
-            android:text="时区"/>
-
-        <EditText
-            android:id="@+id/et_time_zoom"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30px"
-            android:text="日期"/>
-
-        <TextView
-            android:id="@+id/tv_data"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30px"
-            android:text="时间"/>
-
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_time_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/save"/>
+        android:textSize="40sp"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,16 +94,16 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btn_language"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30px"
-            android:text="语言"/>
-
-        <EditText
-            android:id="@+id/et_language"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"/>
+            android:text="语言"
+            android:textSize="30px" />
 
     </LinearLayout>
 
@@ -106,8 +111,9 @@
         android:id="@+id/btn_language_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
-        android:text="@string/save"/>
+        android:layout_margin="10dp"
+        android:text="@string/save" />
+
 
 </LinearLayout>

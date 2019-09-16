@@ -210,7 +210,6 @@ public class CommonSettingFragment extends Fragment {
         getWiFiDetailRetSingle.subscribe(new SingleObserver<GetWiFiDetailRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-
             }
 
             @Override

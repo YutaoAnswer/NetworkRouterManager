@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
+import com.trigletop.networkroutermanager.adapter.LanguageAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,14 +23,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class TimeAndLanguageFragment extends Fragment {
+
     @BindView(R.id.et_time_zoom)
     EditText etTimeZoom;
     @BindView(R.id.tv_data)
     TextView tvData;
     @BindView(R.id.tv_time)
     TextView tvTime;
-    @BindView(R.id.et_language)
-    EditText etLanguage;
+    @BindView(R.id.btn_language)
+    Button btnLanguage;
 
     public static TimeAndLanguageFragment newInstance() {
         TimeAndLanguageFragment timeAndLanguageFragment = new TimeAndLanguageFragment();
@@ -54,16 +59,7 @@ public class TimeAndLanguageFragment extends Fragment {
     }
 
     private void initView() {
-        SimpleDateFormat simpleDateFormat_date = new SimpleDateFormat(getString(R.string.simpledateformat));
-//        SimpleDateFormat simpleDateFormat_time = new SimpleDateFormat("HH:mm:ss");
-        //获取当前时间
-        Date date = new Date(System.currentTimeMillis());
-        // TODO: 2019-09-05
-        //  01-01 08:18:01.448 8825 8825 E AndroidRuntime: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference
-        //  01-01 08:18:01.448 8825 8825 E AndroidRuntime: at com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement.TimeAndLanguageFragment.initView(TimeAndLanguageFragment.java:62)
-        //  01-01 08:18:01.448 8825 8825 E AndroidRuntime: at com.trigletop.networkroutermanager.view.fragment.advanced.deviceManagement.TimeAndLanguageFragment.onViewCreated(TimeAndLanguageFragment.java:49)
-//        tvData.setText(String.valueOf(simpleDateFormat_date.format(date)));
-//        tvTime.setText(simpleDateFormat_time.format(date));
+
     }
 
     private void initData() {
@@ -77,8 +73,28 @@ public class TimeAndLanguageFragment extends Fragment {
 
                 break;
             case R.id.btn_language_save:
+                NiftyDialogBuilder niftyDialogBuilder = new NiftyDialogBuilder(getContext());
+                niftyDialogBuilder
+                        .withTitle("语言设置")
+                        .withDuration(700)
+                        .setCustomView(R.layout.custom_view_language, getContext());
+                RecyclerView rcyLanguage = niftyDialogBuilder.findViewById(R.id.rcy_language);
+                LanguageAdapter languageAdapter = new LanguageAdapter();
 
+                rcyLanguage.setAdapter(languageAdapter);
+
+                niftyDialogBuilder
+                        .withButton1Text("确定")
+                        .withButton2Text("取消")
+                        .setButton1Click(v -> {
+
+                        })
+                        .setButton2Click(v -> {
+
+                        })
+                        .show();
                 break;
         }
     }
+
 }

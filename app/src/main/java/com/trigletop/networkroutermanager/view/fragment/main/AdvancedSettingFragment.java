@@ -233,7 +233,7 @@ public class AdvancedSettingFragment extends Fragment {
 
         guestFragment = GuestNetworkFragment.newInstance(localApi);
         hostNetworkFragment = HostNetworkFragment.newInstance(localApi);
-        wdsFragment = WDSFragment.newInstance();
+        wdsFragment = WDSFragment.newInstance(localApi);
 
         backupFragment = BackupFragment.newInstance(localApi);
         changePswFragment = ChangePswFragment.newInstance(localApi);

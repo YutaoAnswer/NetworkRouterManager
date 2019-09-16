@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="450dp"
+    android:layout_height="450dp"
+    android:layout_margin="10dp"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/btn_network_one"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="2.4G"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_network_two"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/btn_network_one"
+        android:text="5G" />
+
+</RelativeLayout>

@@ -1,30 +1,46 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetDeviceParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWDSInfoParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWDSScanParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetDeviceRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWDSInfoRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWDSScanInfoRet;
 
 public class WDSFragment extends Fragment {
 
-    private Unbinder unbinder;
+    private static final String TAG = WDSFragment.class.getSimpleName();
 
-    public static WDSFragment newInstance() {
+    private Unbinder unbinder;
+    private static LocalApi mLocalApi;
+
+    public static WDSFragment newInstance(LocalApi lolcalApi) {
+        mLocalApi = lolcalApi;
         WDSFragment wdsFragment = new WDSFragment();
         Bundle args = new Bundle();
         wdsFragment.setArguments(args);
         return wdsFragment;
     }
 
-    // TODO: 19-8-2 先以弹出框的形式提示
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -46,16 +62,76 @@ public class WDSFragment extends Fragment {
     }
 
     private void initView() {
-        initWindow();
+        initHintDialog();
     }
 
     private void initData() {
 
     }
 
-    private void initWindow() {
-        // TODO: 19-8-6 弹出对话框
+    private void initHintDialog() {
+        NiftyDialogBuilder dialogBuilder = new NiftyDialogBuilder(getContext());
+        dialogBuilder
+                .withTitle("WDS网组向导")
+                .withDuration(700)
+                .setCustomView(R.layout.custom_view_wds_hint, getContext())
+                .withButton1Text("下一步")
+                .setButton1Click(v -> {
+                    dialogBuilder.dismiss();
+                    chooseNetwork();
+                })
+                .show();
+    }
 
+    private void chooseNetwork() {
+        NiftyDialogBuilder niftyDialogBuilder = new NiftyDialogBuilder(getContext());
+        niftyDialogBuilder
+                .withTitle("请选择一个网络")
+                .withDuration(700)
+                .setCustomView(R.layout.custom_view_choose_network, getContext());
+        Button networkOne = niftyDialogBuilder.findViewById(R.id.btn_network_one);
+        Button networkTwo = niftyDialogBuilder.findViewById(R.id.btn_network_two);
+        networkOne.setOnClickListener(v -> {
+            // TODO: 19-9-16 getWdsInfoRet
+            Single<GetWDSInfoRet> getWDSInfoRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWDSInfoParam(LocalApi.DEFAULT_APP_API_VERSION), GetWDSInfoRet.class);
+            getWDSInfoRetSingle.subscribe(new SingleObserver<GetWDSInfoRet>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override
+                public void onSuccess(GetWDSInfoRet getWDSInfoRet) {
+                    Log.d(TAG, "onSuccess: " + getWDSInfoRet);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+            });
+        });
+        networkTwo.setOnClickListener(v -> {
+            // TODO: 19-9-16 getWdsScanInfoRet
+            Single<GetWDSScanInfoRet> getWDSScanInfoRetSingle = mLocalApi.executeApiWithSingleResponse(new GetWDSScanParam(LocalApi.DEFAULT_APP_API_VERSION),GetWDSScanInfoRet.class);
+            getWDSScanInfoRetSingle.subscribe(new SingleObserver<GetWDSScanInfoRet>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override
+                public void onSuccess(GetWDSScanInfoRet getWDSScanInfoRet) {
+                    Log.d(TAG, "onSuccess: " + getWDSScanInfoRet);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+            });
+        });
+        niftyDialogBuilder.show();
     }
 
     @Override
@@ -63,4 +139,5 @@ public class WDSFragment extends Fragment {
         super.onDestroy();
         unbinder.unbind();
     }
+
 }
