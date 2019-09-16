@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:text="@string/wireless_name"
+        android:paddingLeft="40dp"
+        android:layout_weight="1"
+        android:paddingRight="40dp"
+        android:gravity="center"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_strength"
+        android:layout_width="wrap_content"
+        android:text="@string/signal_strength"
+        android:layout_weight="1"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:gravity="center"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_"
+        android:layout_width="wrap_content"
+        android:text="@string/enciphered_message"
+        android:layout_weight="1"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:gravity="center"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:text="@string/choose"
+        android:layout_weight="1"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:gravity="center"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
