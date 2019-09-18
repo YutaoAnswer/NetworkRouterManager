@@ -93,6 +93,25 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                     etWirelessName.setText(wdsScanInfo.getSsid());
                                     EditText etWirelessPsw = niftyDialogBuilder1.findViewById(R.id.et_wireless_psw);
                                     etWirelessPsw.setText(etPassword.getText().toString());
+
+
+//                                    java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.EditText.setText(java.lang.CharSequence)' on a null object reference
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.trigletop.networkroutermanager.adapter.WdsAdapter.lambda$null$2$WdsAdapter(WdsAdapter.java:95)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.trigletop.networkroutermanager.adapter.-$$Lambda$WdsAdapter$RIYBT82R2QnIFDV81vLxOlOzoIo.onClick(Unknown Source:6)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.view.View.performClick(View.java:6597)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.view.View.performClickInternal(View.java:6574)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.view.View.access$3100(View.java:778)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.view.View$PerformClick.run(View.java:25885)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.os.Handler.handleCallback(Handler.java:873)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.os.Handler.dispatchMessage(Handler.java:99)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.os.Looper.loop(Looper.java:193)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at android.app.ActivityThread.main(ActivityThread.java:6669)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at java.lang.reflect.Method.invoke(Native Method)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)
+//                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)
+//                                    01-01 01:29:11.543  3303  3528 W ActivityManager:   Force finishing activity com.trigletop.networkroutermanager/.view.activity.MainActivity
+//                                    01-01 01:29:11.556  3303  3320 I ActivityManager: Showing crash dialog for package com.trigletop.networkroutermanager u0
+
                                     CheckBox cbNotPassword = niftyDialogBuilder1.findViewById(R.id.cb_not_password);// TODO: 19-9-18
                                     niftyDialogBuilder1
                                             .withTitle("请设置本路由器的无线参数")
