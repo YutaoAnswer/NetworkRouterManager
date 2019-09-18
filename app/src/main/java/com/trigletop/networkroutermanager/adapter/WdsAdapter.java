@@ -112,7 +112,6 @@ public class WdsAdapter extends RecyclerView.Adapter {
 //                                    01-01 01:29:11.543  3303  3528 W ActivityManager:   Force finishing activity com.trigletop.networkroutermanager/.view.activity.MainActivity
 //                                    01-01 01:29:11.556  3303  3320 I ActivityManager: Showing crash dialog for package com.trigletop.networkroutermanager u0
 
-
                                     CheckBox cbNotPassword = niftyDialogBuilder1.findViewById(R.id.cb_not_password);// TODO: 19-9-18
                                     niftyDialogBuilder1
                                             .withTitle("请设置本路由器的无线参数")
