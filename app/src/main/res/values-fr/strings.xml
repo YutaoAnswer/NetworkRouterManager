@@ -126,4 +126,6 @@
     <string name="accountmanagerment">Gestion des utilisateurs</string>
     <string name="commonsetting">Paramètres communs</string>
     <string name="update_error">L\'acquisition des informations de version OTA a échoué</string>
+    <string name="wds_hint_one">Grâce à la fonction WDS, les routeurs maître et esclave peuvent être pontés sans fil pour étendre la couverture du réseau sans fil.</string>
+    <string name="wds_hint_two">Une fois la fonction WDS activée, le routeur agira en tant que routeur esclave pour la mise en réseau WDS.</string>
 </resources>

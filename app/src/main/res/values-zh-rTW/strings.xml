@@ -127,4 +127,6 @@
     <string name="accountmanagerment">用戶管理</string>
     <string name="commonsetting">常用設置</string>
     <string name="update_error">OTA版本信息獲取失敗</string>
+    <string name="wds_hint_two">開啟WDS功能之後，本路由器將作為從路由器進行WDS組網</string>
+    <string name="wds_hint_one">開啟WDS功能之後，本路由器將作為從路由器進行WDS組網</string>
 </resources>

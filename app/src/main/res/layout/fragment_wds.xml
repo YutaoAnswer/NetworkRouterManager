@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wireless_setting_wds"
+        android:layout_gravity="start"
         android:textColor="@android:color/black"
         android:textSize="40sp" />
 
@@ -19,11 +21,12 @@
         android:text="@string/wds_title"/>
 
     <include
-        layout="@layout/item_rcy_wds"/>
+        layout="@layout/item_wds"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcyWDS"
-        android:layout_width="match_parent"
+        android:layout_width="1000dp"
+        android:layout_gravity="center"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_height="match_parent"/>

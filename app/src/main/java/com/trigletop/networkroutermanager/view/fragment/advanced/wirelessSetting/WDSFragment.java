@@ -1,11 +1,11 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.trigletop.networkroutermanager.R;
+import com.trigletop.networkroutermanager.adapter.WdsAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,8 +96,8 @@ public class WDSFragment extends Fragment {
                 .setCustomView(R.layout.custom_view_choose_network, getContext());
         Button networkOne = niftyDialogBuilder.findViewById(R.id.btn_network_one);
         Button networkTwo = niftyDialogBuilder.findViewById(R.id.btn_network_two);
-        networkOne.setOnClickListener(v -> getWDSScan("2.4G"));
-        networkTwo.setOnClickListener(v -> getWDSScan("5G"));
+        networkOne.setOnClickListener(v -> getWDSScan("2.4G", niftyDialogBuilder));
+        networkTwo.setOnClickListener(v -> getWDSScan("5G", niftyDialogBuilder));
         niftyDialogBuilder.show();
     }
 
@@ -106,33 +107,25 @@ public class WDSFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void getWDSScan(String band) {
+    private void getWDSScan(String band, NiftyDialogBuilder niftyDialogBuilder) {
         GetWDSScanParam getWDSScanParam = new GetWDSScanParam(LocalApi.DEFAULT_APP_API_VERSION);
         getWDSScanParam.setBand(band);
         Single<GetWDSScanInfoRet> getWDSScanInfoRetSingle = mLocalApi.executeApiWithSingleResponse(getWDSScanParam, GetWDSScanInfoRet.class);
         getWDSScanInfoRetSingle.subscribe(new SingleObserver<GetWDSScanInfoRet>() {
             @Override
             public void onSubscribe(Disposable d) {
-
             }
 
             @Override
             public void onSuccess(GetWDSScanInfoRet getWDSScanInfoRet) {
-                switch (band) {
-                    case "2.4G":
-
-                        break;
-                    case "5G":
-
-                        break;
-                    default:
-                        break;
-                }
+                WdsAdapter wdsAdapter = new WdsAdapter(getContext());
+                wdsAdapter.setDeviceList(getWDSScanInfoRet.getList());
+                rcyWDS.setAdapter(wdsAdapter);
+                niftyDialogBuilder.dismiss();
             }
 
             @Override
             public void onError(Throwable e) {
-
             }
         });
     }
