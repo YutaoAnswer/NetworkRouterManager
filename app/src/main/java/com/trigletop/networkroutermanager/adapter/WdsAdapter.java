@@ -95,6 +95,7 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                     etWirelessPsw.setText(etPassword.getText().toString());
 
 
+
 //                                    java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.EditText.setText(java.lang.CharSequence)' on a null object reference
 //                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.trigletop.networkroutermanager.adapter.WdsAdapter.lambda$null$2$WdsAdapter(WdsAdapter.java:95)
 //                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.trigletop.networkroutermanager.adapter.-$$Lambda$WdsAdapter$RIYBT82R2QnIFDV81vLxOlOzoIo.onClick(Unknown Source:6)
@@ -159,12 +160,7 @@ public class WdsAdapter extends RecyclerView.Adapter {
                             });
                 }
                 //弹窗外部点击取消则使选中按钮取消选中
-                niftyDialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        viewHolder.rbChoose.setChecked(false);
-                    }
-                });
+                niftyDialogBuilder.setOnDismissListener(dialog -> viewHolder.rbChoose.setChecked(false));
                 niftyDialogBuilder.show();
             });
             niftyDialogBuilder.setCanceledOnTouchOutside(false);
