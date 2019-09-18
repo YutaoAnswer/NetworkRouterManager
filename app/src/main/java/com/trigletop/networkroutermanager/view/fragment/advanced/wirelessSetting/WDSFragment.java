@@ -98,6 +98,7 @@ public class WDSFragment extends Fragment {
         Button networkTwo = niftyDialogBuilder.findViewById(R.id.btn_network_two);
         networkOne.setOnClickListener(v -> getWDSScan("2.4G", niftyDialogBuilder));
         networkTwo.setOnClickListener(v -> getWDSScan("5G", niftyDialogBuilder));
+        niftyDialogBuilder.setCanceledOnTouchOutside(false);
         niftyDialogBuilder.show();
     }
 
@@ -118,7 +119,7 @@ public class WDSFragment extends Fragment {
 
             @Override
             public void onSuccess(GetWDSScanInfoRet getWDSScanInfoRet) {
-                WdsAdapter wdsAdapter = new WdsAdapter(getContext());
+                WdsAdapter wdsAdapter = new WdsAdapter(getContext(), mLocalApi);
                 wdsAdapter.setDeviceList(getWDSScanInfoRet.getList());
                 rcyWDS.setAdapter(wdsAdapter);
                 niftyDialogBuilder.dismiss();

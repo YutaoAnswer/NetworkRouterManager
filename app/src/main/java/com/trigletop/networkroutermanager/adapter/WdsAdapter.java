@@ -1,12 +1,16 @@
 package com.trigletop.networkroutermanager.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +20,21 @@ import com.trigletop.networkroutermanager.R;
 
 import java.util.List;
 
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WDSScanInfo;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWdsStaIsConnectParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWdsStaIsConnectRet;
 
 public class WdsAdapter extends RecyclerView.Adapter {
 
+    private static final String TAG = WdsAdapter.class.getSimpleName();
+
     private Context mContext;
+
+    private LocalApi mLocalApi;
 
     private List<WDSScanInfo> deviceList;
 
@@ -32,8 +46,9 @@ public class WdsAdapter extends RecyclerView.Adapter {
         this.deviceList = deviceList;
     }
 
-    public WdsAdapter(Context context) {
+    public WdsAdapter(Context context, LocalApi localApi) {
         mContext = context;
+        mLocalApi = localApi;
     }
 
     @NonNull
@@ -61,8 +76,8 @@ public class WdsAdapter extends RecyclerView.Adapter {
                 viewHolder.ivStrength.setImageResource(R.mipmap.single_five);
             }
             viewHolder.tvEncipheredMessage.setText(wdsScanInfo.getEncryption().getDescription());
+            NiftyDialogBuilder niftyDialogBuilder = new NiftyDialogBuilder(mContext);
             viewHolder.rbChoose.setOnClickListener(v -> {
-                NiftyDialogBuilder niftyDialogBuilder = new NiftyDialogBuilder(mContext);
                 if (wdsScanInfo.getEncryption().isEnabled()) {//可以直连
                     niftyDialogBuilder
                             .setCustomView(R.layout.custom_view_wds, mContext)
@@ -73,6 +88,13 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                 if (!etPassword.getText().toString().isEmpty()) {
                                     NiftyDialogBuilder niftyDialogBuilder1 = new NiftyDialogBuilder(mContext);
                                     niftyDialogBuilder1
+                                            .setCustomView(R.layout.custom_view_wireless_param, mContext);
+                                    EditText etWirelessName = niftyDialogBuilder1.findViewById(R.id.et_wireless_name);
+                                    etWirelessName.setText(wdsScanInfo.getSsid());
+                                    EditText etWirelessPsw = niftyDialogBuilder1.findViewById(R.id.et_wireless_psw);
+                                    etWirelessPsw.setText(etPassword.getText().toString());
+                                    CheckBox cbNotPassword = niftyDialogBuilder1.findViewById(R.id.cb_not_password);// TODO: 19-9-18
+                                    niftyDialogBuilder1
                                             .withTitle("请设置本路由器的无线参数")
                                             .withButton1Text("上一步")
                                             .withButton2Text("下一步");
@@ -81,9 +103,32 @@ public class WdsAdapter extends RecyclerView.Adapter {
 
                                             })
                                             .setButton2Click(v22 -> {
+                                                if (!etWirelessName.getText().toString().isEmpty() && !etWirelessPsw.getText().toString().isEmpty()) {
+                                                    GetWdsStaIsConnectParam getWdsStaIsConnectParam = new GetWdsStaIsConnectParam(LocalApi.DEFAULT_APP_API_VERSION);
+                                                    Single<GetWdsStaIsConnectRet> getWdsStaIsConnectRetSingle = mLocalApi.executeApiWithSingleResponse(getWdsStaIsConnectParam, GetWdsStaIsConnectRet.class);
+                                                    getWdsStaIsConnectRetSingle.subscribe(new SingleObserver<GetWdsStaIsConnectRet>() {
+                                                        @Override
+                                                        public void onSubscribe(Disposable d) {
 
+                                                        }
+
+                                                        @Override
+                                                        public void onSuccess(GetWdsStaIsConnectRet getWdsStaIsConnectRet) {
+                                                            Log.d(TAG, "onSuccess: " + getWdsStaIsConnectRet);
+                                                        }
+
+                                                        @Override
+                                                        public void onError(Throwable e) {
+
+                                                        }
+                                                    });
+                                                } else {
+                                                    Toast.makeText(mContext, "请输入无线账号或者无线密码", Toast.LENGTH_SHORT).show();
+                                                }
                                             });
                                     niftyDialogBuilder1.show();
+                                } else {
+                                    Toast.makeText(mContext, "请输入主路由器的无线密码", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else {
@@ -94,8 +139,19 @@ public class WdsAdapter extends RecyclerView.Adapter {
 
                             });
                 }
+                //弹窗外部点击取消则使选中按钮取消选中
+                niftyDialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        viewHolder.rbChoose.setChecked(false);
+                    }
+                });
                 niftyDialogBuilder.show();
             });
+            niftyDialogBuilder.setCanceledOnTouchOutside(false);
+//            if (!niftyDialogBuilder.isShowing()) {
+//                viewHolder.rbChoose.setChecked(false);
+//            }
         }
     }
 
