@@ -132,4 +132,6 @@
     <string name="wds_title">选择你要要接接的️️主由由器</string>
     <string name="choose">选择</string>
     <string name="update_nor">已经是最新版本，不需要升级</string>
+    <string name="enciphered_message">加密信息</string>
+    <string name="status_download_mirror_error">下载OTA升级包出错，请点确定重试</string>
 </resources>

@@ -127,4 +127,10 @@
     <string name="accountmanagerment">إدارة المستخدم</string>
     <string name="commonsetting">الإعدادات المشتركة</string>
     <string name="update_error">فشل الحصول على معلومات إصدار OTA</string>
+    <string name="choose">اختر</string>
+    <string name="enciphered_message">معلومات مشفرة</string>
+    <string name="status_download_mirror_error">حدث خطأ أثناء تنزيل حزمة ترقية OTA ، يرجى النقر فوق \"موافق\" لإعادة المحاولة</string>
+    <string name="wds_hint_one">من خلال وظيفة WDS ، يمكن توصيل أجهزة التوجيه الرئيسية والرقيقة لاسلكيًا لتوسيع نطاق تغطية الشبكة اللاسلكية.</string>
+    <string name="wds_hint_two">بعد تمكين وظيفة WDS ، سيعمل الموجه كموجه للرقيق لشبكات WDS.</string>
+    <string name="wds_title">اختر وحدة التحكم الرئيسية التي تريد الاتصال بها</string>
 </resources>

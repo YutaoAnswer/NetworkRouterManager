@@ -132,4 +132,5 @@
     <string name="device_management">Software management</string>
     <string name="enciphered_message">Encrypted information</string>
     <string name="update_nor">Already the latest version, no upgrade required</string>
+    <string name="wds_title">Choose the main controller you want to connect to</string>
 </resources>
