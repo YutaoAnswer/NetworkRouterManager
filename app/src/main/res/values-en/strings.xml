@@ -128,4 +128,8 @@
     <string name="update_error">OTA version information acquisition failed</string>
     <string name="wds_hint_one">Through the WDS function, the master and slave routers can be bridged wirelessly to extend the coverage of the wireless network.</string>
     <string name="wds_hint_two">After the WDS function is enabled, the router will act as a slave router for WDS networking.</string>
+    <string name="choose">select</string>
+    <string name="device_management">Software management</string>
+    <string name="enciphered_message">Encrypted information</string>
+    <string name="update_nor">Already the latest version, no upgrade required</string>
 </resources>
