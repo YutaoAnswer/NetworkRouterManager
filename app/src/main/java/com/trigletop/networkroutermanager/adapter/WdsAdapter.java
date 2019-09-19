@@ -1,7 +1,6 @@
 package com.trigletop.networkroutermanager.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,9 @@ import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WDSScanInfo;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWdsStaIsConnectParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSConnectWiFiParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWdsStaIsConnectRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSConnectWiFiRet;
 
 public class WdsAdapter extends RecyclerView.Adapter {
 
@@ -112,6 +113,7 @@ public class WdsAdapter extends RecyclerView.Adapter {
 //                                    01-01 01:29:11.543  3303  3528 W ActivityManager:   Force finishing activity com.trigletop.networkroutermanager/.view.activity.MainActivity
 //                                    01-01 01:29:11.556  3303  3320 I ActivityManager: Showing crash dialog for package com.trigletop.networkroutermanager u0
 
+
                                     CheckBox cbNotPassword = niftyDialogBuilder1.findViewById(R.id.cb_not_password);// TODO: 19-9-18
                                     niftyDialogBuilder1
                                             .withTitle("请设置本路由器的无线参数")
@@ -119,26 +121,39 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                             .withButton2Text("下一步");
                                     niftyDialogBuilder1
                                             .setButton1Click(v2 -> {
-
+                                                // TODO: 19-9-19  
                                             })
                                             .setButton2Click(v22 -> {
                                                 if (!etWirelessName.getText().toString().isEmpty() && !etWirelessPsw.getText().toString().isEmpty()) {
-                                                    GetWdsStaIsConnectParam getWdsStaIsConnectParam = new GetWdsStaIsConnectParam(LocalApi.DEFAULT_APP_API_VERSION);
-                                                    Single<GetWdsStaIsConnectRet> getWdsStaIsConnectRetSingle = mLocalApi.executeApiWithSingleResponse(getWdsStaIsConnectParam, GetWdsStaIsConnectRet.class);
-                                                    getWdsStaIsConnectRetSingle.subscribe(new SingleObserver<GetWdsStaIsConnectRet>() {
+
+                                                    WDSConnectWiFiParam wdsConnectWiFiParam = new WDSConnectWiFiParam(LocalApi.DEFAULT_APP_API_VERSION);
+                                                    wdsConnectWiFiParam.setSsid(wdsScanInfo.getSsid());
+                                                    wdsConnectWiFiParam.setBssid(wdsScanInfo.getBssid());
+                                                    wdsConnectWiFiParam.setChannel(wdsScanInfo.getChannel());
+                                                    if ("None".equals(wdsScanInfo.getEncryption().getDescription())) {
+                                                        wdsConnectWiFiParam.setEncryption("open");
+                                                    } else if ("WPA PSK (CCMP)".equals(wdsScanInfo.getEncryption().getDescription())) {
+                                                        wdsConnectWiFiParam.setEncryption("psk");
+                                                    } else {
+                                                        wdsConnectWiFiParam.setEncryption("psk+ccmp");
+                                                    }
+                                                    wdsConnectWiFiParam.setKey(etPassword.getText().toString());
+                                                    Single<WDSConnectWiFiRet> wdsConnectWiFiRetSingle = mLocalApi.executeApiWithSingleResponse(wdsConnectWiFiParam, WDSConnectWiFiRet.class);
+                                                    wdsConnectWiFiRetSingle.subscribe(new SingleObserver<WDSConnectWiFiRet>() {
                                                         @Override
                                                         public void onSubscribe(Disposable d) {
-
+                                                            Log.d(TAG, "onSubscribe: " + d.toString());
                                                         }
 
                                                         @Override
-                                                        public void onSuccess(GetWdsStaIsConnectRet getWdsStaIsConnectRet) {
-                                                            Log.d(TAG, "onSuccess: " + getWdsStaIsConnectRet);
+                                                        public void onSuccess(WDSConnectWiFiRet wdsConnectWiFiRet) {
+                                                            //设置成功
+                                                            
                                                         }
 
                                                         @Override
                                                         public void onError(Throwable e) {
-
+                                                            Log.d(TAG, "onError: " + e.toString());
                                                         }
                                                     });
                                                 } else {
