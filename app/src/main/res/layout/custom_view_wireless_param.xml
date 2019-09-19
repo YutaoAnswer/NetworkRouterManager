@@ -18,7 +18,7 @@
 
         <EditText
             android:id="@+id/et_wireless_name"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
@@ -36,8 +36,8 @@
             android:text="@string/wireless_psw"/>
 
         <EditText
-            android:id="@+id/et_wirless_psw"
-            android:layout_width="100dp"
+            android:id="@+id/et_wireless_psw"
+            android:layout_width="150dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
