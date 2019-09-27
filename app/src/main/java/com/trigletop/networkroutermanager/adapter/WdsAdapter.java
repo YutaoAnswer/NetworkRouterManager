@@ -148,7 +148,7 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                                         @Override
                                                         public void onSuccess(WDSConnectWiFiRet wdsConnectWiFiRet) {
                                                             //设置成功
-                                                            
+
                                                         }
 
                                                         @Override
