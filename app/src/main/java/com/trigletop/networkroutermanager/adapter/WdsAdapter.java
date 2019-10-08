@@ -1,6 +1,8 @@
 package com.trigletop.networkroutermanager.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ public class WdsAdapter extends RecyclerView.Adapter {
 
     private LocalApi mLocalApi;
 
+    private Handler mHandler;
+
     private List<WDSScanInfo> deviceList;
 
     public List<WDSScanInfo> getDeviceList() {
@@ -45,9 +49,10 @@ public class WdsAdapter extends RecyclerView.Adapter {
         this.deviceList = deviceList;
     }
 
-    public WdsAdapter(Context context, LocalApi localApi) {
+    public WdsAdapter(Context context, LocalApi localApi, Handler handler) {
         mContext = context;
         mLocalApi = localApi;
+        mHandler = handler;
     }
 
     @NonNull
@@ -93,7 +98,6 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                     EditText etWirelessPsw = niftyDialogBuilder1.findViewById(R.id.et_wireless_psw);
                                     etWirelessPsw.setText(etPassword.getText().toString());
 
-
 //                                    java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.EditText.setText(java.lang.CharSequence)' on a null object reference
 //                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.trigletop.networkroutermanager.adapter.WdsAdapter.lambda$null$2$WdsAdapter(WdsAdapter.java:95)
 //                                    01-01 01:29:11.538  6249  6249 E AndroidRuntime:        at com.trigletop.networkroutermanager.adapter.-$$Lambda$WdsAdapter$RIYBT82R2QnIFDV81vLxOlOzoIo.onClick(Unknown Source:6)
@@ -111,7 +115,6 @@ public class WdsAdapter extends RecyclerView.Adapter {
 //                                    01-01 01:29:11.543  3303  3528 W ActivityManager:   Force finishing activity com.trigletop.networkroutermanager/.view.activity.MainActivity
 //                                    01-01 01:29:11.556  3303  3320 I ActivityManager: Showing crash dialog for package com.trigletop.networkroutermanager u0
 
-
                                     CheckBox cbNotPassword = niftyDialogBuilder1.findViewById(R.id.cb_not_password);// TODO: 19-9-18
                                     niftyDialogBuilder1
                                             .withTitle("请设置本路由器的无线参数")
@@ -119,7 +122,7 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                             .withButton2Text("下一步");
                                     niftyDialogBuilder1
                                             .setButton1Click(v2 -> {
-                                                // TODO: 19-9-19  
+                                                // TODO: 19-9-19
                                             })
                                             .setButton2Click(v22 -> {
                                                 if (!etWirelessName.getText().toString().isEmpty() && !etWirelessPsw.getText().toString().isEmpty()) {
@@ -146,12 +149,17 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                                         @Override
                                                         public void onSuccess(WDSConnectWiFiRet wdsConnectWiFiRet) {
                                                             //设置成功
-
+                                                            niftyDialogBuilder1.dismiss();
+                                                            Message message = new Message();
+                                                            message.arg1 = 1;
+                                                            message.obj = wdsConnectWiFiRet;
+                                                            mHandler.sendMessage(message);
                                                         }
 
                                                         @Override
                                                         public void onError(Throwable e) {
                                                             Log.d(TAG, "onError: " + e.toString());
+
                                                         }
                                                     });
                                                 } else {
@@ -159,6 +167,7 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                                 }
                                             });
                                     niftyDialogBuilder1.show();
+                                    niftyDialogBuilder.dismiss();
                                 } else {
                                     Toast.makeText(mContext, "请输入主路由器的无线密码", Toast.LENGTH_SHORT).show();
                                 }

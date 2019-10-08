@@ -1,10 +1,14 @@
 package com.trigletop.networkroutermanager.view.fragment.advanced.wirelessSetting;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,6 +22,7 @@ import com.trigletop.networkroutermanager.adapter.WdsAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -25,6 +30,7 @@ import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWDSScanParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWDSScanInfoRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSConnectWiFiRet;
 
 public class WDSFragment extends Fragment {
 
@@ -32,6 +38,22 @@ public class WDSFragment extends Fragment {
 
     @BindView(R.id.rcyWDS)
     RecyclerView rcyWDS;
+    @BindView(R.id.ll_success)
+    LinearLayout llSuccess;
+    @BindView(R.id.ll_title)
+    LinearLayout llTitle;
+    @BindView(R.id.tv_wireless_name_value_host)
+    TextView tvWirelessNameValueHost;
+    @BindView(R.id.tv_wireless_psw_value_host)
+    TextView tvWirelessPswValueHost;
+    @BindView(R.id.tv_wireless_name_value_follower)
+    TextView tvWirelessNameValueFollower;
+    @BindView(R.id.tv_wireless_psw_value_follower)
+    TextView tvWirelessPswValueFollower;
+    @BindView(R.id.tv_lan_value)
+    TextView tvLanValue;
+    @BindView(R.id.btn_close)
+    Button btnClose;
 
     private Unbinder unbinder;
     private static LocalApi mLocalApi;
@@ -43,6 +65,27 @@ public class WDSFragment extends Fragment {
         wdsFragment.setArguments(args);
         return wdsFragment;
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.arg1 == 1) {
+                WDSConnectWiFiRet wdsConnectWiFiRet = (WDSConnectWiFiRet) msg.obj;
+                rcyWDS.setVisibility(View.GONE);
+                llTitle.setVisibility(View.GONE);
+                llSuccess.setVisibility(View.VISIBLE);
+
+                // TODO: 2019-10-08
+//                tvWirelessNameValueHost.setText();
+//                tvWirelessPswValueHost.setText();
+//                tvWirelessNameValueFollower.setText();
+//                tvWirelessPswValueFollower.setText();
+                tvLanValue.setText(wdsConnectWiFiRet.getIp());
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -61,7 +104,6 @@ public class WDSFragment extends Fragment {
     }
 
     private void init() {
-
     }
 
     private void initView() {
@@ -115,11 +157,12 @@ public class WDSFragment extends Fragment {
         getWDSScanInfoRetSingle.subscribe(new SingleObserver<GetWDSScanInfoRet>() {
             @Override
             public void onSubscribe(Disposable d) {
+
             }
 
             @Override
             public void onSuccess(GetWDSScanInfoRet getWDSScanInfoRet) {
-                WdsAdapter wdsAdapter = new WdsAdapter(getContext(), mLocalApi);
+                WdsAdapter wdsAdapter = new WdsAdapter(getContext(), mLocalApi, mHandler);
                 wdsAdapter.setDeviceList(getWDSScanInfoRet.getList());
                 rcyWDS.setAdapter(wdsAdapter);
                 niftyDialogBuilder.dismiss();
@@ -131,4 +174,8 @@ public class WDSFragment extends Fragment {
         });
     }
 
+    @OnClick(R.id.btn_close)
+    public void onViewClicked() {
+
+    }
 }

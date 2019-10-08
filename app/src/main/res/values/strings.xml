@@ -177,5 +177,6 @@
     <string name="choose">选择</string>
     <string name="enciphered_message">加密信息</string>
     <string name="not_password">不加密</string>
+    <string name="close">关闭</string>
 
 </resources>
