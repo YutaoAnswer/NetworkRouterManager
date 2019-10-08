@@ -24,9 +24,7 @@ import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WDSScanInfo;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWdsStaIsConnectParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSConnectWiFiParam;
-import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWdsStaIsConnectRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSConnectWiFiRet;
 
 public class WdsAdapter extends RecyclerView.Adapter {
@@ -94,7 +92,6 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                     etWirelessName.setText(wdsScanInfo.getSsid());
                                     EditText etWirelessPsw = niftyDialogBuilder1.findViewById(R.id.et_wireless_psw);
                                     etWirelessPsw.setText(etPassword.getText().toString());
-
 
 
 //                                    java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.EditText.setText(java.lang.CharSequence)' on a null object reference

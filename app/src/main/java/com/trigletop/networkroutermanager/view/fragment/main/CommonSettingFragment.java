@@ -178,6 +178,24 @@ public class CommonSettingFragment extends Fragment {
             switchFragment(currentFragment, wirelessSettingFragment);
             currentFragment = wirelessSettingFragment;
         });
+
+//        llNetworkManagment.setOnClickListener(v -> {
+//            ivNetworkManagment.setBackground(getResources().getDrawable(R.drawable.icon_computer_focus, null));
+//            ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_normal, null));
+//            ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_normal, null));
+//        });
+//
+//        llDevicesManagment.setOnClickListener(v -> {
+//            ivNetworkManagment.setBackground(getResources().getDrawable(R.drawable.icon_computer_normal, null));
+//            ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_focus, null));
+//            ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_normal, null));
+//        });
+//
+//        llWirelessSetting.setOnClickListener(v -> {
+//            ivNetworkManagment.setBackground(getResources().getDrawable(R.drawable.icon_computer_normal, null));
+//            ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_normal, null));
+//            ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_focus, null));
+//        });
     }
 
     private void initData() {
