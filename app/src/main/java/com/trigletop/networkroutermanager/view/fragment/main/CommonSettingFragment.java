@@ -196,6 +196,7 @@ public class CommonSettingFragment extends Fragment {
 //            ivDevicesManagment.setBackground(getResources().getDrawable(R.drawable.icon_internet_normal, null));
 //            ivWirelessSetting.setBackground(getResources().getDrawable(R.drawable.icon_wifi_focus, null));
 //        });
+
     }
 
     private void initData() {
