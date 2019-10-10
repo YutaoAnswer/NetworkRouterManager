@@ -17,5 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</LinearLayout><!--<app.com.tvrecyclerview.TvRecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/rcy_setting"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/default_background"--><!--app:focusDrawable="@drawable/default_focus" />-->
+</LinearLayout>
+
+    <!--<app.com.tvrecyclerview.TvRecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/rcy_setting"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/default_background"--><!--app:focusDrawable="@drawable/default_focus" />-->

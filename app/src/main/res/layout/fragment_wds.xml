@@ -48,7 +48,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:background="@color/lb_tv_white"
         android:orientation="vertical">
 
         <TextView

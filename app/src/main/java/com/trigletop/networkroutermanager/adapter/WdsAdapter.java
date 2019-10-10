@@ -27,7 +27,11 @@ import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.Model.WDSScanInfo;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSConnectWiFiParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSEnableParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSGetRelIpParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSConnectWiFiRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSEnableRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSGetRelIpRet;
 
 public class WdsAdapter extends RecyclerView.Adapter {
 
@@ -149,17 +153,50 @@ public class WdsAdapter extends RecyclerView.Adapter {
                                                         @Override
                                                         public void onSuccess(WDSConnectWiFiRet wdsConnectWiFiRet) {
                                                             //设置成功
-                                                            niftyDialogBuilder1.dismiss();
-                                                            Message message = new Message();
-                                                            message.arg1 = 1;
-                                                            message.obj = wdsConnectWiFiRet;
-                                                            mHandler.sendMessage(message);
+                                                            WDSEnableParam wdsEnableParam = new WDSEnableParam(LocalApi.DEFAULT_APP_API_VERSION);
+                                                            Single<WDSEnableRet> wdsEnableRetSingle = mLocalApi.executeApiWithSingleResponse(wdsEnableParam, WDSEnableRet.class);
+                                                            wdsEnableRetSingle.subscribe(new SingleObserver<WDSEnableRet>() {
+                                                                @Override
+                                                                public void onSubscribe(Disposable d) {
+
+                                                                }
+
+                                                                @Override
+                                                                public void onSuccess(WDSEnableRet wdsEnableRet) {
+                                                                    WDSGetRelIpParam wdsGetRelIpParam = new WDSGetRelIpParam(LocalApi.DEFAULT_APP_API_VERSION);
+                                                                    Single<WDSGetRelIpRet> wdsGetRelIpRetSingle = mLocalApi.executeApiWithSingleResponse(wdsGetRelIpParam, WDSGetRelIpRet.class);
+                                                                    wdsGetRelIpRetSingle.subscribe(new SingleObserver<WDSGetRelIpRet>() {
+                                                                        @Override
+                                                                        public void onSubscribe(Disposable d) {
+
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onSuccess(WDSGetRelIpRet wdsGetRelIpRet) {
+                                                                            niftyDialogBuilder1.dismiss();
+                                                                            Message message = new Message();
+                                                                            message.arg1 = 1;
+                                                                            message.obj = wdsConnectWiFiRet;
+                                                                            mHandler.sendMessage(message);
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onError(Throwable e) {
+
+                                                                        }
+                                                                    });
+                                                                }
+
+                                                                @Override
+                                                                public void onError(Throwable e) {
+
+                                                                }
+                                                            });
                                                         }
 
                                                         @Override
                                                         public void onError(Throwable e) {
                                                             Log.d(TAG, "onError: " + e.toString());
-
                                                         }
                                                     });
                                                 } else {

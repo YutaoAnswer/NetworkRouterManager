@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,8 +30,10 @@ import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.LocalApi;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.GetWDSScanParam;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.param.WDSDidableParam;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.GetWDSScanInfoRet;
 import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSConnectWiFiRet;
+import sirouter.sdk.siflower.com.locallibrary.siwifiApi.ret.WDSDisableRet;
 
 public class WDSFragment extends Fragment {
 
@@ -104,6 +107,7 @@ public class WDSFragment extends Fragment {
     }
 
     private void init() {
+
     }
 
     private void initView() {
@@ -170,12 +174,32 @@ public class WDSFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
+
             }
         });
     }
 
     @OnClick(R.id.btn_close)
     public void onViewClicked() {
+        WDSDidableParam wdsDidableParam = new WDSDidableParam(LocalApi.DEFAULT_APP_API_VERSION);
+        Single<WDSDisableRet> wdsDisableRetSingle = mLocalApi.executeApiWithSingleResponse(wdsDidableParam, WDSDisableRet.class);
+        wdsDisableRetSingle.subscribe(new SingleObserver<WDSDisableRet>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
+            }
+
+            @Override
+            public void onSuccess(WDSDisableRet wdsDisableRet) {
+                rcyWDS.setVisibility(View.VISIBLE);
+                llTitle.setVisibility(View.VISIBLE);
+                llSuccess.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
     }
 }
