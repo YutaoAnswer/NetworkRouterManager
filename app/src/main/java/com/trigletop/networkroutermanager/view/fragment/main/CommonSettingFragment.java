@@ -148,7 +148,6 @@ public class CommonSettingFragment extends Fragment {
             }
             switchFragment(currentFragment, devicesManagementFragment);
             currentFragment = devicesManagementFragment;
-
         });
         llNetworkManagment.setOnFocusChangeListener((v, hasFocus) -> {
 //            imageViewList.get(currentFocusPostition).startAnimation(scaleAnimation_narrow);
